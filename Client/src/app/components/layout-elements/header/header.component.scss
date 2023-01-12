@@ -1,0 +1,20 @@
+@import "../../../../assets/variables";
+
+header {
+    position: sticky;
+    top: 0;
+    left: 0;
+
+    .logo {
+        background: url($path-to-logo) no-repeat center;
+        background-image: url($path-to-logo);
+        background-size: contain;
+        height: $height-logo;
+    }
+
+    .nav {
+        .nav-link {
+            color: $nav-link-color;
+        }
+    }
+}

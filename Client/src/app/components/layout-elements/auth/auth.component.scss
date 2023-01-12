@@ -1,0 +1,34 @@
+@import "../../../../assets/variables";
+
+.auth-wrapper {
+    width: 26rem;
+
+    .nav {
+        .nav-link {
+            cursor: pointer;
+        }
+    }
+    
+    .form-outline {
+        .form-control {
+            margin-bottom: $margin-bottom;
+        }
+
+        .password_wrapper {
+            position: relative;
+
+            .icon-wrapper {
+                position: absolute;
+                right: 9px;
+                top: 6px;
+                cursor: pointer;
+            }
+
+        }
+    }
+
+    .btn {
+        width: 100%;
+    }
+}
+
