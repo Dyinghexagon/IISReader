@@ -1,3 +1,6 @@
+using Backend.Models;
+using Backend.Services;
+
 namespace Backend
 {
     public class Program
@@ -7,8 +10,14 @@ namespace Backend
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.Configure<IISReaderDatabaseSettings>(
+                builder.Configuration.GetSection("IISReaderDatabaseSettings"));
 
-            builder.Services.AddControllers();
+            builder.Services.AddSingleton<UserService>();
+
+            builder.Services.AddControllers()
+                .AddJsonOptions(
+                options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -25,7 +34,6 @@ namespace Backend
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 

@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
 import { UserService } from "src/app/services/user.services";
+import { UserModel } from "../../models/user.model";
 
 @Component({
     selector: "auth",
@@ -65,7 +66,8 @@ export class AuthComponent {
     }
     
     public submitRegForm(): void {
-        //
+        const newUser = this.regForm.value as UserModel;
+        this.userService.createUser(newUser);
     }
 
     public hidePassword(id: string): void {
@@ -78,9 +80,12 @@ export class AuthComponent {
     }
 
     public test(): void {
-        this.userService.getUser().subscribe(data => {
-           console.warn(data); 
-        });
+        console.warn(this.userService.user);
+        this.userService.getUsers().subscribe(users => {
+            console.warn(users);
+        },error => {
+            console.error(error);
+        })
     }
 
 }
