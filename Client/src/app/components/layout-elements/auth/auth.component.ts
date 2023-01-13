@@ -1,7 +1,8 @@
 import { Component } from "@angular/core";
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
+import { Guid } from "guid-typescript";
 import { UserService } from "src/app/services/user.services";
-import { UserModel } from "../../models/user.model";
+import { IUserModel, UserModel } from "../../models/user.model";
 
 @Component({
     selector: "auth",
@@ -49,25 +50,29 @@ export class AuthComponent {
         return pass === confirmPass ? null : { notSame: true }
     }
 
-    public get loginPassword(): string {
-        return this.loginForm.get("password")?.value;
-    }
-
-    public get regRepitPassword(): string {
-        return this.regForm.get("repitPassword")?.value;
-    }
-
-    public get regPassword(): string {
-        return this.regForm.get("regPassword")?.value;
-    }
-
     public submitLoginForm(): void {
         //
     }
     
     public submitRegForm(): void {
-        const newUser = this.regForm.value as UserModel;
-        this.userService.createUser(newUser);
+        if (this.regForm.valid) {
+            let newUser = new UserModel(
+                {
+                    id: Guid.create().toString(),
+                    login: this.regForm.get("regLogin")?.value,
+                    email: this.regForm.get("regEmail")?.value,
+                    password: this.regForm.get("regPassword")?.value
+                } as IUserModel
+            )
+            this.userService.createUser(newUser).subscribe(
+                (resp) => {
+                    console.log(resp);
+                },
+                (error) => {
+                    console.log(error.error);
+                }
+            );
+        }
     }
 
     public hidePassword(id: string): void {
@@ -79,13 +84,28 @@ export class AuthComponent {
         }
     }
 
-    public test(): void {
-        console.warn(this.userService.user);
-        this.userService.getUsers().subscribe(users => {
-            console.warn(users);
-        },error => {
-            console.error(error);
-        })
+    public get loginPassword(): AbstractControl | null {
+        return this.loginForm.get("password");
+    }
+
+    public get loginEmail(): AbstractControl | null {
+        return this.loginForm.get("email");
+    }
+
+    public get regLogin(): AbstractControl | null {
+        return this.regForm.get("regLogin");
+    }
+
+    public get regEmail(): AbstractControl | null {
+        return this.regForm.get("regEmail");
+    }
+
+    public get regPassword(): AbstractControl | null {
+        return this.regForm.get("regPassword");
+    }
+
+    public get regRepitPassword(): AbstractControl | null {
+        return this.regForm.get("repitPassword");
     }
 
 }

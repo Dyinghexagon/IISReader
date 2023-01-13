@@ -1,0 +1,22 @@
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Наименование</th>
+            <th scope="col">Тикет</th>
+            <th scope="col">Текущая цена</th>
+            <th scope="col">Изменение за день</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let security of securitys; let index = index"
+            [class.table-success]="security.changePerDay > 0"
+            [class.table-danger]="security.changePerDay < 0">
+            <th scope="row">{{ index + 1 }}</th>
+            <td>{{ security.name }}</td>
+            <td>{{ security.tiket }}</td>
+            <td>{{ security.currentPrice }} ₽</td>
+            <td>{{ security.changePerDay }} %</td>
+        </tr>
+    </tbody>
+</table>

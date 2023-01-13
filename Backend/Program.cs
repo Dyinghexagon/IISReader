@@ -1,5 +1,8 @@
+using Backend.Mappers;
 using Backend.Models;
 using Backend.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace Backend
 {
@@ -13,14 +16,16 @@ namespace Backend
             builder.Services.Configure<IISReaderDatabaseSettings>(
                 builder.Configuration.GetSection("IISReaderDatabaseSettings"));
 
-            builder.Services.AddSingleton<UserService>();
-
+            builder.Services.AddSingleton<AccountService>();
+            builder.Services.AddSingleton<AccountMapper>();
+            builder.Services.AddSingleton<SecurityMapper>();
             builder.Services.AddControllers()
-                .AddJsonOptions(
-                options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
+                            .AddJsonOptions(
+                            options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddCors();
 
             var app = builder.Build();
 
@@ -33,9 +38,15 @@ namespace Backend
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
+            app.UseRouting();
 
+            app.UseAuthorization();
             app.MapControllers();
+
+            app.UseCors(options =>
+            {
+                options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+            });
 
             app.Run();
         }

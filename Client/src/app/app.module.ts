@@ -11,8 +11,10 @@ import { HeaderComponent } from './components/layout-elements/header/header.comp
 import { PageRoutingModuleModule } from './components/page-routing-module/page-routing-module.module';
 import { MainPageComponent } from './components/pages/main-page/main-page.component';
 import { PersonalPageComponent } from './components/pages/pesonal-page/personal-page.component';
-import { SecurityComponent } from './components/pages/security/security.component';
+import { SecuritysListComponent } from './components/pages/securitys-list/securitys-list.component';
 import { SplashComponent } from './components/pages/splash/splash.component';
+import { BaseService } from './services/base.service';
+import { SecurityService } from './services/securitys.service';
 import { UserService } from './services/user.services';
 
 @NgModule({
@@ -21,7 +23,7 @@ import { UserService } from './services/user.services';
     MainPageComponent,
     FooterComponent,
     HeaderComponent,
-    SecurityComponent,
+    SecuritysListComponent,
     SplashComponent,
     PersonalPageComponent,
     AuthComponent
@@ -32,7 +34,7 @@ import { UserService } from './services/user.services';
     PageRoutingModuleModule,
     ReactiveFormsModule
   ],
-  providers: [ UserService, AppConfig ],
+  providers: [ AppConfig, BaseService, UserService, SecurityService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

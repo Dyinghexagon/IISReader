@@ -19,9 +19,9 @@
                                 <input type="password" id="password" class="form-control" placeholder="Пароль" formControlName="password">
                             </div>
                             <div class="icon-wrapper">
-                                <img *ngIf="hidePasswordLoginForm && loginPassword.length > 0" class="icon" src="../../../assets/eye.svg" alt="скрыть/показать"
+                                <img *ngIf="hidePasswordLoginForm && loginPassword?.value.length > 0" class="icon" src="../../../assets/eye.svg" alt="скрыть/показать"
                                     (click)="hidePassword('password'); hidePasswordLoginForm = !hidePasswordLoginForm">
-                                <img *ngIf="!hidePasswordLoginForm && loginPassword.length > 0" class="icon" src="../../../assets/crossed-eye.svg" alt="скрыть/показать"
+                                <img *ngIf="!hidePasswordLoginForm && loginPassword?.value.length > 0" class="icon" src="../../../assets/crossed-eye.svg" alt="скрыть/показать"
                                     (click)="hidePassword('password'); hidePasswordLoginForm = !hidePasswordLoginForm">
                             </div>
                         </div>
@@ -42,7 +42,6 @@
                 </div>
     
                 <button type="submit" class="btn btn-primary btn-block mb-4">Войти</button>
-                <button type="submit" class="btn btn-primary btn-block mb-4" (click)="test()">USER CALL</button>
             </form>
         </ng-container>
         
@@ -50,16 +49,25 @@
             <form [formGroup]="regForm" (ngSubmit)="submitRegForm()">
                 <div class="form-outline mb-4">
                     <input type="text" id="regLogin" class="form-control" placeholder="Login" formControlName="regLogin">
+                    <div [hidden]="regLogin?.valid || regLogin?.untouched" class="alert alert-danger">
+                        Некорректный Логин
+                    </div>
                     <input type="email" id="regEmail" class="form-control" placeholder="Email" formControlName="regEmail">
+                    <div [hidden]="regEmail?.valid || regEmail?.untouched" class="alert alert-danger">
+                        Некорректный Email
+                    </div>
                     <div class="password_wrapper">
                         <div>
                             <div class="text-field-wrapper">
                                 <input type="password" id="regPassword" class="form-control" data-bs-toggle="password" placeholder="Пароль" formControlName="regPassword">
+                                <div [hidden]="regPassword?.valid || regPassword?.untouched" class="alert alert-danger">
+                                    Некорректный Пароль
+                                </div>
                             </div>
                             <div class="icon-wrapper">
-                                <img *ngIf="hidePasswordRegForm && regPassword.length > 0" class="icon" src="../../../assets/eye.svg" alt="скрыть/показать"
+                                <img *ngIf="hidePasswordRegForm && regPassword?.value.length > 0" class="icon" src="../../../assets/eye.svg" alt="скрыть/показать"
                                     (click)="hidePassword('regPassword'); hidePasswordRegForm = !hidePasswordRegForm">
-                                <img *ngIf="!hidePasswordRegForm && regPassword.length > 0" class="icon" src="../../../assets/crossed-eye.svg" alt="скрыть/показать"
+                                <img *ngIf="!hidePasswordRegForm && regPassword?.value.length > 0" class="icon" src="../../../assets/crossed-eye.svg" alt="скрыть/показать"
                                     (click)="hidePassword('regPassword'); hidePasswordRegForm = !hidePasswordRegForm">
                             </div>
                         </div>
@@ -67,11 +75,14 @@
                     <div class="password_wrapper">
                         <div class="text-field-wrapper">
                             <input type="password" id="repitPassword" class="form-control" placeholder="Повторите пароль" formControlName="repitPassword">
+                            <div [hidden]="regRepitPassword?.valid || regRepitPassword?.untouched" class="alert alert-danger">
+                                Некорректный Пароль
+                            </div>
                         </div>
                         <div class="icon-wrapper">
-                            <img *ngIf="hideRepitPasswordRegForm && regRepitPassword.length > 0" class="icon" src="../../../assets/eye.svg" alt="скрыть/показать"
+                            <img *ngIf="hideRepitPasswordRegForm && regRepitPassword?.value.length" class="icon" src="../../../assets/eye.svg" alt="скрыть/показать"
                                 (click)="hidePassword('repitPassword'); hideRepitPasswordRegForm = !hideRepitPasswordRegForm">
-                            <img *ngIf="!hideRepitPasswordRegForm && regRepitPassword.length > 0" class="icon" src="../../../assets/crossed-eye.svg" alt="скрыть/показать"
+                            <img *ngIf="!hideRepitPasswordRegForm && regRepitPassword?.value.length > 0" class="icon" src="../../../assets/crossed-eye.svg" alt="скрыть/показать"
                                 (click)="hidePassword('repitPassword'); hideRepitPasswordRegForm = !hideRepitPasswordRegForm">
                         </div>
                     </div>

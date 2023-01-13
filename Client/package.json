@@ -18,19 +18,20 @@
     "@angular/forms": "~13.3.0",
     "@angular/platform-browser": "~13.3.0",
     "@angular/platform-browser-dynamic": "~13.3.0",
-    "@angular/router": "~13.3.0",
     "@angular/platform-server": "~13.3.5",
+    "@angular/router": "~13.3.0",
     "@popperjs/core": "^2.11.6",
     "bootstrap": "^5.2.3",
     "g": "^2.0.1",
+    "guid-typescript": "^1.0.9",
+    "jest-editor-support": "*",
     "jquery": "^3.6.0",
     "oidc-client": "^1.11.5",
     "popper.js": "^1.16.0",
     "run-script-os": "^1.1.6",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.11.4",
-    "jest-editor-support": "*"
+    "zone.js": "~0.11.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~13.3.4",
