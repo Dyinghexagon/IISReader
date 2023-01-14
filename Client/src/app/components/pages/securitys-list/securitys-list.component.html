@@ -1,3 +1,8 @@
+<div class="datapicker">
+    <label for="startDate">Дата</label>
+    <input id="startDate" class="form-control" type="date" [(ngModel)]="date"/>
+    <button type="button" class="btn btn-primary" (click)="recalculateSecuritys()">Пересчитать</button>
+</div>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -14,7 +19,7 @@
                 [class.table-danger]="security.ChangePerDay < 0">
             <th scope="row">{{ index + 1 }}</th>
             <td>{{ security.Name }}</td>
-            <td>{{ security.Tiket }}</td>
+            <td>{{ security.Secid }}</td>
             <td>{{ security.CurrentPrice }} ₽</td>
             <td>{{ security.ChangePerDay }} %</td>
         </tr>

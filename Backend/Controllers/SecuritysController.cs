@@ -1,6 +1,8 @@
 ﻿using Backend.Mappers;
 using Backend.Models.Client;
+using Backend.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace Backend.Controllers
 {
@@ -9,24 +11,31 @@ namespace Backend.Controllers
     public class SecuritysController : ControllerBase
     {
         private readonly ILogger<SecuritysController> _logger;
-        private readonly SecurityMapper _mapperl;
+        private readonly SecurityService _securityService;
+        private readonly SecurityMapper _mapper;
 
-        public SecuritysController(ILogger<SecuritysController> logger, SecurityMapper mapper)
+        public SecuritysController(
+            SecurityService securityService,
+            SecurityMapper mapper,
+            ILogger<SecuritysController> logger)
         {
+            _securityService = securityService;
             _logger = logger;
-            _mapperl = mapper;
+            _mapper = mapper;
         }
 
-        [HttpGet]
-        public Task<List<SecurityModel>> GetSecuritysList()
+        [HttpGet("GetSecuritysList/{date}")]
+        public async Task<List<SecurityModel>> GetSecuritysList(String date)
         {
-            var securitys = new List<SecurityModel>();
+            var securitys = await _securityService.GetAllAsync(date);
+            var result = new List<SecurityModel>();
 
-            securitys.Add(new SecurityModel(Guid.NewGuid(), "GAZP", "Газпром", 100, 1));
-            securitys.Add(new SecurityModel(Guid.NewGuid(), "LKON", "Лукойл", 4077.5, -0.1));
-            securitys.Add(new SecurityModel(Guid.NewGuid(), "YNDX", "Яндекс", 1902.4, 0.24));
+            foreach (var security in securitys)
+            {
+                result.Add(_mapper.Map(security));
+            }
 
-            return Task.FromResult(securitys);
+            return result;
         }
     }
 }

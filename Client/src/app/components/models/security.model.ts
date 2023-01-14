@@ -1,13 +1,13 @@
 export class SecurityModel {
     private _id: string;
-    private _tiket: string;
+    private _secid: string;
     private _name: string;
     private _currentPrice: number;
     private _changePerDay: number;
 
     constructor(data: ISecurityModel) {
         this._id = data.id;
-        this._tiket = data.tiket;
+        this._secid = data.tiket;
         this._name = data.name;
         this._currentPrice = data.currentPrice;
         this._changePerDay = data.changePerDay;
@@ -17,8 +17,8 @@ export class SecurityModel {
         return this._id;
     }
 
-    public get Tiket(): string {
-        return this._tiket;
+    public get Secid(): string {
+        return this._secid;
     }
     
     public get Name(): string {

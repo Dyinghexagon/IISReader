@@ -12,7 +12,7 @@ namespace Backend.Mappers
         {
             return security == null 
                 ? null 
-                : new SecurityModel(security.Id, security.Tiket, security.Name, security.CurrentPrice, security.ChangePerDay);
+                : new SecurityModel(security.Id, security.Secid, security.Name, security.CurrentPrice, security.ChangePerDay);
         }
 
         public Security? Map(SecurityModel? security)

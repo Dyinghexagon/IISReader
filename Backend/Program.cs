@@ -11,6 +11,8 @@ namespace Backend
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddHttpClient<SecurityService>();
+
             builder.Services.Configure<IISReaderDatabaseSettings>(
                 builder.Configuration.GetSection("IISReaderDatabaseSettings"));
 

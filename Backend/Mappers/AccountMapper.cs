@@ -7,14 +7,14 @@ namespace Backend.Mappers
     {
         public AccountMapper() { }
 
-        public AccountModel? Map(Account? user)
+        public AccountModel? Map(Account? account)
         {
-            return user == null ? null : new AccountModel(user.Id, user.Email, user.Login, user.Password);
+            return account == null ? null : new AccountModel(account.Id, account.Email, account.Login, account.Password);
         }
 
-        public Account Map(AccountModel user)
+        public Account? Map(AccountModel account)
         {
-            return new Account(user.Id, user.Email, user.Login, user.Password);
+            return account == null ? null : new Account(account.Id, account.Email, account.Login, account.Password);
         }
     }
 }
