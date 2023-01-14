@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace Backend.Controllers
 {
     [ApiController]
-    [Route("securitysApi")]
-    public class SecuritysController : Controller
+    [Route("api/securitys")]
+    public class SecuritysController : ControllerBase
     {
         private readonly ILogger<SecuritysController> _logger;
         private readonly SecurityMapper _mapperl;

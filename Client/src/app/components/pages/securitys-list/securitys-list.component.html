@@ -10,13 +10,13 @@
     </thead>
     <tbody>
         <tr *ngFor="let security of securitys; let index = index"
-            [class.table-success]="security.changePerDay > 0"
-            [class.table-danger]="security.changePerDay < 0">
+                [class.table-success]="security.ChangePerDay > 0"
+                [class.table-danger]="security.ChangePerDay < 0">
             <th scope="row">{{ index + 1 }}</th>
-            <td>{{ security.name }}</td>
-            <td>{{ security.tiket }}</td>
-            <td>{{ security.currentPrice }} ₽</td>
-            <td>{{ security.changePerDay }} %</td>
+            <td>{{ security.Name }}</td>
+            <td>{{ security.Tiket }}</td>
+            <td>{{ security.CurrentPrice }} ₽</td>
+            <td>{{ security.ChangePerDay }} %</td>
         </tr>
     </tbody>
 </table>

@@ -41,11 +41,15 @@ namespace Backend
             app.UseRouting();
 
             app.UseAuthorization();
-            app.MapControllers();
 
             app.UseCors(options =>
             {
                 options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+            });
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
             });
 
             app.Run();

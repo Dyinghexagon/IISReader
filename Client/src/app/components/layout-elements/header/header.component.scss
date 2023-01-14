@@ -2,8 +2,6 @@
 
 header {
     .logo {
-        background: url($path-to-logo) no-repeat center;
-        background-image: url($path-to-logo);
         background-size: contain;
         height: $height-logo;
     }

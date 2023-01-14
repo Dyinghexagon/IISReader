@@ -6,8 +6,8 @@ using Backend.Mappers;
 namespace Backend.Controllers
 {
     [ApiController]
-    [Route("accountApi")]
-    public class AccountController : Controller
+    [Route("api/account")]
+    public class AccountController : ControllerBase
     {
         private readonly ILogger<AccountController> _logger;
         private readonly AccountService _userService;

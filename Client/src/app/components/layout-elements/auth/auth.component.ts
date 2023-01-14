@@ -54,7 +54,7 @@ export class AuthComponent {
         //
     }
     
-    public submitRegForm(): void {
+    public async submitRegForm(): Promise<void> {
         if (this.regForm.valid) {
             let newUser = new UserModel(
                 {
@@ -63,15 +63,9 @@ export class AuthComponent {
                     email: this.regForm.get("regEmail")?.value,
                     password: this.regForm.get("regPassword")?.value
                 } as IUserModel
-            )
-            this.userService.createUser(newUser).subscribe(
-                (resp) => {
-                    console.log(resp);
-                },
-                (error) => {
-                    console.log(error.error);
-                }
             );
+
+            await this.userService.createUser(newUser);
         }
     }
 

@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { SecurityService } from "src/app/services/securitys.service";
 import { SecurityModel } from "../../models/security.model";
 
@@ -8,36 +8,14 @@ import { SecurityModel } from "../../models/security.model";
     styleUrls: [ "./securitys-list.component.scss" ]
 })
 
-export class SecuritysListComponent {
+export class SecuritysListComponent implements OnInit  {
 
-    constructor(public readonly securityService: SecurityService) {
-        securityService.getSecurityList().subscribe(res => {
-            console.warn(res);
-        }, error => {
-            console.warn(error);
-        })
+    public securitys: SecurityModel[] = [];
+
+    constructor(public securityService: SecurityService) { }
+
+    public async ngOnInit(): Promise<void> {
+        this.securitys = await this.securityService.getSecurityList();
     }
 
-    public get securitys(): SecurityModel[]{
-        return [
-            {
-                tiket: "GAZP",
-                name: "Газпром",
-                currentPrice: 100,
-                changePerDay: 1
-            },
-            {
-                tiket: "LKON",
-                name: "Лукойл",
-                currentPrice: 4077.5,
-                changePerDay: -0.1
-            },
-            {
-                tiket: "YNDX",
-                name: "Яндекс",
-                currentPrice: 1902.4,
-                changePerDay: 0.24
-            },
-        ];
-    }
 }

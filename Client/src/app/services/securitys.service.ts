@@ -9,13 +9,13 @@ import { BaseService } from "./base.service";
 export class SecurityService extends BaseService {
 
     constructor(
-        protected http: HttpClient,
+        http: HttpClient,
         protected config: AppConfig
     ) {
         super(http);
     }
 
-    public getSecurityList(): Observable<SecurityModel[]> {
-        return this.http.get<SecurityModel[]>(`${this.config.securitysApi}`);
+    public getSecurityList(): Promise<SecurityModel[]> {
+        return this.get(`${this.config.securitysApi}`);
     }
 }
