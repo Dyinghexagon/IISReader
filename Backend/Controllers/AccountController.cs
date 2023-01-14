@@ -10,7 +10,7 @@ namespace Backend.Controllers
     public class AccountController : ControllerBase
     {
         private readonly ILogger<AccountController> _logger;
-        private readonly AccountService _userService;
+        private readonly AccountService _accountService;
         private readonly AccountMapper _mapper;
 
         public AccountController(
@@ -20,14 +20,14 @@ namespace Backend.Controllers
         )
         {
             _logger = logger;
-            _userService = userService;
+            _accountService = userService;
             _mapper = mapper;
         }
 
         [HttpGet("GetAccount/{id}")]
         public async Task<AccountModel?> GetUser(Guid userId)
         {
-           var user = await _userService.GetAccountAsync(userId);
+           var user = await _accountService.GetAccountAsync(userId);
 
             return _mapper.Map(user);
         }
@@ -35,7 +35,7 @@ namespace Backend.Controllers
         [HttpGet("GetAccounts")]
         public async Task<List<AccountModel?>> GetUsers()
         {
-            var users = await _userService.GetAccountsAsync();
+            var users = await _accountService.GetAccountsAsync();
             var res = new List<AccountModel?>();
             foreach(var user in users)
             {
@@ -48,7 +48,7 @@ namespace Backend.Controllers
         [HttpPost]
         public async Task<AccountModel> CreateUser([FromBody]AccountModel user)
         {
-            await _userService.CreateAsync(_mapper.Map(user));
+            await _accountService.CreateAsync(_mapper.Map(user));
 
             return user;
         }

@@ -1,14 +1,7 @@
-﻿using MongoDB.Bson;
-using Backend.Models.Client;
-using MongoDB.Bson.Serialization.Attributes;
-using System.Text.Json.Serialization;
-
-namespace Backend.Models.Backend
+﻿namespace Backend.Models.Backend
 {
-    public class Account
+    public class Account : Entity
     {
-        public Guid Id { get; set; }
-
         public String Email { get; set; }
 
         public String Login { get; set; }

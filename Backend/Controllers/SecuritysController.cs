@@ -22,9 +22,9 @@ namespace Backend.Controllers
         {
             var securitys = new List<SecurityModel>();
 
-            securitys.Add(new SecurityModel("GAZP", "Газпром", 100, 1));
-            securitys.Add(new SecurityModel("LKON", "Лукойл", 4077.5, -0.1));
-            securitys.Add(new SecurityModel("YNDX", "Яндекс", 1902.4, 0.24));
+            securitys.Add(new SecurityModel(Guid.NewGuid(), "GAZP", "Газпром", 100, 1));
+            securitys.Add(new SecurityModel(Guid.NewGuid(), "LKON", "Лукойл", 4077.5, -0.1));
+            securitys.Add(new SecurityModel(Guid.NewGuid(), "YNDX", "Яндекс", 1902.4, 0.24));
 
             return Task.FromResult(securitys);
         }

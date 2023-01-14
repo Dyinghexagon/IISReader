@@ -1,6 +1,5 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { catchError, Observable } from "rxjs";
 import { AppConfig } from "../app.config";
 import { UserModel } from "../components/models/user.model";
 import { BaseService } from "./base.service";

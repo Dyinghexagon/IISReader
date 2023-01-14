@@ -12,14 +12,14 @@ namespace Backend.Mappers
         {
             return security == null 
                 ? null 
-                : new SecurityModel(security.Tiket, security.Name, security.CurrentPrice, security.ChangePerDay);
+                : new SecurityModel(security.Id, security.Tiket, security.Name, security.CurrentPrice, security.ChangePerDay);
         }
 
         public Security? Map(SecurityModel? security)
         {
             return security == null
                 ? null
-                : new Security(security.Tiket, security.Name, security.CurrentPrice, security.ChangePerDay);
+                : new Security(security.Id, security.Tiket, security.Name, security.CurrentPrice, security.ChangePerDay);
         }
     }
 }
