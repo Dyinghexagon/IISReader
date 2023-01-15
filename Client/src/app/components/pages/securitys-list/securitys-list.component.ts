@@ -12,15 +12,11 @@ export class SecuritysListComponent implements OnInit  {
 
     public securitys: SecurityModel[] = [];
     public date: string = "";
+    
     constructor(public securityService: SecurityService) { }
 
     public async ngOnInit(): Promise<void> {
-        this.securitys = await this.securityService.getSecurityList(this.date);
+        this.securitys = await this.securityService.getSecurityList();
     }
 
-    public async recalculateSecuritys(): Promise<void>  {
-        console.warn(this.date);
-        this.securitys = await this.securityService.getSecurityList(this.date);
-    }
-    
 }

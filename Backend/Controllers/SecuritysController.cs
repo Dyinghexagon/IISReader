@@ -1,8 +1,7 @@
 ﻿using Backend.Mappers;
-using Backend.Models.Client;
 using Backend.Services;
+using Backend.Models.Client;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace Backend.Controllers
 {
@@ -24,11 +23,11 @@ namespace Backend.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("GetSecuritysList/{date}")]
-        public async Task<List<SecurityModel>> GetSecuritysList(String date)
+        [HttpGet("GetSecuritysList")]
+        public async Task<List<SecurityModel?>> GetSecuritysList()
         {
-            var securitys = await _securityService.GetAllAsync(date);
-            var result = new List<SecurityModel>();
+            var securitys = await _securityService.GetAllAsync();
+            var result = new List<SecurityModel?>();
 
             foreach (var security in securitys)
             {

@@ -1,25 +1,12 @@
-﻿using Backend.Models;
-using Backend.Models.Backend;
-using Fiss.Extensions;
+﻿using Fiss.Extensions;
 using Fiss.Request;
-using Microsoft.Net.Http.Headers;
-using System.Net.Http;
-using System.Security.Principal;
+using Backend.Models.Backend;
 
 namespace Backend.Services
 {
     public class SecurityService
     {
-        private readonly HttpClient _httpClient;
-
-        public SecurityService(HttpClient httpClient)
-        {
-            _httpClient = httpClient;
-
-            _httpClient.BaseAddress = new Uri("https://iss.moex.com/iss/");
-        }
-
-        public async Task<List<Security>> GetAllAsync(String date)
+        public async Task<List<Security>> GetAllAsync()
         {
             var securitys = new List<Security>();
 
@@ -28,8 +15,7 @@ namespace Backend.Services
             var request = new IssRequest();
             var path = "engines/stock/markets/shares/boards/TQBR/securities";
             request.FullPath(path);
-            request.AddQuery(new KeyValuePair<string, string>("marketdata.columns", "SECID, LAST, LASTTOPREVPRICE"));
-            request.AddQuery(new KeyValuePair<string, string>("date", date));
+            request.AddQuery(new KeyValuePair<String, String>("marketdata.columns", "SECID, LAST, LASTTOPREVPRICE"));
             await request.Fetch();
             var respones = request.ToResponse();
 
@@ -55,7 +41,7 @@ namespace Backend.Services
             var request = new IssRequest();
             var path = "engines/stock/markets/shares/boards/TQBR/securities";
             request.FullPath(path);
-            request.AddQuery(new KeyValuePair<string, string>("securities.columns", "SECID,SECNAME"));
+            request.AddQuery(new KeyValuePair<String, String>("securities.columns", "SECID,SECNAME"));
             await request.Fetch();
             var respones = request.ToResponse();
 
@@ -69,19 +55,3 @@ namespace Backend.Services
 
     }
 }
-
-
-
-//определение тикет, актуальную цену и изменение за день
-//https://iss.moex.com/iss/engines/stock/markets/shares/boards/TQBR/securities.json?iss.meta=off&iss.only=marketdata&marketdata.columns=SECID,LAST,LASTTOPREVPRICE
-
-//определение тикет и наименование
-//https://iss.moex.com/iss/engines/stock/markets/shares/boards/TQBR/securities.json?iss.meta=off&iss.only=securities&securities.columns=SECID,SECNAME
-
-//[1] "SECNAME"   string
-//        [0] "SECID" string
-
-
-//[2] "Lasttoprevprice"   string
-//[1] "Last"  string
-//[0] "Secid" string

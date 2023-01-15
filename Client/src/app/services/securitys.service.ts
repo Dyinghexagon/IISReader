@@ -14,8 +14,7 @@ export class SecurityService extends BaseService {
         super(http);
     }
 
-    public getSecurityList(date: string): Promise<SecurityModel[]> {
-        if (date === "") date = "2023-01-10";
-        return this.get(`${this.config.securitysApi}/GetSecuritysList/${date}`);
+    public getSecurityList(): Promise<SecurityModel[]> {
+        return this.get(`${this.config.securitysApi}/GetSecuritysList`);
     }
 }

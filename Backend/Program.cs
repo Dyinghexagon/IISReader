@@ -11,13 +11,13 @@ namespace Backend
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddHttpClient<SecurityService>();
-
             builder.Services.Configure<IISReaderDatabaseSettings>(
                 builder.Configuration.GetSection("IISReaderDatabaseSettings"));
 
             builder.Services.AddSingleton<AccountService>();
             builder.Services.AddSingleton<AccountMapper>();
+
+            builder.Services.AddSingleton<SecurityService>();
             builder.Services.AddSingleton<SecurityMapper>();
             builder.Services.AddControllers()
                             .AddJsonOptions(
