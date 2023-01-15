@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { DataTablesModule } from 'angular-datatables';
+
 import { AppComponent } from './app.component';
 import { AppConfig } from './app.config';
 import { AuthComponent } from './components/layout-elements/auth/auth.component';
@@ -32,7 +34,8 @@ import { UserService } from './services/user.services';
     BrowserModule, HttpClientModule,
     FormsModule,
     PageRoutingModuleModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DataTablesModule
   ],
   providers: [ AppConfig, BaseService, UserService, SecurityService ],
   bootstrap: [AppComponent]
