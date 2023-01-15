@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
 import { Guid } from "guid-typescript";
 import { UserService } from "src/app/services/user.services";
 import { IUserModel, UserModel } from "../../models/user.model";
@@ -13,8 +13,8 @@ import { IUserModel, UserModel } from "../../models/user.model";
 export class AuthComponent {
 
     public tab: "login" | "reg" = "login";
-    public loginForm: FormGroup;
-    public regForm: FormGroup;
+    public loginForm: UntypedFormGroup;
+    public regForm: UntypedFormGroup;
     public hidePasswordLoginForm: boolean = true;
     public hidePasswordRegForm: boolean = true;
     public hideRepitPasswordRegForm: boolean = true;
@@ -26,20 +26,20 @@ export class AuthComponent {
         this.regForm = this.initRegForm();
     }
 
-    private initLoginForm(): FormGroup {
-        return new FormGroup({
-            email: new FormControl("", [Validators.required, Validators.email]),
-            password: new FormControl("", [Validators.required, Validators.pattern(this.regexp)]),
-            loginCheck: new FormControl("")
+    private initLoginForm(): UntypedFormGroup {
+        return new UntypedFormGroup({
+            email: new UntypedFormControl("", [Validators.required, Validators.email]),
+            password: new UntypedFormControl("", [Validators.required, Validators.pattern(this.regexp)]),
+            loginCheck: new UntypedFormControl("")
         });
     }
 
-    private initRegForm(): FormGroup {
-        return new FormGroup({
-            regLogin: new FormControl("", [Validators.required, Validators.minLength(8), Validators.maxLength(12)]),
-            regEmail: new FormControl("", [Validators.required, Validators.email]),
-            regPassword: new FormControl("", [Validators.required, Validators.pattern(this.regexp)]),
-            repitPassword: new FormControl("", [Validators.required, Validators.pattern(this.regexp)])
+    private initRegForm(): UntypedFormGroup {
+        return new UntypedFormGroup({
+            regLogin: new UntypedFormControl("", [Validators.required, Validators.minLength(8), Validators.maxLength(12)]),
+            regEmail: new UntypedFormControl("", [Validators.required, Validators.email]),
+            regPassword: new UntypedFormControl("", [Validators.required, Validators.pattern(this.regexp)]),
+            repitPassword: new UntypedFormControl("", [Validators.required, Validators.pattern(this.regexp)])
         }, {validators: this.checkPasswords});
     }
 
