@@ -30,6 +30,7 @@
     "guid-typescript": "^1.0.9",
     "jest-editor-support": "*",
     "jquery": "^3.6.0",
+    "lightweight-charts": "^3.8.0",
     "oidc-client": "^1.11.5",
     "popper.js": "^1.16.0",
     "run-script-os": "^1.1.6",

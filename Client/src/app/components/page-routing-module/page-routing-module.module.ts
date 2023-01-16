@@ -6,10 +6,12 @@ import { SplashComponent } from '../pages/splash/splash.component';
 import { PersonalPageComponent } from '../pages/pesonal-page/personal-page.component';
 import { AuthComponent } from '../layout-elements/auth/auth.component';
 import { SecuritysComponent } from '../pages/securitys/securitys.component';
+import { SecurityPageComponent } from '../pages/security-page/security-page.component';
 
 const routes: Routes = [
   { path: '', component: MainPageComponent },
   { path: 'securitys', component: SecuritysComponent },
+  { path: 'security-page', component: SecurityPageComponent },
   { path: 'splash', component: SplashComponent },
   { path: 'personal-page', component: PersonalPageComponent },
   { path: 'auth', component: AuthComponent },

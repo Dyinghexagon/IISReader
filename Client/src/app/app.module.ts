@@ -13,8 +13,10 @@ import { HeaderComponent } from './components/layout-elements/header/header.comp
 import { PageRoutingModuleModule } from './components/page-routing-module/page-routing-module.module';
 import { MainPageComponent } from './components/pages/main-page/main-page.component';
 import { PersonalPageComponent } from './components/pages/pesonal-page/personal-page.component';
+import { SecurityPageComponent } from './components/pages/security-page/security-page.component';
 import { SecuritysComponent } from './components/pages/securitys/securitys.component';
 import { SplashComponent } from './components/pages/splash/splash.component';
+import { SecurityChatComponent } from './components/shared/security-chart/security-chart.component';
 import { BaseService } from './services/base.service';
 import { SecurityService } from './services/securitys.service';
 import { UserService } from './services/user.services';
@@ -28,7 +30,9 @@ import { UserService } from './services/user.services';
     SecuritysComponent,
     SplashComponent,
     PersonalPageComponent,
-    AuthComponent
+    AuthComponent,
+    SecurityChatComponent,
+    SecurityPageComponent
   ],
   imports: [
     BrowserModule,

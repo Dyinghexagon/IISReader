@@ -13,7 +13,7 @@
                 [class.table-success]="security.ChangePerDay > 0"
                 [class.table-danger]="security.ChangePerDay < 0">
             <th scope="row">{{ index + 1 }}</th>
-            <td>{{ security.Name }}</td>
+            <td><a href="#" routerLink="/security-page" [queryParams]="{secid: security.Secid}">{{ security.Name }}</a></td>
             <td>{{ security.Secid }}</td>
             <td>{{ security.CurrentPrice }} ₽</td>
             <td>{{ security.ChangePerDay }} %</td>
