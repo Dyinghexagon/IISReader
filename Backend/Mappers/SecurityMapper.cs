@@ -8,18 +8,44 @@ namespace Backend.Mappers
 
         public SecurityMapper() { }
 
-        public SecurityModel? Map(Security? security)
+        public SecurityModel? MapSecurity(Security? security)
         {
             return security == null 
                 ? null 
                 : new SecurityModel(security.Id, security.Secid, security.Name, security.CurrentPrice, security.ChangePerDay);
         }
 
-        public Security? Map(SecurityModel? security)
+        public Security? MapSecurity(SecurityModel? security)
         {
             return security == null
                 ? null
                 : new Security(security.Id, security.Secid, security.Name, security.CurrentPrice, security.ChangePerDay);
+        }
+
+        public SecurityChartData? MapSecurityChartData(SecurityChartDataModel securityChartDataModel)
+        {
+            return securityChartDataModel == null
+                ? null
+                : new SecurityChartData(
+                    securityChartDataModel.Open,
+                    securityChartDataModel.Close,
+                    securityChartDataModel.Hight,
+                    securityChartDataModel.Low,
+                    securityChartDataModel.Time,
+                    securityChartDataModel.Id);
+        }
+
+        public SecurityChartDataModel? MapSecurityChartData(SecurityChartData securityChartDataModel)
+        {
+            return securityChartDataModel == null
+                ? null
+                : new SecurityChartDataModel(
+                    securityChartDataModel.Open,
+                    securityChartDataModel.Close,
+                    securityChartDataModel.Hight,
+                    securityChartDataModel.Low,
+                    securityChartDataModel.Time,
+                    securityChartDataModel.Id);
         }
     }
 }

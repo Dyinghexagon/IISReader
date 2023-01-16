@@ -31,7 +31,21 @@ namespace Backend.Controllers
 
             foreach (var security in securitys)
             {
-                result.Add(_mapper.Map(security));
+                result.Add(_mapper.MapSecurity(security));
+            }
+
+            return result;
+        }
+
+        [HttpGet("GetSecurityChartData/{secid}")]
+        public async Task<List<SecurityChartDataModel?>> GetSecurityChartData(String secid)
+        {
+            var securityChartDataModel = await _securityService.GetSecurityChartData(secid);
+
+            var result = new List<SecurityChartDataModel?>();
+            foreach(var security in securityChartDataModel)
+            {
+                result.Add(_mapper.MapSecurityChartData(security));
             }
 
             return result;
