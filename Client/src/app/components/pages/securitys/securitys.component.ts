@@ -4,17 +4,17 @@ import { SecurityService } from "src/app/services/securitys.service";
 import { SecurityModel } from "../../models/security.model";
 
 @Component({
-    selector: "security",
-    templateUrl: "./securitys-list.component.html",
-    styleUrls: [ "./securitys-list.component.scss" ]
+    selector: "securitys",
+    templateUrl: "./securitys.component.html",
+    styleUrls: [ "./securitys.component.scss" ]
 })
 
-export class SecuritysListComponent implements OnInit, OnDestroy  {
+export class SecuritysComponent implements OnInit, OnDestroy  {
 
     public securitys: SecurityModel[] = [];
     public date: string = "";
-    dtOptions: DataTables.Settings = {};
-    dtTrigger: Subject<any> = new Subject<SecurityModel[]>();
+    public dtOptions: DataTables.Settings = {};
+    public dtTrigger: Subject<any> = new Subject<SecurityModel[]>();
     
     constructor(public securityService: SecurityService) { }
 

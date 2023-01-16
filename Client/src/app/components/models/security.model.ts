@@ -7,7 +7,7 @@ export class SecurityModel {
 
     constructor(data: ISecurityModel) {
         this._id = data.id;
-        this._secid = data.tiket;
+        this._secid = data.secid;
         this._name = data.name;
         this._currentPrice = data.currentPrice;
         this._changePerDay = data.changePerDay;
@@ -36,7 +36,7 @@ export class SecurityModel {
 
 export interface ISecurityModel {
     id: string;
-    tiket: string;
+    secid: string;
     name: string;
     currentPrice: number;
     changePerDay: number;

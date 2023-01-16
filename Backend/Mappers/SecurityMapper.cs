@@ -19,7 +19,7 @@ namespace Backend.Mappers
         {
             return security == null
                 ? null
-                : new Security(security.Id, security.Tiket, security.Name, security.CurrentPrice, security.ChangePerDay);
+                : new Security(security.Id, security.Secid, security.Name, security.CurrentPrice, security.ChangePerDay);
         }
     }
 }

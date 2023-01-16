@@ -13,7 +13,7 @@ import { HeaderComponent } from './components/layout-elements/header/header.comp
 import { PageRoutingModuleModule } from './components/page-routing-module/page-routing-module.module';
 import { MainPageComponent } from './components/pages/main-page/main-page.component';
 import { PersonalPageComponent } from './components/pages/pesonal-page/personal-page.component';
-import { SecuritysListComponent } from './components/pages/securitys-list/securitys-list.component';
+import { SecuritysComponent } from './components/pages/securitys/securitys.component';
 import { SplashComponent } from './components/pages/splash/splash.component';
 import { BaseService } from './services/base.service';
 import { SecurityService } from './services/securitys.service';
@@ -25,19 +25,25 @@ import { UserService } from './services/user.services';
     MainPageComponent,
     FooterComponent,
     HeaderComponent,
-    SecuritysListComponent,
+    SecuritysComponent,
     SplashComponent,
     PersonalPageComponent,
     AuthComponent
   ],
   imports: [
-    BrowserModule, HttpClientModule,
+    BrowserModule,
+    HttpClientModule,
     FormsModule,
     PageRoutingModuleModule,
     ReactiveFormsModule,
     DataTablesModule
   ],
-  providers: [ AppConfig, BaseService, UserService, SecurityService ],
-  bootstrap: [AppComponent]
+  providers: [ 
+    AppConfig, 
+    BaseService, 
+    UserService, 
+    SecurityService 
+  ],
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }
