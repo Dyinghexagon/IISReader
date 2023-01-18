@@ -1,6 +1,7 @@
 ﻿using Fiss.Extensions;
 using Fiss.Request;
 using Backend.Models.Backend;
+using Fiss.Response;
 
 namespace Backend.Services
 {
@@ -10,7 +11,6 @@ namespace Backend.Services
         {
             var securitys = new List<Security>();
 
-            var secidName = await GetPairsSecIdName();
 
             var request = new IssRequest();
             var path = "engines/stock/markets/shares/boards/TQBR/securities";
@@ -18,6 +18,8 @@ namespace Backend.Services
             request.AddQuery(new KeyValuePair<String, String>("marketdata.columns", "SECID, LAST, LASTTOPREVPRICE"));
             await request.Fetch();
             var respones = request.ToResponse();
+
+            var secidName = GetPairsSecIdName(respones);
 
             foreach (var row in respones["Marketdata"].Rows.ToList())
             {
@@ -35,20 +37,15 @@ namespace Backend.Services
             return securitys;
         }
 
-        private async Task<Dictionary<String, String?>> GetPairsSecIdName()
+        private Dictionary<String, String?> GetPairsSecIdName(IDictionary<String, Fiss.Response.Table> respones)
         {
             var secidName = new Dictionary<String, String?>();
 
-            var request = new IssRequest();
-            var path = "engines/stock/markets/shares/boards/TQBR/securities";
-            request.FullPath(path);
-            request.AddQuery(new KeyValuePair<String, String>("securities.columns", "SECID,SECNAME"));
-            await request.Fetch();
-            var respones = request.ToResponse();
-
-            foreach(var secur in respones["Securities"].Rows.ToList())
+            foreach(var row in respones["Securities"].Rows.ToList())
             {
-                secidName.Add(secur.Values["Secid"].ToString(), secur.Values["Secname"].ToString());
+                var data = row.Values;
+
+                secidName.Add(data["Secid"].ToString() ?? "", data["Secname"].ToString());
             }
 
             return secidName;

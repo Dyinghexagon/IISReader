@@ -22,7 +22,11 @@ namespace Backend.Services
 
         public async Task<Account?> GetAccountAsync(Guid id) => await _usersCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
 
-        public async Task CreateAsync(Account newBook) => await _usersCollection.InsertOneAsync(newBook);
+        public async Task CreateAsync(Account? newAccount) {
+            if (newAccount != null) { 
+                await _usersCollection.InsertOneAsync(newAccount);
+            }
+        }
 
         public async Task UpdateAsync(Guid id, Account updatedBook) =>
             await _usersCollection.ReplaceOneAsync(x => x.Id == id, updatedBook);

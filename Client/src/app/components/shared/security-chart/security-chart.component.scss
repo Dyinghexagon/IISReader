@@ -1,0 +1,17 @@
+@import "../../../../assets/variables";
+
+#chart-container {
+    background-color: aqua;
+
+    #legend {
+        position: absolute; 
+        left: 12px; 
+        top: 100px; 
+        z-index: 1; 
+        font-size: 14px; 
+        font-family: sans-serif; 
+        line-height: 18px; 
+        font-weight: 300;
+        color: $font-color;
+    }
+}
