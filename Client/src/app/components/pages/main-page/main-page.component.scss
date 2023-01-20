@@ -1,0 +1,82 @@
+@import "../../../../assets/variables";
+
+.carousel {
+    margin-bottom: 4rem;
+    padding-top: 3rem;
+
+    .carousel-caption {
+        bottom: 3rem;
+        z-index: 10;
+        background-color: $slider-item-bacground-color;
+        padding: 1.25rem;
+
+        .carousel-title {
+            color: $slider-item-title-font-color;
+        }
+    
+        .carousel-decription {
+            color: $slider-item-description-font-color;
+        }
+    }
+
+    .carousel-item {
+        height: $slider-item-height;
+    }
+    
+    .carousel-item>img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        min-width: 100%;
+        height: $slider-item-height;
+    }
+
+    .marketing {
+        h2 {
+            font-weight: 400;
+        }
+    
+        .col-lg-4 {
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+    
+        .col-lg-4 p {
+            margin-right: .75rem;
+            margin-left: .75rem;
+        }
+
+        .featurette-heading {
+            font-weight: 300;
+            line-height: 1;
+            letter-spacing: -.05rem;
+        }
+    }
+
+    .carousel-control-prev, .carousel-control-next {
+        background-color: $slider-item-bacground-color;
+        width: 5%;
+    }
+
+    .indicator {
+        background-color: $slider-item-bacground-color;
+    }
+}
+
+@media (min-width: 40em) {
+    .carousel-caption .carousel-decription {
+        margin-bottom: 1.25rem;
+        font-size: 1.25rem;
+        line-height: 1.4;
+    }
+
+    .featurette-heading {
+        font-size: 50px;
+    }
+}
+
+@media (min-width: 62em) {
+    .featurette-heading {
+        margin-top: 5rem;
+    }
+}

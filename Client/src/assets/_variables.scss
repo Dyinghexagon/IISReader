@@ -5,6 +5,14 @@ $margin-between-burger-item: 5px;
 $width-search-input: 350px;
 $margin-bottom: 24px;
 
+$white-color: #f8f9fa;
+
+
 $header-color: rgba(var(--bs-light-rgb),var(--bs-bg-opacity));
-$nav-link-color: #f8f9fa;
+$nav-link-color: $white-color;
 $font-color: #424746;
+
+$slider-item-title-font-color: #0d6efd;
+$slider-item-description-font-color: $white-color;
+$slider-item-bacground-color: #212529;
+$slider-item-height: 32rem;
