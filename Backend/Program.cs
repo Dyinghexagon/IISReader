@@ -1,6 +1,9 @@
 using Backend.Mappers;
-using Backend.Models;
+using Backend.Models.Options;
 using Backend.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Backend
 {
@@ -11,8 +14,29 @@ namespace Backend
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.Configure<IISReaderDatabaseSettings>(
+            builder.Services.Configure<IISReaderDatabaseOptions>(
                 builder.Configuration.GetSection("IISReaderDatabaseSettings"));
+            builder.Services.Configure<RegistrationOptions>(
+                builder.Configuration.GetSection("RegistrationOptions"));
+
+            var secret = Encoding.ASCII.GetBytes("test_secret_key");
+            builder.Services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme= JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata= false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(secret),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
 
             builder.Services.AddSingleton<AccountService>();
             builder.Services.AddSingleton<AccountMapper>();

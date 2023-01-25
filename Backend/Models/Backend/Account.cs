@@ -6,14 +6,8 @@
 
         public String Login { get; set; }
 
-        public String Password { get; set; }
+        public Byte[] PasswordHash { get; set; }
 
-        public Account(Guid id, String email, String login, String password) { 
-            Id = id;
-            Email = email;
-            Login = login;
-            Password = password;
-        }
-
+        public Byte[] PasswordSalt { get; set; }
     }
 }

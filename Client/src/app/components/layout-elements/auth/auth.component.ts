@@ -1,7 +1,10 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { AbstractControl, UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
+import { ActivatedRoute } from "@angular/router";
 import { Guid } from "guid-typescript";
-import { UserService } from "src/app/services/user.services";
+import { AccountService } from "src/app/services/account.service";
+import { AlertService } from "src/app/services/alert.service";
+import { AuthenticationService } from "src/app/services/authentication.service";
 import { IUserModel, UserModel } from "../../models/user.model";
 
 @Component({
@@ -10,7 +13,7 @@ import { IUserModel, UserModel } from "../../models/user.model";
     styleUrls: ["./auth.component.scss"]
 })
 
-export class AuthComponent {
+export class AuthComponent implements OnInit {
 
     public tab: "login" | "reg" = "login";
     public loginForm: UntypedFormGroup;
@@ -19,11 +22,23 @@ export class AuthComponent {
     public hidePasswordRegForm: boolean = true;
     public hideRepitPasswordRegForm: boolean = true;
     
+    private returnUrl: string = "/";
+    
     private readonly regexp = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$/;
 
-    constructor(private readonly userService: UserService) {
+    constructor(
+        private readonly route: ActivatedRoute,
+        private readonly userService: AccountService,
+        private readonly alertService: AlertService,
+        private readonly authenticationService: AuthenticationService
+    ) {
         this.loginForm = this.initLoginForm();
         this.regForm = this.initRegForm();
+    }
+
+    public ngOnInit(): void {
+        this.authenticationService.logout();
+        this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/";
     }
 
     private initLoginForm(): UntypedFormGroup {
@@ -51,7 +66,12 @@ export class AuthComponent {
     }
 
     public submitLoginForm(): void {
-        //
+        this.authenticationService.login(new UserModel({
+            id: Guid.create().toString(),
+            login: this.loginEmail?.value,
+            email: this.loginEmail?.value,
+            password: this.loginPassword?.value
+        }));
     }
     
     public async submitRegForm(): Promise<void> {
@@ -59,9 +79,9 @@ export class AuthComponent {
             let newUser = new UserModel(
                 {
                     id: Guid.create().toString(),
-                    login: this.regForm.get("regLogin")?.value,
-                    email: this.regForm.get("regEmail")?.value,
-                    password: this.regForm.get("regPassword")?.value
+                    login: this.regLogin?.value,
+                    email: this.regEmail?.value,
+                    password: this.regPassword?.value
                 } as IUserModel
             );
 

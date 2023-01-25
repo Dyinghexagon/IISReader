@@ -1,6 +1,6 @@
-﻿namespace Backend.Models
+﻿namespace Backend.Models.Options
 {
-    public class IISReaderDatabaseSettings
+    public class IISReaderDatabaseOptions
     {
         public string AccountsCollectionName { get; set; } = null!;
         public string SecuritysCollectionName { get; set; } = null!;

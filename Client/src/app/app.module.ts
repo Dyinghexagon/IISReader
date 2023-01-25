@@ -19,11 +19,16 @@ import { SplashComponent } from './components/pages/splash/splash.component';
 import { SecurityChatComponent } from './components/shared/security-chart/security-chart.component';
 import { BaseService } from './services/base.service';
 import { SecurityService } from './services/securitys.service';
-import { UserService } from './services/user.services';
+import { AccountService } from './services/account.service';
+import { AuthenticationService } from './services/authentication.service';
+import { AllertComponent } from './components/shared/alert/alert.component';
+import { AuthGuard } from './components/guards/auth.guard';
+import { AlertService } from './services/alert.service';
 
 @NgModule({
   declarations: [
     AppComponent,
+    AllertComponent,
     MainPageComponent,
     FooterComponent,
     HeaderComponent,
@@ -43,9 +48,12 @@ import { UserService } from './services/user.services';
     DataTablesModule
   ],
   providers: [ 
-    AppConfig, 
+    AppConfig,
+    AuthGuard, 
+    AlertService,
     BaseService, 
-    UserService, 
+    AccountService,
+    AuthenticationService, 
     SecurityService 
   ],
   bootstrap: [ AppComponent ]

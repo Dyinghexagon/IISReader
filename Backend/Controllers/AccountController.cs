@@ -2,9 +2,17 @@
 using Backend.Services;
 using Microsoft.AspNetCore.Mvc;
 using Backend.Mappers;
+using Microsoft.AspNetCore.Authorization;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
+using Microsoft.Extensions.Options;
+using Backend.Models.Options;
 
 namespace Backend.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/account")]
     public class AccountController : ControllerBase
@@ -12,16 +20,18 @@ namespace Backend.Controllers
         private readonly ILogger<AccountController> _logger;
         private readonly AccountService _accountService;
         private readonly AccountMapper _mapper;
-
+        private readonly String _secret;
         public AccountController(
             ILogger<AccountController> logger, 
             AccountService userService, 
-            AccountMapper mapper
+            AccountMapper mapper,
+            IOptions<RegistrationOptions> options
         )
         {
             _logger = logger;
             _accountService = userService;
             _mapper = mapper;
+            _secret = options.Value.Secret;
         }
 
         [HttpGet("GetAccount/{id}")]
@@ -45,12 +55,42 @@ namespace Backend.Controllers
             return res;
         }
 
-        [HttpPost]
-        public async Task<AccountModel> CreateUser([FromBody]AccountModel user)
+        [AllowAnonymous]
+        [HttpPost("register")]
+        public async Task<AccountModel> CreateUser([FromBody]AccountModel account)
         {
-            await _accountService.CreateAsync(_mapper.Map(user));
+            await _accountService.CreateAsync(account, account.Password);
 
-            return user;
+            return account;
+        }
+
+        [HttpPost("authenticate")]
+        public async Task<String> Authenticate([FromBody]AccountModel accountModel)
+        {
+            var account = await _accountService.Authenticate(accountModel.Login, accountModel.Password);
+
+            if (account == null)
+            {
+                return "";
+            }
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_secret);
+            var tokenDescription = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.Name, account.Id.ToString())
+                }),
+                Expires= DateTime.UtcNow.AddDays(7),
+                SigningCredentials = new SigningCredentials(
+                    new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescription);
+            var tokenString = tokenHandler.WriteToken(token);
+
+            return tokenString;
         }
 
     }

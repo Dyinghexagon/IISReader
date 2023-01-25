@@ -1,6 +1,5 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { CandlestickData } from "lightweight-charts";
 import { AppConfig } from "../app.config";
 import { SecurityModel } from "../components/models/security.model";
 import { SecurityChartDataModel } from "../components/models/securityChartDataModel.model";
