@@ -6,15 +6,15 @@ import { IAlert } from "../components/models/alert.model";
 @Injectable()
 export class AlertService {
     private alert = new Subject<IAlert>();
-    private keepAfterNavigationChange = false;
+    private keepAfterNavigationChange = true;
 
     constructor(private router: Router) {
-        router.events.subscribe(event => {
+        this.router.events.subscribe(event => {
             if (event instanceof NavigationStart)
                 if (this.keepAfterNavigationChange) {
                     this.keepAfterNavigationChange = false;
                 } else {
-                    this.alert.next({type: "error", message: "error"});
+                    this.alert.next({type: "error", message: "test!"});
                 }
         })
     }
@@ -23,12 +23,27 @@ export class AlertService {
         return this.alert.asObservable();
     }
 
-    public success(message: string, keepAfterNavigationChange = false): void {
+    public createAlert(status: number, keepAfterNavigationChange = false): void {
+        switch(status) {
+            case 200: {
+                console.warn("sucess!");
+                this.success("sucess!", keepAfterNavigationChange);
+                break;
+            }
+            case 404: {
+                console.warn("error!");
+                this.error("error!", keepAfterNavigationChange);
+                break;
+            }
+        }
+    }
+
+    private success(message: string, keepAfterNavigationChange = false): void {
         this.keepAfterNavigationChange = keepAfterNavigationChange;
         this.alert.next({type: "success", message: message});
     }
 
-    public error(message: string, keepAfterNavigationChange = false): void {
+    private error(message: string, keepAfterNavigationChange = false): void {
         this.keepAfterNavigationChange = keepAfterNavigationChange;
         this.alert.next({type: "error", message: message});
     }

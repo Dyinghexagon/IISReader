@@ -64,10 +64,11 @@ namespace Backend.Controllers
             return account;
         }
 
+        [AllowAnonymous]
         [HttpPost("authenticate")]
         public async Task<String> Authenticate([FromBody]AccountModel accountModel)
         {
-            var account = await _accountService.Authenticate(accountModel.Login, accountModel.Password);
+            var account = await _accountService.Authenticate(accountModel.Email, accountModel.Password);
 
             if (account == null)
             {

@@ -14,17 +14,16 @@ export class AuthenticationService extends BaseService {
         super(http);
     }
 
-    public login(user: UserModel) {
-        return this.post(`${this.config.accountApi}/authenticate`, user).then((token: string) => {
-            console.warn(token);
+    public login(user: UserModel): Promise<number> {
+        return this.post(`${this.config.accountApi}/authenticate`, user).then((token: Response) => {
             if (token) {
-                localStorage.setItem("currentAccount", JSON.stringify(user))
+                localStorage.setItem("currentAccount", JSON.stringify(user));
             }
+            return !token ? 404 : token.status;
         });
     }
 
     public logout() {
         localStorage.removeItem("currentAccount");
     }
-
 }

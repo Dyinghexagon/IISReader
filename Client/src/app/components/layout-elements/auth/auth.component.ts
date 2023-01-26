@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { AbstractControl, UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Guid } from "guid-typescript";
 import { AccountService } from "src/app/services/account.service";
 import { AlertService } from "src/app/services/alert.service";
@@ -28,6 +28,7 @@ export class AuthComponent implements OnInit {
 
     constructor(
         private readonly route: ActivatedRoute,
+        private readonly router: Router,
         private readonly userService: AccountService,
         private readonly alertService: AlertService,
         private readonly authenticationService: AuthenticationService
@@ -65,13 +66,15 @@ export class AuthComponent implements OnInit {
         return pass === confirmPass ? null : { notSame: true }
     }
 
-    public submitLoginForm(): void {
-        this.authenticationService.login(new UserModel({
+    public async submitLoginForm(): Promise<void> {
+        const statusLogin = await this.authenticationService.login(new UserModel({
             id: Guid.create().toString(),
             login: this.loginEmail?.value,
             email: this.loginEmail?.value,
             password: this.loginPassword?.value
         }));
+
+        this.alertService.createAlert(statusLogin);
     }
     
     public async submitRegForm(): Promise<void> {

@@ -1,5 +1,6 @@
 
-<div *ngIf="alert" 
+<div *ngIf="alert && close" id="alert"
     [ngClass]="{ 'alert': alert, 'alert-success': alert.type === 'success', 'alert-danger': alert.type === 'error' }">
     {{ alert.message }}
+    <a class="btn btn-close" (click)="close = false"></a>
 </div>

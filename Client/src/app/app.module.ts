@@ -21,14 +21,14 @@ import { BaseService } from './services/base.service';
 import { SecurityService } from './services/securitys.service';
 import { AccountService } from './services/account.service';
 import { AuthenticationService } from './services/authentication.service';
-import { AllertComponent } from './components/shared/alert/alert.component';
+import { AlertComponent } from './components/shared/alert/alert.component';
 import { AuthGuard } from './components/guards/auth.guard';
 import { AlertService } from './services/alert.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AllertComponent,
+    AlertComponent,
     MainPageComponent,
     FooterComponent,
     HeaderComponent,

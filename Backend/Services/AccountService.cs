@@ -23,14 +23,14 @@ namespace Backend.Services
 
         public async Task<Account?> GetAccountAsync(Guid id) => await _usersCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
 
-        public async Task<Account?> Authenticate(String login, String password)
+        public async Task<Account?> Authenticate(String Email, String password)
         {
-            if (String.IsNullOrEmpty(login) || String.IsNullOrEmpty(password))
+            if (String.IsNullOrEmpty(Email) || String.IsNullOrEmpty(password))
             {
                 return null;
             }
 
-            var account = (await _usersCollection.FindAsync(x => x.Login == login)).FirstOrDefault();
+            var account = (await _usersCollection.FindAsync(x => x.Email == Email)).FirstOrDefault();
 
             if (account == null)
             {

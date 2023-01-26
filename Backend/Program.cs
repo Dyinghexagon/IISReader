@@ -2,6 +2,7 @@ using Backend.Mappers;
 using Backend.Models.Options;
 using Backend.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -18,8 +19,7 @@ namespace Backend
                 builder.Configuration.GetSection("IISReaderDatabaseSettings"));
             builder.Services.Configure<RegistrationOptions>(
                 builder.Configuration.GetSection("RegistrationOptions"));
-
-            var secret = Encoding.ASCII.GetBytes("test_secret_key");
+            var secret = Encoding.ASCII.GetBytes(builder.Configuration.GetSection("RegistrationOptions")["Secret"]);
             builder.Services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
