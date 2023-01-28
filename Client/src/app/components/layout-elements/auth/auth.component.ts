@@ -5,6 +5,7 @@ import { Guid } from "guid-typescript";
 import { AccountService } from "src/app/services/account.service";
 import { AlertService } from "src/app/services/alert.service";
 import { AuthenticationService } from "src/app/services/authentication.service";
+import { AppState } from "../../models/app-state.module";
 import { IUserModel, UserModel } from "../../models/user.model";
 
 @Component({
@@ -31,7 +32,8 @@ export class AuthComponent implements OnInit {
         private readonly router: Router,
         private readonly userService: AccountService,
         private readonly alertService: AlertService,
-        private readonly authenticationService: AuthenticationService
+        private readonly authenticationService: AuthenticationService,
+        private readonly appState: AppState
     ) {
         this.loginForm = this.initLoginForm();
         this.regForm = this.initRegForm();
@@ -74,7 +76,13 @@ export class AuthComponent implements OnInit {
             password: this.loginPassword?.value
         }));
 
-        this.alertService.createAlert(statusLogin);
+        if(statusLogin === 200) {
+            this.alertService.success("Регистрация прошла успешно!");
+            this.router.navigate(["/personal-page"]);
+            this.appState.authState.login$.next();
+        } else {
+            this.alertService.error("Ошибка регистрации!");
+        }
     }
     
     public async submitRegForm(): Promise<void> {

@@ -11,9 +11,16 @@
         <li class="nav-item"><a href="#" class="nav-link" routerLink="/splash">Всплески рынка</a></li>
       </ul>
 
-      <div class="text-end">
-        <button type="button" class="btn btn-primary" routerLink="/auth">Войти</button>
-      </div>
+      <ng-container *ngIf="!isLogin; else login">
+        <div class="text-end">
+          <button type="button" class="btn btn-primary" routerLink="/auth">Войти</button>
+        </div>
+      </ng-container>
+      <ng-template #login>
+        <div class="text-end">
+          <button type="button" class="btn btn-primary" routerLink="/personal-page">Личный кабинет</button>
+        </div>
+      </ng-template>
     </div>
   </nav>
 </header>

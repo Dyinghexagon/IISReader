@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AppState } from '../../models/app-state.module';
 
 @Component({
   selector: 'app-header',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  public isLogin: boolean = false;
 
-  ngOnInit(): void {
+  constructor(private readonly appState: AppState) { }
+
+  public ngOnInit(): void {
+    if (localStorage.getItem("currentAccount")) {
+      this.isLogin = true;
+    }
+    this.appState.authState.login$.subscribe(() => {
+      this.isLogin = true;
+    });
   }
 
 }

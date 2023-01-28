@@ -24,6 +24,7 @@ import { AuthenticationService } from './services/authentication.service';
 import { AlertComponent } from './components/shared/alert/alert.component';
 import { AuthGuard } from './components/guards/auth.guard';
 import { AlertService } from './services/alert.service';
+import { AppState } from './components/models/app-state.module';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { AlertService } from './services/alert.service';
   ],
   providers: [ 
     AppConfig,
-    AuthGuard, 
+    AuthGuard,
+    AppState, 
     AlertService,
     BaseService, 
     AccountService,

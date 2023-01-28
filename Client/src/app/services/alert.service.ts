@@ -13,8 +13,6 @@ export class AlertService {
             if (event instanceof NavigationStart)
                 if (this.keepAfterNavigationChange) {
                     this.keepAfterNavigationChange = false;
-                } else {
-                    this.alert.next({type: "error", message: "test!"});
                 }
         })
     }
@@ -23,27 +21,12 @@ export class AlertService {
         return this.alert.asObservable();
     }
 
-    public createAlert(status: number, keepAfterNavigationChange = false): void {
-        switch(status) {
-            case 200: {
-                console.warn("sucess!");
-                this.success("sucess!", keepAfterNavigationChange);
-                break;
-            }
-            case 404: {
-                console.warn("error!");
-                this.error("error!", keepAfterNavigationChange);
-                break;
-            }
-        }
-    }
-
-    private success(message: string, keepAfterNavigationChange = false): void {
+    public success(message: string, keepAfterNavigationChange = false): void {
         this.keepAfterNavigationChange = keepAfterNavigationChange;
         this.alert.next({type: "success", message: message});
     }
 
-    private error(message: string, keepAfterNavigationChange = false): void {
+    public error(message: string, keepAfterNavigationChange = false): void {
         this.keepAfterNavigationChange = keepAfterNavigationChange;
         this.alert.next({type: "error", message: message});
     }
