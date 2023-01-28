@@ -21,7 +21,8 @@ namespace Backend.Services
 
         public async Task<List<Account>> GetAccountsAsync() => await _usersCollection.Find(_ => true).ToListAsync();
 
-        public async Task<Account?> GetAccountAsync(Guid id) => await _usersCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
+        public async Task<Account?> GetAccountAsync(String login) => await _usersCollection
+            .Find(x => x.Email == login || x.Login == login).FirstOrDefaultAsync();
 
         public async Task<Account?> Authenticate(String Email, String password)
         {
@@ -30,7 +31,7 @@ namespace Backend.Services
                 return null;
             }
 
-            var account = (await _usersCollection.FindAsync(x => x.Email == Email)).FirstOrDefault();
+            var account = await GetAccountAsync(Email);
 
             if (account == null)
             {

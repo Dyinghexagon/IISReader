@@ -12,13 +12,16 @@ export class HeaderComponent implements OnInit {
 
   constructor(private readonly appState: AppState) { }
 
-  public ngOnInit(): void {
-    if (localStorage.getItem("currentAccount")) {
+  public async ngOnInit(): Promise<void> {
+    const account = await this.appState.getAccount();
+    if (account) {
       this.isLogin = true;
     }
+
     this.appState.authState.login$.subscribe(() => {
       this.isLogin = true;
     });
+
   }
 
 }

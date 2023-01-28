@@ -1,12 +1,12 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { AppConfig } from "../app.config";
-import { UserModel } from "../components/models/user.model";
+import { AccountModel } from "../components/models/account.model";
 import { BaseService } from "./base.service";
 
 @Injectable()
 export class AccountService extends BaseService {
-    public user?: UserModel;
+    public user?: AccountModel;
 
     constructor(
         http: HttpClient,
@@ -15,15 +15,15 @@ export class AccountService extends BaseService {
         super(http);
     }
 
-    public getUser(id: string): Promise<UserModel> {
-        return this.get(`${this.config.accountApi}}/GetAccount/${id}`);
+    public getAccount(login: string): Promise<AccountModel> {
+        return this.get(`${this.config.accountApi}/GetAccount/${login}`);
     }
 
-    public getUsers(): Promise<UserModel[]> {
-        return this.get(`${this.config.accountApi}}/GetAccounts`);
+    public getAcccounts(): Promise<AccountModel[]> {
+        return this.get(`${this.config.accountApi}/GetAccounts`);
     }
 
-    public createUser(user: UserModel): Promise<UserModel> {
+    public createUser(user: AccountModel): Promise<AccountModel> {
         return this.post(`${this.config.accountApi}/register`, user, this.jwt());
     }
 

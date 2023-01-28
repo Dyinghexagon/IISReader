@@ -6,7 +6,7 @@ import { AccountService } from "src/app/services/account.service";
 import { AlertService } from "src/app/services/alert.service";
 import { AuthenticationService } from "src/app/services/authentication.service";
 import { AppState } from "../../models/app-state.module";
-import { IUserModel, UserModel } from "../../models/user.model";
+import { IAccountModel, AccountModel } from "../../models/account.model";
 
 @Component({
     selector: "auth",
@@ -69,7 +69,7 @@ export class AuthComponent implements OnInit {
     }
 
     public async submitLoginForm(): Promise<void> {
-        const statusLogin = await this.authenticationService.login(new UserModel({
+        const statusLogin = await this.authenticationService.login(new AccountModel({
             id: Guid.create().toString(),
             login: this.loginEmail?.value,
             email: this.loginEmail?.value,
@@ -77,23 +77,23 @@ export class AuthComponent implements OnInit {
         }));
 
         if(statusLogin === 200) {
-            this.alertService.success("Регистрация прошла успешно!");
+            this.alertService.success("Авторизация прошла успешно!");
             this.router.navigate(["/personal-page"]);
             this.appState.authState.login$.next();
         } else {
-            this.alertService.error("Ошибка регистрации!");
+            this.alertService.error("Ошибка Авторизации!");
         }
     }
     
     public async submitRegForm(): Promise<void> {
         if (this.regForm.valid) {
-            let newUser = new UserModel(
+            let newUser = new AccountModel(
                 {
                     id: Guid.create().toString(),
                     login: this.regLogin?.value,
                     email: this.regEmail?.value,
                     password: this.regPassword?.value
-                } as IUserModel
+                } as IAccountModel
             );
 
             await this.userService.createUser(newUser);

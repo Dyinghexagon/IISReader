@@ -21,6 +21,7 @@ namespace Backend.Controllers
         private readonly AccountService _accountService;
         private readonly AccountMapper _mapper;
         private readonly String _secret;
+
         public AccountController(
             ILogger<AccountController> logger, 
             AccountService userService, 
@@ -34,14 +35,16 @@ namespace Backend.Controllers
             _secret = options.Value.Secret;
         }
 
-        [HttpGet("GetAccount/{id}")]
-        public async Task<AccountModel?> GetUser(Guid userId)
+        [AllowAnonymous]
+        [HttpGet("GetAccount/{login}")]
+        public async Task<AccountModel?> GetByLogin(String login)
         {
-           var user = await _accountService.GetAccountAsync(userId);
+           var user = await _accountService.GetAccountAsync(login);
 
             return _mapper.Map(user);
         }
 
+        [AllowAnonymous]
         [HttpGet("GetAccounts")]
         public async Task<List<AccountModel?>> GetUsers()
         {

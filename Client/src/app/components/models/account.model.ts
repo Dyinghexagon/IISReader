@@ -1,11 +1,11 @@
-export class UserModel {
+export class AccountModel {
     
     public id: string;
     public login: string;
     public email: string;
     public password: string;
 
-    constructor(data: IUserModel) {
+    constructor(data: IAccountModel) {
         this.id = data.id;
         this.login = data.login;
         this.email = data.email;
@@ -14,7 +14,7 @@ export class UserModel {
 
 }
 
-export interface IUserModel {
+export interface IAccountModel {
     id: string;
     login: string;
     email: string;
