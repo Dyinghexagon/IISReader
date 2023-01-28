@@ -10,7 +10,7 @@ namespace Backend.Services
     {
         private readonly IMongoCollection<Account> _usersCollection;
 
-        public AccountService(IOptions<IISReaderDatabaseOptions> IISReaderDatabaseSettings)
+        public AccountService(IOptions<DatabaseOptions> IISReaderDatabaseSettings)
         {
             var mongoClient = new MongoClient(IISReaderDatabaseSettings.Value.ConnectionString);
 
