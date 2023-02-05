@@ -12,7 +12,7 @@
         <ng-container *ngIf="tab === 'login'; else isRegTemplate">
             <form [formGroup]="loginForm" (ngSubmit)="submitLoginForm()">
                 <div class="form-outline mb-4">
-                    <input type="email" id="login" class="form-control" placeholder="Email" formControlName="email">
+                    <input type="text" id="login" class="form-control" placeholder="Логин" formControlName="login">
                     <div class="password_wrapper">
                         <div>
                             <div class="text-field-wrapper">
@@ -48,13 +48,9 @@
         <ng-template #isRegTemplate>
             <form [formGroup]="regForm" (ngSubmit)="submitRegForm()">
                 <div class="form-outline mb-4">
-                    <input type="text" id="regLogin" class="form-control" placeholder="Login" formControlName="regLogin">
+                    <input type="text" id="regLogin" class="form-control" placeholder="Логин" formControlName="regLogin">
                     <div [hidden]="regLogin?.valid || regLogin?.untouched" class="alert alert-danger">
                         Некорректный Логин
-                    </div>
-                    <input type="email" id="regEmail" class="form-control" placeholder="Email" formControlName="regEmail">
-                    <div [hidden]="regEmail?.valid || regEmail?.untouched" class="alert alert-danger">
-                        Некорректный Email
                     </div>
                     <div class="password_wrapper">
                         <div>

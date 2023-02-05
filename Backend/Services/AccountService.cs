@@ -3,6 +3,7 @@ using Backend.Models.Backend;
 using Microsoft.Extensions.Options;
 using Backend.Models.Options;
 using Backend.Models.Client;
+using Backend.Helpers;
 
 namespace Backend.Services
 {
@@ -21,8 +22,7 @@ namespace Backend.Services
 
         public async Task<List<Account>> GetAccountsAsync() => await _usersCollection.Find(_ => true).ToListAsync();
 
-        public async Task<Account?> GetAccountAsync(String login) => await _usersCollection
-            .Find(x => x.Email == login || x.Login == login).FirstOrDefaultAsync();
+        public async Task<Account?> GetAccountAsync(String login) => await _usersCollection.Find(x => x.Login == login).FirstOrDefaultAsync();
 
         public async Task<Account?> Authenticate(String Email, String password)
         {
@@ -38,7 +38,7 @@ namespace Backend.Services
                 return null;
             }
 
-            if (!VerifyPasswordHash(password, account.PasswordHash, account.PasswordSalt))
+            if (!CryptoHelper.VerifyPasswordHash(password, account.PasswordHash, account.PasswordSalt))
             {
                 return null;
             }
@@ -46,53 +46,18 @@ namespace Backend.Services
             return account;
         }
 
-        public async Task CreateAsync(AccountModel newAccount, String password) {
-            CreatePasswordHash(password, out var passwordHash, out var passwordSalt);
-
-            await _usersCollection.InsertOneAsync(new Account()
-            {
-                Id = newAccount.Id,
-                Email = newAccount.Email,
-                Login = newAccount.Login,
-                PasswordHash = passwordHash,
-                PasswordSalt = passwordSalt
-            });
+        public async Task CreateAsync(AccountModel accountModel) {
+            var accounts = await GetAccountsAsync();
+            if (accounts.Select(x => x.Login == accountModel.Login).SingleOrDefault()){
+                throw new Exception("Repit login!");
+            }
+            var account = new Account(accountModel.Id, accountModel.Login, accountModel.Password);
+            await _usersCollection.InsertOneAsync(account);
         }
 
-        public async Task UpdateAsync(Guid id, Account updatedBook) =>
-            await _usersCollection.ReplaceOneAsync(x => x.Id == id, updatedBook);
+        public async Task UpdateAsync(Guid id, Account updatedBook) => await _usersCollection.ReplaceOneAsync(x => x.Id == id, updatedBook);
 
         public async Task RemoveAsync(Guid id) => await _usersCollection.DeleteOneAsync(x => x.Id == id);
 
-        private static bool VerifyPasswordHash(String password, Byte[] storedHash, Byte[] storedSalt)
-        {
-            if (password == null) throw new ArgumentNullException("password");
-            if (String.IsNullOrWhiteSpace(password)) throw new ArgumentException("Value cannot be empty or whitespace only string.", "password");
-            if (storedHash.Length != 64) throw new ArgumentException("Invalid length of password hash (64 bytes expected).", "passwordHash");
-            if (storedSalt.Length != 128) throw new ArgumentException("Invalid length of password salt (128 bytes expected).", "passwordHash");
-
-            using (var hmac = new System.Security.Cryptography.HMACSHA512(storedSalt))
-            {
-                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-                for (int i = 0; i < computedHash.Length; i++)
-                {
-                    if (computedHash[i] != storedHash[i]) return false;
-                }
-            }
-
-            return true;
-        }
-
-        private static void CreatePasswordHash(String password, out Byte[] passwordHash, out Byte[] passwordSalt)
-        {
-            if (password == null) throw new ArgumentNullException("password");
-            if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Value cannot be empty or whitespace only string.", "password");
-
-            using (var hmac = new System.Security.Cryptography.HMACSHA512())
-            {
-                passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-            }
-        }
     }
 }

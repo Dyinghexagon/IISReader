@@ -10,8 +10,8 @@ namespace Backend.Mappers
 
         public SecurityModel? MapSecurity(Security? security)
         {
-            return security == null 
-                ? null 
+            return security == null
+                ? null
                 : new SecurityModel(security.Id, security.Secid, security.Name, security.CurrentPrice, security.ChangePerDay);
         }
 

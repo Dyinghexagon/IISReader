@@ -25,7 +25,9 @@ export class AuthComponent implements OnInit {
     
     private returnUrl: string = "/";
     
-    private readonly regexp = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$/;
+    private readonly REGEXP = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$/;
+    private readonly MIN_LENGHT_LOGIN = 4;
+    private readonly MAX_LENGHT_LOGIN = 12;
 
     constructor(
         private readonly route: ActivatedRoute,
@@ -46,18 +48,17 @@ export class AuthComponent implements OnInit {
 
     private initLoginForm(): UntypedFormGroup {
         return new UntypedFormGroup({
-            email: new UntypedFormControl("", [Validators.required, Validators.email]),
-            password: new UntypedFormControl("", [Validators.required, Validators.pattern(this.regexp)]),
+            login: new UntypedFormControl("", [Validators.minLength(this.MIN_LENGHT_LOGIN), Validators.maxLength(this.MAX_LENGHT_LOGIN)]),
+            password: new UntypedFormControl("", [Validators.required, Validators.pattern(this.REGEXP)]),
             loginCheck: new UntypedFormControl("")
         });
     }
 
     private initRegForm(): UntypedFormGroup {
         return new UntypedFormGroup({
-            regLogin: new UntypedFormControl("", [Validators.required, Validators.minLength(8), Validators.maxLength(12)]),
-            regEmail: new UntypedFormControl("", [Validators.required, Validators.email]),
-            regPassword: new UntypedFormControl("", [Validators.required, Validators.pattern(this.regexp)]),
-            repitPassword: new UntypedFormControl("", [Validators.required, Validators.pattern(this.regexp)])
+            regLogin: new UntypedFormControl("", [Validators.required, Validators.minLength(this.MIN_LENGHT_LOGIN), Validators.maxLength(this.MAX_LENGHT_LOGIN)]),
+            regPassword: new UntypedFormControl("", [Validators.required, Validators.pattern(this.REGEXP)]),
+            repitPassword: new UntypedFormControl("", [Validators.required, Validators.pattern(this.REGEXP)])
         }, {validators: this.checkPasswords});
     }
 
@@ -71,18 +72,11 @@ export class AuthComponent implements OnInit {
     public async submitLoginForm(): Promise<void> {
         const statusLogin = await this.authenticationService.login(new AccountModel({
             id: Guid.create().toString(),
-            login: this.loginEmail?.value,
-            email: this.loginEmail?.value,
+            login: this.login?.value,
             password: this.loginPassword?.value
         }));
 
-        if(statusLogin === 200) {
-            this.alertService.success("Авторизация прошла успешно!");
-            this.router.navigate(["/personal-page"]);
-            this.appState.authState.login$.next();
-        } else {
-            this.alertService.error("Ошибка Авторизации!");
-        }
+        this.createAlertAndNavigate(statusLogin, "Авторизация прошла успешно!", "Ошибка авторизации!")
     }
     
     public async submitRegForm(): Promise<void> {
@@ -91,12 +85,14 @@ export class AuthComponent implements OnInit {
                 {
                     id: Guid.create().toString(),
                     login: this.regLogin?.value,
-                    email: this.regEmail?.value,
                     password: this.regPassword?.value
                 } as IAccountModel
             );
 
-            await this.userService.createUser(newUser);
+            const response = await this.userService.createUser(newUser);
+            console.warn(response);
+            const status = response.status ?? 200;
+            this.createAlertAndNavigate(status, "Регистрация прошла успещно", response.error);
         }
     }
 
@@ -109,20 +105,26 @@ export class AuthComponent implements OnInit {
         }
     }
 
+    private createAlertAndNavigate(statusResponse: number, messangeSuccess: string, messangeError: string): void {
+        if(statusResponse === 200) {
+            this.alertService.success(messangeSuccess);
+            this.router.navigate(["/personal-page"]);
+            this.appState.authState.login$.next();
+        } else {
+            this.alertService.error(messangeError);
+        }
+    }
+    
+    public get login(): AbstractControl | null {
+        return this.loginForm.get("login");
+    }
+
     public get loginPassword(): AbstractControl | null {
         return this.loginForm.get("password");
     }
 
-    public get loginEmail(): AbstractControl | null {
-        return this.loginForm.get("email");
-    }
-
     public get regLogin(): AbstractControl | null {
         return this.regForm.get("regLogin");
-    }
-
-    public get regEmail(): AbstractControl | null {
-        return this.regForm.get("regEmail");
     }
 
     public get regPassword(): AbstractControl | null {

@@ -1,7 +1,6 @@
 ﻿using Backend.Models.Client;
 using Backend.Services;
 using Microsoft.AspNetCore.Mvc;
-using Backend.Mappers;
 using Microsoft.AspNetCore.Authorization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
@@ -9,6 +8,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using Microsoft.Extensions.Options;
 using Backend.Models.Options;
+using Backend.Mappers;
+using System.Net;
 
 namespace Backend.Controllers
 {
@@ -60,18 +61,26 @@ namespace Backend.Controllers
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public async Task<AccountModel> CreateUser([FromBody]AccountModel account)
+        public async Task<IActionResult> CreateUser([FromBody]AccountModel account)
         {
-            await _accountService.CreateAsync(account, account.Password);
+            try
+            {
+                await _accountService.CreateAsync(account);
 
-            return account;
+                return Ok(account);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
 
         [AllowAnonymous]
         [HttpPost("authenticate")]
         public async Task<String> Authenticate([FromBody]AccountModel accountModel)
         {
-            var account = await _accountService.Authenticate(accountModel.Email, accountModel.Password);
+            var account = await _accountService.Authenticate(accountModel.Login, accountModel.Password);
 
             if (account == null)
             {

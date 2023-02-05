@@ -9,29 +9,21 @@ namespace Backend.Mappers
 
         public AccountModel? Map(Account? account)
         {
-            return account == null 
-                ? null 
-                : new AccountModel() 
+            return account == null
+                ? null
+                : new AccountModel()
                 {
                     Id = account.Id,
                     Login = account.Login,
-                    Email = account.Email,
                     Password = ""
                 };
         }
 
         public Account? Map(AccountModel account)
         {
-            return account == null 
-                ? null 
-                : new Account() 
-                { 
-                    Id = account.Id,
-                    Login = account.Login,
-                    Email = account.Email,
-                    PasswordHash = new Byte[0],
-                    PasswordSalt = new Byte[0]
-                };
+            return account == null
+                ? null
+                : new Account(account.Id, account.Login ?? "", account.Password ?? "");
         }
     }
 }

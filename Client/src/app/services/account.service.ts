@@ -23,13 +23,11 @@ export class AccountService extends BaseService {
         return this.get(`${this.config.accountApi}/GetAccounts`);
     }
 
-    public createUser(user: AccountModel): Promise<AccountModel> {
+    public createUser(user: AccountModel): Promise<any> {
         return this.post(`${this.config.accountApi}/register`, user, this.jwt());
     }
 
     private jwt() {
-        console.warn(localStorage);
-
         if (!localStorage.length) return new HttpHeaders({ "content-type": "application/json", "cache-control": "no-cache" });
         let token = JSON.parse(localStorage.getItem("currentAccount") ?? "").token;
         return new HttpHeaders({
