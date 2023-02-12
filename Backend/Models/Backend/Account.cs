@@ -14,8 +14,8 @@ namespace Backend.Models.Backend
         {
             Id = id;
             Login = login;
-            PasswordHash = CryptoHelper.CreatePasswordHash(password);
-            PasswordSalt = CryptoHelper.CreatePasswordSalt(password);
+            PasswordHash = CryptoUtils.CreatePasswordHash(password);
+            PasswordSalt = CryptoUtils.CreatePasswordSalt(password);
         }
     }
 }

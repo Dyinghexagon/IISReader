@@ -1,6 +1,6 @@
 ﻿namespace Backend.Helpers
 {
-    public static class CryptoHelper
+    public static class CryptoUtils
     {
         public static Byte[] CreatePasswordHash(String password)
         {

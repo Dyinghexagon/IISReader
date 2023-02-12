@@ -38,7 +38,7 @@ namespace Backend.Services
                 return null;
             }
 
-            if (!CryptoHelper.VerifyPasswordHash(password, account.PasswordHash, account.PasswordSalt))
+            if (!CryptoUtils.VerifyPasswordHash(password, account.PasswordHash, account.PasswordSalt))
             {
                 return null;
             }
