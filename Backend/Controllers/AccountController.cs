@@ -1,15 +1,8 @@
-﻿using Backend.Models.Client;
-using Backend.Services;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using System.IdentityModel.Tokens.Jwt;
-using System.Text;
-using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
-using Microsoft.Extensions.Options;
-using Backend.Models.Options;
+using Backend.Models.Client;
+using Backend.Services;
 using Backend.Mappers;
-using System.Net;
 
 namespace Backend.Controllers
 {
@@ -21,26 +14,23 @@ namespace Backend.Controllers
         private readonly ILogger<AccountController> _logger;
         private readonly AccountService _accountService;
         private readonly AccountMapper _mapper;
-        private readonly String _secret;
 
         public AccountController(
             ILogger<AccountController> logger, 
             AccountService userService, 
-            AccountMapper mapper,
-            IOptions<RegistrationOptions> options
+            AccountMapper mapper
         )
         {
             _logger = logger;
             _accountService = userService;
             _mapper = mapper;
-            _secret = options.Value.Secret;
         }
 
         [AllowAnonymous]
         [HttpGet("GetAccount/{login}")]
         public async Task<AccountModel?> GetByLogin(String login)
         {
-           var user = await _accountService.GetAccountAsync(login);
+            var user = await _accountService.GetAccountAsync(login);
 
             return _mapper.Map(user);
         }
@@ -57,53 +47,6 @@ namespace Backend.Controllers
             }
 
             return res;
-        }
-
-        [AllowAnonymous]
-        [HttpPost("register")]
-        public async Task<IActionResult> CreateUser([FromBody]AccountModel account)
-        {
-            try
-            {
-                await _accountService.CreateAsync(account);
-
-                return Ok(account);
-            }
-            catch(Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            
-        }
-
-        [AllowAnonymous]
-        [HttpPost("authenticate")]
-        public async Task<String> Authenticate([FromBody]AccountModel accountModel)
-        {
-            var account = await _accountService.Authenticate(accountModel.Login, accountModel.Password);
-
-            if (account == null)
-            {
-                return "";
-            }
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_secret);
-            var tokenDescription = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Name, account.Id.ToString())
-                }),
-                Expires= DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(
-                    new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-
-            var token = tokenHandler.CreateToken(tokenDescription);
-            var tokenString = tokenHandler.WriteToken(token);
-
-            return tokenString;
         }
 
     }

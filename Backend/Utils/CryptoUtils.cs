@@ -2,23 +2,13 @@
 {
     public static class CryptoUtils
     {
-        public static Byte[] CreatePasswordHash(String password)
-        {
-            CheckPassword(password);
 
+        public static void CreatePasswordHash(string password, out Byte[] passwordHash, out Byte[] passwordSalt)
+        {
             using (var hmac = new System.Security.Cryptography.HMACSHA512())
             {
-                return hmac.Key;
-            }
-        }
-
-        public static Byte[] CreatePasswordSalt(String password)
-        {
-            CheckPassword(password);
-
-            using (var hmac = new System.Security.Cryptography.HMACSHA512())
-            {
-                return hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                passwordSalt = hmac.Key;
+                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
             }
         }
 
@@ -27,17 +17,16 @@
             CheckPassword(password);
 
             if (storedHash.Length != 64) throw new ArgumentException("Invalid length of password hash (64 bytes expected).", "passwordHash");
-            if (storedSalt.Length != 128) throw new ArgumentException("Invalid length of password salt (128 bytes expected).", "passwordHash");
-
+            if (storedSalt.Length != 128) throw new ArgumentException("Invalid length of password salt (128 bytes expected).", "passwordSalt");
+            
             using (var hmac = new System.Security.Cryptography.HMACSHA512(storedSalt))
             {
-                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                byte[] computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
                 for (int i = 0; i < computedHash.Length; i++)
                 {
                     if (computedHash[i] != storedHash[i]) return false;
                 }
             }
-
             return true;
         }
 

@@ -20,7 +20,7 @@ import { SecurityChatComponent } from './components/shared/security-chart/securi
 import { BaseService } from './services/base.service';
 import { SecurityService } from './services/securitys.service';
 import { AccountService } from './services/account.service';
-import { AuthenticationService } from './services/authentication.service';
+import { AuthService } from './services/auth.service';
 import { AlertComponent } from './components/shared/alert/alert.component';
 import { AuthGuard } from './components/guards/auth.guard';
 import { AlertService } from './services/alert.service';
@@ -55,7 +55,7 @@ import { AppState } from './components/models/app-state.module';
     AlertService,
     BaseService, 
     AccountService,
-    AuthenticationService, 
+    AuthService, 
     SecurityService 
   ],
   bootstrap: [ AppComponent ]

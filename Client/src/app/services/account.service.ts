@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { AppConfig } from "../app.config";
 import { AccountModel } from "../components/models/account.model";
@@ -21,19 +21,6 @@ export class AccountService extends BaseService {
 
     public getAcccounts(): Promise<AccountModel[]> {
         return this.get(`${this.config.accountApi}/GetAccounts`);
-    }
-
-    public createUser(user: AccountModel): Promise<any> {
-        return this.post(`${this.config.accountApi}/register`, user, this.jwt());
-    }
-
-    private jwt() {
-        if (!localStorage.length) return new HttpHeaders({ "content-type": "application/json", "cache-control": "no-cache" });
-        let token = JSON.parse(localStorage.getItem("currentAccount") ?? "").token;
-        return new HttpHeaders({
-            "Accept":"application/json",
-            "Authorization": "Bearer " + token
-        });
     }
 
 }

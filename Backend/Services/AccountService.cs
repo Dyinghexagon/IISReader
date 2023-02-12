@@ -24,7 +24,7 @@ namespace Backend.Services
 
         public async Task<Account?> GetAccountAsync(String login) => await _usersCollection.Find(x => x.Login == login).FirstOrDefaultAsync();
 
-        public async Task<Account?> Authenticate(String Email, String password)
+        public async Task<Account?> Login(String Email, String password)
         {
             if (String.IsNullOrEmpty(Email) || String.IsNullOrEmpty(password))
             {
@@ -38,7 +38,8 @@ namespace Backend.Services
                 return null;
             }
 
-            if (!CryptoUtils.VerifyPasswordHash(password, account.PasswordHash, account.PasswordSalt))
+            if (!CryptoUtils.VerifyPasswordHash(password, Convert.FromBase64String(account.PasswordHash), 
+                Convert.FromBase64String(account.PasswordSalt)))
             {
                 return null;
             }

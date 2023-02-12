@@ -2,9 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { AbstractControl, UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Guid } from "guid-typescript";
-import { AccountService } from "src/app/services/account.service";
 import { AlertService } from "src/app/services/alert.service";
-import { AuthenticationService } from "src/app/services/authentication.service";
+import { AuthService } from "src/app/services/auth.service";
 import { AppState } from "../../models/app-state.module";
 import { IAccountModel, AccountModel } from "../../models/account.model";
 
@@ -32,9 +31,8 @@ export class AuthComponent implements OnInit {
     constructor(
         private readonly route: ActivatedRoute,
         private readonly router: Router,
-        private readonly userService: AccountService,
         private readonly alertService: AlertService,
-        private readonly authenticationService: AuthenticationService,
+        private readonly authService: AuthService,
         private readonly appState: AppState
     ) {
         this.loginForm = this.initLoginForm();
@@ -42,7 +40,7 @@ export class AuthComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.authenticationService.logout();
+        this.authService.logout();
         this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/";
     }
 
@@ -70,7 +68,7 @@ export class AuthComponent implements OnInit {
     }
 
     public async submitLoginForm(): Promise<void> {
-        const statusLogin = await this.authenticationService.login(new AccountModel({
+        const statusLogin = await this.authService.login(new AccountModel({
             id: Guid.create().toString(),
             login: this.login?.value,
             password: this.loginPassword?.value
@@ -81,7 +79,7 @@ export class AuthComponent implements OnInit {
     
     public async submitRegForm(): Promise<void> {
         if (this.regForm.valid) {
-            let newUser = new AccountModel(
+            let account = new AccountModel(
                 {
                     id: Guid.create().toString(),
                     login: this.regLogin?.value,
@@ -89,7 +87,7 @@ export class AuthComponent implements OnInit {
                 } as IAccountModel
             );
 
-            const response = await this.userService.createUser(newUser);
+            const response = await this.authService.register(account);
             console.warn(response);
             const status = response.status ?? 200;
             this.createAlertAndNavigate(status, "Регистрация прошла успещно", response.error);

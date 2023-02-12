@@ -22,6 +22,9 @@ export class HeaderComponent implements OnInit {
       this.isLogin = true;
     });
 
+    this.appState.authState.logout$.subscribe(() => {
+      this.isLogin = false;
+    })
   }
 
 }

@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
-import { AuthenticationService } from "src/app/services/authentication.service";
+import { AuthService } from "src/app/services/auth.service";
+import { AppState } from "../../models/app-state.module";
 
 @Component({
     selector: "personal-page",
@@ -11,14 +12,15 @@ import { AuthenticationService } from "src/app/services/authentication.service";
 export class PersonalPageComponent {
 
     constructor(
-        private readonly authenticationService: AuthenticationService,
+        private readonly authenticationService: AuthService,
         private readonly router: Router,
-
+        private readonly appState: AppState
         ) {
     }
 
     public logout(): void {
         this.authenticationService.logout();
         this.router.navigate(["/"]);
+        this.appState.authState.logout$.next();
     }
 }
