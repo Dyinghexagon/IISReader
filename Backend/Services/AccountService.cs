@@ -4,25 +4,27 @@ using Microsoft.Extensions.Options;
 using Backend.Models.Options;
 using Backend.Models.Client;
 using Backend.Helpers;
+using Backend.Repository;
 
 namespace Backend.Services
 {
     public class AccountService
     {
-        private readonly IMongoCollection<Account> _usersCollection;
+        private readonly IAccountRepository _accountRepository;
 
-        public AccountService(IOptions<DatabaseOptions> IISReaderDatabaseSettings)
+        public AccountService(IAccountRepository accountRepository)
         {
-            var mongoClient = new MongoClient(IISReaderDatabaseSettings.Value.ConnectionString);
-
-            var mongoDatabase = mongoClient.GetDatabase(IISReaderDatabaseSettings.Value.DatabaseName);
-
-            _usersCollection = mongoDatabase.GetCollection<Account>(IISReaderDatabaseSettings.Value.AccountsCollectionName);
+            _accountRepository = accountRepository;
         }
 
-        public async Task<List<Account>> GetAccountsAsync() => await _usersCollection.Find(_ => true).ToListAsync();
+        public async Task<IList<Account>> GetAccountsAsync() => await _accountRepository.GetAllAsync();
 
-        public async Task<Account?> GetAccountAsync(String login) => await _usersCollection.Find(x => x.Login == login).FirstOrDefaultAsync();
+        public async Task<Account?> GetAccountAsync(String login)
+        {
+            var acconts = await _accountRepository.GetAllAsync();
+            var account = acconts.FirstOrDefault(a => a.Login == login);
+            return account;
+        }
 
         public async Task<Account?> Login(String Email, String password)
         {
@@ -53,12 +55,12 @@ namespace Backend.Services
                 throw new Exception("Repit login!");
             }
             var account = new Account(accountModel.Id, accountModel.Login, accountModel.Password);
-            await _usersCollection.InsertOneAsync(account);
+            await _accountRepository.CreateAsync(account);
         }
 
-        public async Task UpdateAsync(Guid id, Account updatedBook) => await _usersCollection.ReplaceOneAsync(x => x.Id == id, updatedBook);
+        public async Task UpdateAsync(Guid id, Account account) => await _accountRepository.UpdateAsync(id, account);
 
-        public async Task RemoveAsync(Guid id) => await _usersCollection.DeleteOneAsync(x => x.Id == id);
+        public async Task RemoveAsync(Guid id) => await _accountRepository.DeleteAsync(id);
 
     }
 }

@@ -1,5 +1,6 @@
 using Backend.Mappers;
 using Backend.Models.Options;
+using Backend.Repository;
 using Backend.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
@@ -37,6 +38,8 @@ namespace Backend
                     ValidateAudience = false
                 };
             });
+
+            builder.Services.AddSingleton<IAccountRepository,  AccountRepository>();
 
             builder.Services.AddSingleton<AccountService>();
             builder.Services.AddSingleton<AccountMapper>();
