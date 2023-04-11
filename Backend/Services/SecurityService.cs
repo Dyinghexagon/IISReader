@@ -24,19 +24,19 @@ namespace Backend.Services
             {
                 var data = row.Values;
                 var secid = data["Secid"].ToString() ?? "";
-                securitys.Add(new Security(
-                        Guid.NewGuid(),
-                        secid,
-                        secidName[secid] ?? "",
-                        Convert.ToDouble(data["Last"]),
-                        Convert.ToDouble(data["Lasttoprevprice"])
-                    ));
+                securitys.Add(new Security() {
+                    Id = Guid.NewGuid(),
+                    SecId = secid,
+                    Name = secidName[secid] ?? "",
+                    CurrentPrice = Convert.ToDouble(data["Last"]),
+                    ChangePerDay = Convert.ToDouble(data["Lasttoprevprice"])
+                });
             }
 
             return securitys;
         }
 
-        private Dictionary<String, String?> GetPairsSecIdName(IDictionary<String, Fiss.Response.Table> respones)
+        private static Dictionary<String, String?> GetPairsSecIdName(IDictionary<String, Fiss.Response.Table> respones)
         {
             var secidName = new Dictionary<String, String?>();
 
@@ -67,13 +67,15 @@ namespace Backend.Services
                 var data = row.Values;
                 var date = data["Begin"].ToString() ?? "";
 
-                res.Add(new SecurityChartData(
-                    Convert.ToDouble(data["Open"]),
-                    Convert.ToDouble(data["Close"]),
-                    Convert.ToDouble(data["High"]),
-                    Convert.ToDouble(data["Low"]),
-                    date,
-                    Guid.NewGuid()));
+                res.Add(new SecurityChartData()
+                {
+                    Id = Guid.NewGuid(),
+                    Open = Convert.ToDouble(data["Open"]),
+                    Close = Convert.ToDouble(data["Close"]),
+                    Hight = Convert.ToDouble(data["High"]),
+                    Low = Convert.ToDouble(data["Low"]),
+                    Time = date
+                });
 
             }
 

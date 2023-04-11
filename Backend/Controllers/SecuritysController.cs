@@ -9,17 +9,15 @@ namespace Backend.Controllers
     [Route("api/securitys")]
     public class SecuritysController : ControllerBase
     {
-        private readonly ILogger<SecuritysController> _logger;
         private readonly SecurityService _securityService;
         private readonly SecurityMapper _mapper;
 
         public SecuritysController(
             SecurityService securityService,
-            SecurityMapper mapper,
-            ILogger<SecuritysController> logger)
+            SecurityMapper mapper
+        )
         {
             _securityService = securityService;
-            _logger = logger;
             _mapper = mapper;
         }
 

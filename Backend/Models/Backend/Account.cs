@@ -11,12 +11,13 @@ namespace Backend.Models.Backend
 
         public String PasswordSalt { get; set; }
 
+        public List<Notification> Notifications { get; set; } = new List<Notification>();
+
         public Account(Guid id, String login, String password)
         {
             Id = id;
             Login = login;
-            Byte[] passwordHash, passwordSalt;
-            CryptoUtils.CreatePasswordHash(password, out passwordHash, out passwordSalt);
+            CryptoUtils.CreatePasswordHash(password, out Byte[] passwordHash, out Byte[] passwordSalt);
             PasswordHash = Convert.ToBase64String(passwordHash);
             PasswordSalt = Convert.ToBase64String(passwordSalt);
         }

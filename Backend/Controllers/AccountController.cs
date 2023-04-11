@@ -11,17 +11,14 @@ namespace Backend.Controllers
     [Route("api/account")]
     public class AccountController : ControllerBase
     {
-        private readonly ILogger<AccountController> _logger;
         private readonly AccountService _accountService;
         private readonly AccountMapper _mapper;
 
         public AccountController(
-            ILogger<AccountController> logger, 
             AccountService userService, 
             AccountMapper mapper
         )
         {
-            _logger = logger;
             _accountService = userService;
             _mapper = mapper;
         }
@@ -31,7 +28,6 @@ namespace Backend.Controllers
         public async Task<AccountModel?> GetByLogin(String login)
         {
             var user = await _accountService.GetAccountAsync(login);
-
             return _mapper.Map(user);
         }
 
