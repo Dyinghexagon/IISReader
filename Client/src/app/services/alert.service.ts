@@ -21,13 +21,22 @@ export class AlertService {
         return this.alert.asObservable();
     }
 
-    public success(message: string, keepAfterNavigationChange = false): void {
+    public createAllert(status: number, successMessange: string, errorMessage: string): void {
+        if (status === 200) {
+            this.success(successMessange);
+        } else {
+            this.error(errorMessage);
+        }
+    }
+
+    private success(message: string, keepAfterNavigationChange = false): void {
         this.keepAfterNavigationChange = keepAfterNavigationChange;
         this.alert.next({type: "success", message: message});
     }
 
-    public error(message: string, keepAfterNavigationChange = false): void {
+    private error(message: string, keepAfterNavigationChange = false): void {
         this.keepAfterNavigationChange = keepAfterNavigationChange;
         this.alert.next({type: "error", message: message});
     }
+
 }

@@ -8,8 +8,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using Microsoft.Extensions.Options;
 using Backend.Models.Options;
-using Backend.Mappers;
-using System.Net;
 
 namespace Backend.Controllers
 {
@@ -35,7 +33,7 @@ namespace Backend.Controllers
             {
                 await _accountService.CreateAsync(account);
 
-                return Ok(account);
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -52,7 +50,7 @@ namespace Backend.Controllers
 
             if (account == null)
             {
-                return NotFound("Account not found");
+                return NotFound();
             }
 
             var tokenHandler = new JwtSecurityTokenHandler();

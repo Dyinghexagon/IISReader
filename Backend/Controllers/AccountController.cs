@@ -40,13 +40,13 @@ namespace Backend.Controllers
         public async Task<List<AccountModel?>> GetUsers()
         {
             var users = await _accountService.GetAccountsAsync();
-            var res = new List<AccountModel?>();
+            var userModels = new List<AccountModel?>();
             foreach(var user in users)
             {
-                res.Add(_mapper.Map(user));
+                userModels.Add(_mapper.Map(user));
             }
 
-            return res;
+            return userModels;
         }
 
     }

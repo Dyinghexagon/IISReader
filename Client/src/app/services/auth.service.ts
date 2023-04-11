@@ -14,16 +14,19 @@ export class AuthService extends BaseService {
         super(http);
     }
 
-    public register(account: AccountModel): Promise<any> {
-        return this.post(`${this.config.authApi}/register`, account, this.jwt());
+    public register(account: AccountModel): Promise<number> {
+        return this.post(`${this.config.authApi}/register`, account, this.jwt()).then((response: Response) => {
+            return response.status
+        });
     }
 
     public login(account: AccountModel): Promise<number> {
-        return this.post(`${this.config.authApi}/authenticate`, account).then((token: Response) => {
-            if (token) {
+        return this.post(`${this.config.authApi}/authenticate`, account).then((response: Response) => {
+            if (response) {
                 localStorage.setItem("currentAccount", JSON.stringify({id: account.id, login: account.login}));
             }
-            return !token ? 404 : token.status;
+
+            return response.status;
         });
     }
 

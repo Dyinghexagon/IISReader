@@ -74,7 +74,7 @@ export class AuthComponent implements OnInit {
             password: this.loginPassword?.value
         }));
 
-        this.createAlertAndNavigate(statusLogin, "Авторизация прошла успешно!", "Ошибка авторизации!")
+        this.createAlertInternal(statusLogin, "Авторизация прошла успешно!", "Ошибка авторизации!");
     }
     
     public async submitRegForm(): Promise<void> {
@@ -87,11 +87,15 @@ export class AuthComponent implements OnInit {
                 } as IAccountModel
             );
 
-            const response = await this.authService.register(account);
-            console.warn(response);
-            const status = response.status ?? 200;
-            this.createAlertAndNavigate(status, "Регистрация прошла успещно", response.error);
+            const statusReg = await this.authService.register(account);
+            this.createAlertInternal(statusReg, "Регистрация прошла успешно!", "Ошибка регистрации!");
         }
+    }
+
+    private createAlertInternal(status: number, successMessange: string, errorMessage: string): void {
+        this.alertService.createAllert(status, successMessange, errorMessage);
+        this.router.navigate(["/personal-page"]);
+        this.appState.authState.login$.next();
     }
 
     public hidePassword(id: string): void {
@@ -100,16 +104,6 @@ export class AuthComponent implements OnInit {
             password.type = "text";
         } else {
             password.type = "password";
-        }
-    }
-
-    private createAlertAndNavigate(statusResponse: number, messangeSuccess: string, messangeError: string): void {
-        if(statusResponse === 200) {
-            this.alertService.success(messangeSuccess);
-            this.router.navigate(["/personal-page"]);
-            this.appState.authState.login$.next();
-        } else {
-            this.alertService.error(messangeError);
         }
     }
     
