@@ -31,7 +31,7 @@ namespace Backend.Controllers
         {
             try
             {
-                await _accountService.CreateAsync(account);
+                await _accountService.CreateAndPrepareAccountAsync(account);
 
                 return Ok();
             }

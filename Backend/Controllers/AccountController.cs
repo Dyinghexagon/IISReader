@@ -35,7 +35,7 @@ namespace Backend.Controllers
         [HttpGet("GetAccounts")]
         public async Task<List<AccountModel?>> GetUsers()
         {
-            var users = await _accountService.GetAccountsAsync();
+            var users = await _accountService.GetAllAsync();
             var userModels = new List<AccountModel?>();
             foreach(var user in users)
             {

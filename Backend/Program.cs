@@ -1,10 +1,11 @@
+using Backend.Jobs;
 using Backend.Mappers;
 using Backend.Models.Options;
 using Backend.Repository;
 using Backend.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Quartz;
 using System.Text;
 
 namespace Backend
@@ -14,7 +15,6 @@ namespace Backend
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
             // Add services to the container.
             builder.Services.Configure<DatabaseOptions>(
                 builder.Configuration.GetSection("DatabaseOptions"));
@@ -40,8 +40,8 @@ namespace Backend
             });
 
             builder.Services.AddSingleton<IAccountRepository,  AccountRepository>();
+            builder.Services.AddSingleton<IAccountService,  AccountService>();
 
-            builder.Services.AddSingleton<AccountService>();
             builder.Services.AddSingleton<AccountMapper>();
 
             builder.Services.AddSingleton<SecurityService>();
@@ -53,7 +53,27 @@ namespace Backend
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddCors();
+            builder.Services.AddQuartz(q =>
+            {
+                q.UseMicrosoftDependencyInjectionJobFactory();
+                // Just use the name of your job that you created in the Jobs folder.
+                var jobKey = new JobKey("NotificationJob");
+                q.AddJob<NotificationJob>(opts => opts.WithIdentity(jobKey));
 
+                q.AddTrigger(opts => opts
+                    .ForJob(jobKey)
+                    .WithIdentity("NotificationJob-trigger")
+                    //This Cron interval can be described as "run every minute" (when second is zero)
+                    .WithCronSchedule("0 * * ? * *")
+                );
+            });
+
+            // ASP.NET Core hosting
+            builder.Services.AddQuartzServer(options =>
+            {
+                // when shutting down we want jobs to complete gracefully
+                options.WaitForJobsToComplete = true;
+            });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
