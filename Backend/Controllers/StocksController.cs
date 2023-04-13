@@ -9,12 +9,12 @@ namespace Backend.Controllers
     [Route("api/stocks")]
     public class StocksController : ControllerBase
     {
-        private readonly StocksService _securityService;
-        private readonly SecurityMapper _mapper;
+        private readonly IStocksService _securityService;
+        private readonly StockMapper _mapper;
 
         public StocksController(
-            StocksService securityService,
-            SecurityMapper mapper
+            IStocksService securityService,
+            StockMapper mapper
         )
         {
             _securityService = securityService;

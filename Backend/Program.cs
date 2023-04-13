@@ -2,6 +2,7 @@ using Backend.Jobs;
 using Backend.Mappers;
 using Backend.Models.Options;
 using Backend.Repository.AccountRepository;
+using Backend.Repository.StockRepository;
 using Backend.Services.AccountService;
 using Backend.Services.StockService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -41,12 +42,14 @@ namespace Backend
             });
 
             builder.Services.AddSingleton<IAccountsRepository,  AccountsRepository>();
+            builder.Services.AddSingleton<IStocksRepository,  StocksRepository>();
+
             builder.Services.AddSingleton<IAccountsService,  AccountsService>();
+            builder.Services.AddSingleton<IStocksService, StocksService>();
 
             builder.Services.AddSingleton<AccountMapper>();
 
-            builder.Services.AddSingleton<StocksService>();
-            builder.Services.AddSingleton<SecurityMapper>();
+            builder.Services.AddSingleton<StockMapper>();
             builder.Services.AddControllers()
                             .AddJsonOptions(
                             options => options.JsonSerializerOptions.PropertyNamingPolicy = null);

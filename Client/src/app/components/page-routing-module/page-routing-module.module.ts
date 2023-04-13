@@ -10,7 +10,7 @@ import { SecurityPageComponent } from '../pages/security-page/security-page.comp
 
 const routes: Routes = [
   { path: '', component: MainPageComponent },
-  { path: 'securitys', component: StocksComponent },
+  { path: 'stocks', component: StocksComponent },
   { path: 'security-page', component: SecurityPageComponent },
   { path: 'splash', component: SplashComponent },
   { path: 'personal-page', component: PersonalPageComponent },

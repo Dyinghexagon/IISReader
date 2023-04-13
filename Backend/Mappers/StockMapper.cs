@@ -3,7 +3,7 @@ using Backend.Models.Client;
 
 namespace Backend.Mappers
 {
-    public class SecurityMapper : IModelMapper
+    public class StockMapper : IModelMapper
     {
 
         public StockModel? MapSecurity(Stock? security)

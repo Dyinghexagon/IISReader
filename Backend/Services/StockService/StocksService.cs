@@ -94,7 +94,17 @@ namespace Backend.Services.StockService
 
         public async Task FillingStocksAsync()
         {
+            var stocks = await GetAllAsync();
+            foreach(var stock in stocks)
+            {
+                await CreateAsync(stock);
+            }
+        }
 
+        public async Task<Stock?> GetStockBySecId(String secid)
+        {
+            var stocks = await GetAllAsync();
+            return stocks.FirstOrDefault(x => x.SecId == secid);
         }
 
         public async Task<Stock> GetAsync(Guid id) => await _stockRepository.GetAsync(id);

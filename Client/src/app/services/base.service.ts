@@ -11,7 +11,7 @@ export class BaseService {
     }
 
     protected post(url: string, data: any, headers: HttpHeaders = this.headers): Promise<any> {
-        let res = this.http.post(url, data, {headers: headers ?? this.headers});
+        let res = this.http.post(url, data, { headers: headers ?? this.headers });
         return res.toPromise().then(data => {
             return data;
         }).catch(err => err);
