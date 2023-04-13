@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { AccountService } from "src/app/services/account.service";
+import { AccountsService } from "src/app/services/accounts.service";
 import { AccountModel } from "./account.model";
 import { AuthState } from "./auth-state.module";
 
@@ -8,7 +8,7 @@ export class AppState {
     public readonly authState: AuthState;
 
     constructor(
-        private readonly accountService: AccountService
+        private readonly accountService: AccountsService
     ) {
         this.authState = new AuthState();
     }

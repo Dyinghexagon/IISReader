@@ -2,10 +2,10 @@
 {
     public class DatabaseOptions
     {
-        public string AccountsCollectionName { get; set; } = null!;
-        public string SecuritysCollectionName { get; set; } = null!;
-        public string ConnectionString { get; set; } = null!;
-        public string DatabaseName { get; set; } = null!;
+        public String AccountsCollectionName { get; set; } = String.Empty;
+        public String StocksCollectionName { get; set; } = String.Empty;
+        public String ConnectionString { get; set; } = String.Empty;
+        public String DatabaseName { get; set; } = String.Empty;
     }
 
 }

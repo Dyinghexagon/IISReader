@@ -5,7 +5,7 @@ import { AccountModel } from "../components/models/account.model";
 import { BaseService } from "./base.service";
 
 @Injectable()
-export class AccountService extends BaseService {
+export class AccountsService extends BaseService {
     public user?: AccountModel;
 
     constructor(
@@ -16,11 +16,11 @@ export class AccountService extends BaseService {
     }
 
     public getAccount(login: string): Promise<AccountModel> {
-        return this.get(`${this.config.accountApi}/GetAccount/${login}`);
+        return this.get(`${this.config.accountsApi}/GetAccount/${login}`);
     }
 
     public getAcccounts(): Promise<AccountModel[]> {
-        return this.get(`${this.config.accountApi}/GetAccounts`);
+        return this.get(`${this.config.accountsApi}/GetAccounts`);
     }
 
 }

@@ -1,14 +1,14 @@
-﻿using Backend.Services;
+﻿using Backend.Services.AccountService;
 using Quartz;
 
 namespace Backend.Jobs
 {
     public class NotificationJob : IJob
     {
-        private readonly IAccountService _accountService;
+        private readonly IAccountsService _accountService;
         private readonly ILogger<NotificationJob> _logger;
 
-        public NotificationJob(IAccountService accountService, ILogger<NotificationJob> logger)
+        public NotificationJob(IAccountsService accountService, ILogger<NotificationJob> logger)
         {
             _accountService = accountService;
             _logger = logger;

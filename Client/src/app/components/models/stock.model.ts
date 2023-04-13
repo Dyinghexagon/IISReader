@@ -1,11 +1,11 @@
-export class SecurityModel {
+export class StockModel {
     private _id: string;
     private _secid: string;
     private _name: string;
     private _currentPrice: number;
     private _changePerDay: number;
 
-    constructor(data: ISecurityModel) {
+    constructor(data: IStockModel) {
         this._id = data.id;
         this._secid = data.secid;
         this._name = data.name;
@@ -34,7 +34,7 @@ export class SecurityModel {
     }
 }
 
-export interface ISecurityModel {
+export interface IStockModel {
     id: string;
     secid: string;
     name: string;

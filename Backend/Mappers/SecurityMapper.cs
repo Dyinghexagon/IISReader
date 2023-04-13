@@ -6,11 +6,11 @@ namespace Backend.Mappers
     public class SecurityMapper : IModelMapper
     {
 
-        public SecurityModel? MapSecurity(Security? security)
+        public StockModel? MapSecurity(Stock? security)
         {
             return security == null
                 ? null
-                : new SecurityModel() { 
+                : new StockModel() { 
                     Id = security.Id,
                     SecId = security.SecId,
                     Name = security.Name,
@@ -19,11 +19,11 @@ namespace Backend.Mappers
                 };
         }
 
-        public Security? MapSecurity(SecurityModel? security)
+        public Stock? MapSecurity(StockModel? security)
         {
             return security == null
                 ? null
-                : new Security() {
+                : new Stock() {
                     Id = security.Id,
                     SecId = security.SecId,
                     Name = security.Name,
@@ -32,11 +32,11 @@ namespace Backend.Mappers
                 };
         }
 
-        public SecurityChartData? MapSecurityChartData(SecurityChartDataModel securityChartDataModel)
+        public StockChartData? MapSecurityChartData(StockChartDataModel securityChartDataModel)
         {
             return securityChartDataModel == null
                 ? null
-                : new SecurityChartData() {
+                : new StockChartData() {
                     Id = securityChartDataModel.Id,
                     Open = securityChartDataModel.Open,
                     Close = securityChartDataModel.Close,
@@ -46,11 +46,11 @@ namespace Backend.Mappers
                 };
         }
 
-        public SecurityChartDataModel? MapSecurityChartData(SecurityChartData securityChartDataModel)
+        public StockChartDataModel? MapSecurityChartData(StockChartData securityChartDataModel)
         {
             return securityChartDataModel == null
                 ? null
-                : new SecurityChartDataModel() {
+                : new StockChartDataModel() {
                     Id = securityChartDataModel.Id,
                     Open = securityChartDataModel.Open,
                     Close = securityChartDataModel.Close,

@@ -3,13 +3,13 @@ using Backend.Models.Options;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
-namespace Backend.Repository
+namespace Backend.Repository.AccountRepository
 {
-    public class AccountRepository : IAccountRepository
+    public class AccountsRepository : IAccountsRepository
     {
         private readonly IMongoCollection<Account> _usersCollection;
 
-        public AccountRepository(IOptions<DatabaseOptions> IISReaderDatabaseSettings) 
+        public AccountsRepository(IOptions<DatabaseOptions> IISReaderDatabaseSettings)
         {
             var mongoClient = new MongoClient(IISReaderDatabaseSettings.Value.ConnectionString);
 

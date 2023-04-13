@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { CandlestickData, ColorType, createChart, IChartApi, ISeriesApi } from "lightweight-charts"
-import { SecurityService } from "src/app/services/securitys.service";
+import { StockService } from "src/app/services/stock.service";
 
 @Component({
     selector: "security-chat",
@@ -11,7 +11,7 @@ import { SecurityService } from "src/app/services/securitys.service";
 export class SecurityChatComponent implements OnInit {
     @Input() secid?: string;
 
-    constructor(public securityService: SecurityService) {
+    constructor(public securityService: StockService) {
 
     }
 

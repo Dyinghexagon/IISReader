@@ -1,19 +1,19 @@
-﻿using Backend.Services;
-using Backend.Models.Client;
+﻿using Backend.Models.Client;
 using Microsoft.AspNetCore.Mvc;
 using Backend.Mappers;
+using Backend.Services.StockService;
 
 namespace Backend.Controllers
 {
     [ApiController]
-    [Route("api/securitys")]
-    public class SecuritysController : ControllerBase
+    [Route("api/stocks")]
+    public class StocksController : ControllerBase
     {
-        private readonly SecurityService _securityService;
+        private readonly StocksService _securityService;
         private readonly SecurityMapper _mapper;
 
-        public SecuritysController(
-            SecurityService securityService,
+        public StocksController(
+            StocksService securityService,
             SecurityMapper mapper
         )
         {
@@ -22,10 +22,10 @@ namespace Backend.Controllers
         }
 
         [HttpGet("GetSecuritysList")]
-        public async Task<List<SecurityModel?>> GetSecuritysList()
+        public async Task<List<StockModel?>> GetSecuritysList()
         {
             var securitys = await _securityService.GetAllAsync();
-            var result = new List<SecurityModel?>();
+            var result = new List<StockModel?>();
 
             foreach (var security in securitys)
             {
@@ -36,17 +36,23 @@ namespace Backend.Controllers
         }
 
         [HttpGet("GetSecurityChartData/{secid}")]
-        public async Task<List<SecurityChartDataModel?>> GetSecurityChartData(String secid)
+        public async Task<List<StockChartDataModel?>> GetSecurityChartData(String secid)
         {
             var securityChartDataModel = await _securityService.GetSecurityChartData(secid);
 
-            var result = new List<SecurityChartDataModel?>();
+            var result = new List<StockChartDataModel?>();
             foreach(var security in securityChartDataModel)
             {
                 result.Add(_mapper.MapSecurityChartData(security));
             }
 
             return result;
+        }
+
+        [HttpGet("FillingStocks")]
+        public async Task FillingStocks()
+        {
+            await _securityService.FillingStocksAsync();
         }
     }
 }

@@ -9,14 +9,14 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let security of securitys; let index = index"
-                [class.table-success]="security.ChangePerDay > 0"
-                [class.table-danger]="security.ChangePerDay < 0">
+        <tr *ngFor="let stock of stocks; let index = index"
+                [class.table-success]="stock.ChangePerDay > 0"
+                [class.table-danger]="stock.ChangePerDay < 0">
             <th scope="row">{{ index + 1 }}</th>
-            <td><a href="#" routerLink="/security-page" [queryParams]="{secid: security.Secid}">{{ security.Name }}</a></td>
-            <td>{{ security.Secid }}</td>
-            <td>{{ security.CurrentPrice }} ₽</td>
-            <td>{{ security.ChangePerDay }} %</td>
+            <td><a href="#" routerLink="/security-page" [queryParams]="{secid: stock.Secid}">{{ stock.Name }}</a></td>
+            <td>{{ stock.Secid }}</td>
+            <td>{{ stock.CurrentPrice }} ₽</td>
+            <td>{{ stock.ChangePerDay }} %</td>
         </tr>
     </tbody>
 </table>

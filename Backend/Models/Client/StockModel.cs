@@ -1,6 +1,6 @@
-﻿namespace Backend.Models.Backend
+﻿namespace Backend.Models.Client
 {
-    public class Security : Entity
+    public class StockModel : Entity
     {
         public String SecId { get; set; } = String.Empty;
 

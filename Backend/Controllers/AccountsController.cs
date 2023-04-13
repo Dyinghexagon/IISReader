@@ -1,21 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Backend.Models.Client;
-using Backend.Services;
 using Backend.Mappers;
+using Backend.Services.AccountService;
 
 namespace Backend.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/account")]
-    public class AccountController : ControllerBase
+    [Route("api/accounts")]
+    public class AccountsController : ControllerBase
     {
-        private readonly AccountService _accountService;
+        private readonly IAccountsService _accountService;
         private readonly AccountMapper _mapper;
 
-        public AccountController(
-            AccountService userService, 
+        public AccountsController(
+            IAccountsService userService, 
             AccountMapper mapper
         )
         {
@@ -27,8 +27,9 @@ namespace Backend.Controllers
         [HttpGet("GetAccount/{login}")]
         public async Task<AccountModel?> GetByLogin(String login)
         {
-            var user = await _accountService.GetAccountAsync(login);
-            return _mapper.Map(user);
+            var account = await _accountService.GetAccountByLoginAsync(login);
+
+            return _mapper.Map(account);
         }
 
         [AllowAnonymous]

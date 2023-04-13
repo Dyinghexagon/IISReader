@@ -1,5 +1,4 @@
 ﻿using Backend.Helpers;
-using Microsoft.AspNetCore.Identity;
 
 namespace Backend.Models.Backend
 {

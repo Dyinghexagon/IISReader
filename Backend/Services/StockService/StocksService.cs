@@ -1,20 +1,29 @@
 ﻿using Fiss.Extensions;
 using Fiss.Request;
 using Backend.Models.Backend;
+using Backend.Repository.StockRepository;
+using Fiss.Response;
 
-namespace Backend.Services
+namespace Backend.Services.StockService
 {
-    public class SecurityService
+    public class StocksService : IStocksService
     {
-        public async Task<List<Security>> GetAllAsync()
+        private readonly IStocksRepository _stockRepository;
+
+        public StocksService(IStocksRepository accountRepository)
         {
-            var securitys = new List<Security>();
+            _stockRepository = accountRepository;
+        }
+
+        public async Task<IList<Stock>> GetAllAsync()
+        {
+            var securitys = new List<Stock>();
 
 
             var request = new IssRequest();
             var path = "engines/stock/markets/shares/boards/TQBR/securities";
             request.FullPath(path);
-            request.AddQuery(new KeyValuePair<String, String>("marketdata.columns", "SECID, LAST, LASTTOPREVPRICE"));
+            request.AddQuery(new KeyValuePair<string, string>("marketdata.columns", "SECID, LAST, LASTTOPREVPRICE"));
             await request.Fetch();
             var respones = request.ToResponse();
 
@@ -24,7 +33,8 @@ namespace Backend.Services
             {
                 var data = row.Values;
                 var secid = data["Secid"].ToString() ?? "";
-                securitys.Add(new Security() {
+                securitys.Add(new Stock()
+                {
                     Id = Guid.NewGuid(),
                     SecId = secid,
                     Name = secidName[secid] ?? "",
@@ -36,11 +46,11 @@ namespace Backend.Services
             return securitys;
         }
 
-        private static Dictionary<String, String?> GetPairsSecIdName(IDictionary<String, Fiss.Response.Table> respones)
+        private static Dictionary<String, String?> GetPairsSecIdName(IDictionary<String, Table> respones)
         {
             var secidName = new Dictionary<String, String?>();
 
-            foreach(var row in respones["Securities"].Rows.ToList())
+            foreach (var row in respones["Securities"].Rows.ToList())
             {
                 var data = row.Values;
 
@@ -50,9 +60,9 @@ namespace Backend.Services
             return secidName;
         }
 
-        public async Task<List<SecurityChartData>> GetSecurityChartData(String secid)
+        public async Task<List<StockChartData>> GetSecurityChartData(String secid)
         {
-            var res = new List<SecurityChartData>();
+            var charData = new List<StockChartData>();
 
             var request = new IssRequest();
             var path = $"engines/stock/markets/shares/securities/{secid}/candles";
@@ -67,7 +77,7 @@ namespace Backend.Services
                 var data = row.Values;
                 var date = data["Begin"].ToString() ?? "";
 
-                res.Add(new SecurityChartData()
+                charData.Add(new StockChartData()
                 {
                     Id = Guid.NewGuid(),
                     Open = Convert.ToDouble(data["Open"]),
@@ -79,9 +89,21 @@ namespace Backend.Services
 
             }
 
-            return res;
+            return charData;
         }
 
+        public async Task FillingStocksAsync()
+        {
+
+        }
+
+        public async Task<Stock> GetAsync(Guid id) => await _stockRepository.GetAsync(id);
+
+        public async Task CreateAsync(Stock item) => await _stockRepository.CreateAsync(item);
+
+        public async Task UpdateAsync(Guid id, Stock stock) => await _stockRepository.UpdateAsync(id, stock);
+
+        public async Task DeleteAsync(Guid id) => await _stockRepository.DeleteAsync(id);
     }
 
 }

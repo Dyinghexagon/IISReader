@@ -14,12 +14,12 @@ import { PageRoutingModuleModule } from './components/page-routing-module/page-r
 import { MainPageComponent } from './components/pages/main-page/main-page.component';
 import { PersonalPageComponent } from './components/pages/pesonal-page/personal-page.component';
 import { SecurityPageComponent } from './components/pages/security-page/security-page.component';
-import { SecuritysComponent } from './components/pages/securitys/securitys.component';
+import { StocksComponent } from './components/pages/stocks/stocks.component';
 import { SplashComponent } from './components/pages/splash/splash.component';
 import { SecurityChatComponent } from './components/shared/security-chart/security-chart.component';
 import { BaseService } from './services/base.service';
-import { SecurityService } from './services/securitys.service';
-import { AccountService } from './services/account.service';
+import { StockService } from './services/stock.service';
+import { AccountsService } from './services/accounts.service';
 import { AuthService } from './services/auth.service';
 import { AlertComponent } from './components/shared/alert/alert.component';
 import { AuthGuard } from './components/guards/auth.guard';
@@ -33,7 +33,7 @@ import { AppState } from './components/models/app-state.module';
     MainPageComponent,
     FooterComponent,
     HeaderComponent,
-    SecuritysComponent,
+    StocksComponent,
     SplashComponent,
     PersonalPageComponent,
     AuthComponent,
@@ -54,9 +54,9 @@ import { AppState } from './components/models/app-state.module';
     AppState, 
     AlertService,
     BaseService, 
-    AccountService,
+    AccountsService,
     AuthService, 
-    SecurityService 
+    StockService 
   ],
   bootstrap: [ AppComponent ]
 })

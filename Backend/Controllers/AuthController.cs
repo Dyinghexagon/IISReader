@@ -1,5 +1,4 @@
 ﻿using Backend.Models.Client;
-using Backend.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using System.IdentityModel.Tokens.Jwt;
@@ -8,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using Microsoft.Extensions.Options;
 using Backend.Models.Options;
+using Backend.Services.AccountService;
 
 namespace Backend.Controllers
 {
@@ -16,10 +16,10 @@ namespace Backend.Controllers
     [Route("api/auth")]
     public class AuthController : ControllerBase
     {
-        private readonly AccountService _accountService;
+        private readonly IAccountsService _accountService;
         private readonly String _secret;
 
-        public AuthController(AccountService accountService, IOptions<RegistrationOptions> options)
+        public AuthController(IAccountsService accountService, IOptions<RegistrationOptions> options)
         {
             _accountService = accountService;
             _secret = options.Value.Secret;

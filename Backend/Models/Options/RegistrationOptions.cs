@@ -2,6 +2,6 @@
 {
     public class RegistrationOptions
     {
-        public string Secret { get; set; } = null!;
+        public String Secret { get; set; } = String.Empty;
     }
 }

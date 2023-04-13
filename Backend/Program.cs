@@ -1,8 +1,9 @@
 using Backend.Jobs;
 using Backend.Mappers;
 using Backend.Models.Options;
-using Backend.Repository;
-using Backend.Services;
+using Backend.Repository.AccountRepository;
+using Backend.Services.AccountService;
+using Backend.Services.StockService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Quartz;
@@ -39,12 +40,12 @@ namespace Backend
                 };
             });
 
-            builder.Services.AddSingleton<IAccountRepository,  AccountRepository>();
-            builder.Services.AddSingleton<IAccountService,  AccountService>();
+            builder.Services.AddSingleton<IAccountsRepository,  AccountsRepository>();
+            builder.Services.AddSingleton<IAccountsService,  AccountsService>();
 
             builder.Services.AddSingleton<AccountMapper>();
 
-            builder.Services.AddSingleton<SecurityService>();
+            builder.Services.AddSingleton<StocksService>();
             builder.Services.AddSingleton<SecurityMapper>();
             builder.Services.AddControllers()
                             .AddJsonOptions(

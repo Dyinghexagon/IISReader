@@ -1,15 +1,15 @@
 ﻿using Backend.Models.Backend;
 using Backend.Models.Client;
 using Backend.Helpers;
-using Backend.Repository;
+using Backend.Repository.AccountRepository;
 
-namespace Backend.Services
+namespace Backend.Services.AccountService
 {
-    public class AccountService : IAccountService
+    public class AccountsService : IAccountsService
     {
-        private readonly IAccountRepository _accountRepository;
+        private readonly IAccountsRepository _accountRepository;
 
-        public AccountService(IAccountRepository accountRepository)
+        public AccountsService(IAccountsRepository accountRepository)
         {
             _accountRepository = accountRepository;
         }
@@ -17,28 +17,28 @@ namespace Backend.Services
         public async Task<IList<Account>> GetAllAsync() => await _accountRepository.GetAllAsync();
         public async Task<Account> GetAsync(Guid id) => await _accountRepository.GetAsync(id);
 
-        public async Task<Account?> GetAccountAsync(String login)
+        public async Task<Account?> GetAccountByLoginAsync(string login)
         {
             var acconts = await _accountRepository.GetAllAsync();
             var account = acconts.FirstOrDefault(a => a.Login == login);
             return account;
         }
 
-        public async Task<Account?> Login(String login, String password)
+        public async Task<Account?> Login(string login, string password)
         {
-            if (String.IsNullOrEmpty(login) || String.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
             {
                 return null;
             }
 
-            var account = await GetAccountAsync(login);
+            var account = await GetAccountByLoginAsync(login);
 
             if (account == null)
             {
                 return null;
             }
 
-            if (!CryptoUtils.VerifyPasswordHash(password, Convert.FromBase64String(account.PasswordHash), 
+            if (!CryptoUtils.VerifyPasswordHash(password, Convert.FromBase64String(account.PasswordHash),
                 Convert.FromBase64String(account.PasswordSalt)))
             {
                 return null;
@@ -47,9 +47,11 @@ namespace Backend.Services
             return account;
         }
 
-        public async Task CreateAndPrepareAccountAsync(AccountModel accountModel) {
+        public async Task CreateAndPrepareAccountAsync(AccountModel accountModel)
+        {
             var accounts = await GetAllAsync();
-            if (accounts.Select(x => x.Login == accountModel.Login).SingleOrDefault()){
+            if (accounts.Select(x => x.Login == accountModel.Login).SingleOrDefault())
+            {
                 throw new Exception("Repit login!");
             }
             var account = new Account(accountModel.Id, accountModel.Login, accountModel.Password);
@@ -60,9 +62,6 @@ namespace Backend.Services
 
         public async Task DeleteAsync(Guid id) => await _accountRepository.DeleteAsync(id);
 
-        public async Task CreateAsync(Account account)
-        {
-            await _accountRepository.CreateAsync(account);
-        }
+        public async Task CreateAsync(Account account) => await _accountRepository.CreateAsync(account);
     }
 }
