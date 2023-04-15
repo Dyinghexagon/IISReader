@@ -26,7 +26,4 @@ export class PersonalPageComponent {
         this.appState.authState.logout$.next();
     }
 
-    public fillingStock(): void {
-        this.stockService.fillingStocks();
-    }
 }

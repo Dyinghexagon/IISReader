@@ -23,7 +23,4 @@ export class StockService extends BaseService {
         return this.get(`${this.config.stocksApi}/GetSecurityChartData/${secid}`);
     }
 
-    public async fillingStocks(): Promise<void> {
-        return this.get(`${this.config.stocksApi}/FillingStocks`);
-    }
 }
