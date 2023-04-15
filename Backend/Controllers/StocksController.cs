@@ -29,7 +29,7 @@ namespace Backend.Controllers
 
             foreach (var security in securitys)
             {
-                result.Add(_mapper.MapSecurity(security));
+                result.Add(_mapper.Map(security));
             }
 
             return result;
@@ -43,7 +43,7 @@ namespace Backend.Controllers
             var result = new List<StockChartDataModel?>();
             foreach(var security in securityChartDataModel)
             {
-                result.Add(_mapper.MapSecurityChartData(security));
+                result.Add(_mapper.MapChat(security));
             }
 
             return result;

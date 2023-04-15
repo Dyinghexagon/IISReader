@@ -5,8 +5,7 @@ namespace Backend.Mappers
 {
     public class StockMapper : IModelMapper
     {
-
-        public StockModel? MapSecurity(Stock? security)
+        public StockModel? Map(Stock? security)
         {
             return security == null
                 ? null
@@ -19,7 +18,7 @@ namespace Backend.Mappers
                 };
         }
 
-        public Stock? MapSecurity(StockModel? security)
+        public Stock? Map(StockModel? security)
         {
             return security == null
                 ? null
@@ -32,31 +31,31 @@ namespace Backend.Mappers
                 };
         }
 
-        public StockChartData? MapSecurityChartData(StockChartDataModel securityChartDataModel)
+        public StockChartData? MapChat(StockChartDataModel stockChartDataModel)
         {
-            return securityChartDataModel == null
+            return stockChartDataModel == null
                 ? null
                 : new StockChartData() {
-                    Id = securityChartDataModel.Id,
-                    Open = securityChartDataModel.Open,
-                    Close = securityChartDataModel.Close,
-                    Hight = securityChartDataModel.Hight,
-                    Low = securityChartDataModel.Low,
-                    Time = securityChartDataModel.Time
+                    Id = stockChartDataModel.Id,
+                    Open = stockChartDataModel.Open,
+                    Close = stockChartDataModel.Close,
+                    Hight = stockChartDataModel.Hight,
+                    Low = stockChartDataModel.Low,
+                    Time = stockChartDataModel.Time
                 };
         }
 
-        public StockChartDataModel? MapSecurityChartData(StockChartData securityChartDataModel)
+        public StockChartDataModel? MapChat(StockChartData stockChartDataModel)
         {
-            return securityChartDataModel == null
+            return stockChartDataModel == null
                 ? null
                 : new StockChartDataModel() {
-                    Id = securityChartDataModel.Id,
-                    Open = securityChartDataModel.Open,
-                    Close = securityChartDataModel.Close,
-                    Hight = securityChartDataModel.Hight,
-                    Low = securityChartDataModel.Low,
-                    Time = securityChartDataModel.Time
+                    Id = stockChartDataModel.Id,
+                    Open = stockChartDataModel.Open,
+                    Close = stockChartDataModel.Close,
+                    Hight = stockChartDataModel.Hight,
+                    Low = stockChartDataModel.Low,
+                    Time = stockChartDataModel.Time
                 };
         }
     }

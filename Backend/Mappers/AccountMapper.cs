@@ -5,7 +5,7 @@ namespace Backend.Mappers
 {
     public class AccountMapper : IModelMapper
     {
-        public AccountMapper() { }
+        private readonly StockListMapper _stockListMapper = new StockListMapper();
 
         public AccountModel? Map(Account? account)
         {
@@ -15,7 +15,8 @@ namespace Backend.Mappers
                 {
                     Id = account.Id,
                     Login = account.Login,
-                    Password = ""
+                    Password = "",
+                    StockList = _stockListMapper.Map(account.StockList)
                 };
         }
 
@@ -23,7 +24,7 @@ namespace Backend.Mappers
         {
             return account == null
                 ? null
-                : new Account(account.Id, account.Login ?? "", account.Password ?? "");
+                : new Account(account.Id, account.Login ?? "", account.Password ?? "", _stockListMapper.Map(account.StockList));
         }
     }
 }

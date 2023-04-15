@@ -6,6 +6,7 @@ import { AlertService } from "src/app/services/alert.service";
 import { AuthService } from "src/app/services/auth.service";
 import { AppState } from "../../models/app-state.module";
 import { IAccountModel, AccountModel } from "../../models/account.model";
+import { StockListModel } from "../../models/stock-list.model";
 
 @Component({
     selector: "auth",
@@ -71,7 +72,8 @@ export class AuthComponent implements OnInit {
         const statusLogin = await this.authService.login(new AccountModel({
             id: Guid.create().toString(),
             login: this.login?.value,
-            password: this.loginPassword?.value
+            password: this.loginPassword?.value,
+            stockList: null
         }));
 
         this.createAlertInternal(statusLogin, "Авторизация прошла успешно!", "Ошибка авторизации!");
@@ -79,15 +81,11 @@ export class AuthComponent implements OnInit {
     
     public async submitRegForm(): Promise<void> {
         if (this.regForm.valid) {
-            let account = new AccountModel(
-                {
-                    id: Guid.create().toString(),
-                    login: this.regLogin?.value,
-                    password: this.regPassword?.value
-                } as IAccountModel
-            );
-
-            const statusReg = await this.authService.register(account);
+            const statusReg = await this.authService.register(new AccountModel({
+                id: Guid.create().toString(),
+                login: this.regLogin?.value,
+                password: this.regPassword?.value
+            }));
             this.createAlertInternal(statusReg, "Регистрация прошла успешно!", "Ошибка регистрации!");
         }
     }

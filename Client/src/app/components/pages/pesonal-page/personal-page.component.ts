@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 import { AuthService } from "src/app/services/auth.service";
-import { StockService } from "src/app/services/stock.service";
+import { AccountModel } from "../../models/account.model";
 import { AppState } from "../../models/app-state.module";
 
 @Component({
@@ -12,12 +12,17 @@ import { AppState } from "../../models/app-state.module";
 
 export class PersonalPageComponent {
 
+    public account: AccountModel | null | undefined;
+
     constructor(
         private readonly authService: AuthService,
         private readonly router: Router,
-        private readonly appState: AppState,
-        private readonly stockService: StockService
-        ) {
+        private readonly appState: AppState
+    ) { }
+
+    public async ngOnInit(): Promise<void> {
+        this.account = await this.appState.getAccount();
+        console.warn(this.account);
     }
 
     public logout(): void {

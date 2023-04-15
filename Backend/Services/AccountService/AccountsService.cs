@@ -2,20 +2,23 @@
 using Backend.Models.Client;
 using Backend.Helpers;
 using Backend.Repository.AccountRepository;
+using Backend.Services.StockService;
 
 namespace Backend.Services.AccountService
 {
     public class AccountsService : IAccountsService
     {
         private readonly IAccountsRepository _accountRepository;
+        private readonly IStocksService _stocksService;
 
-        public AccountsService(IAccountsRepository accountRepository)
+        public AccountsService(
+            IAccountsRepository accountRepository,
+            IStocksService stocksService
+        )
         {
             _accountRepository = accountRepository;
+            _stocksService = stocksService;
         }
-
-        public async Task<IList<Account>> GetAllAsync() => await _accountRepository.GetAllAsync();
-        public async Task<Account> GetAsync(Guid id) => await _accountRepository.GetAsync(id);
 
         public async Task<Account?> GetAccountByLoginAsync(string login)
         {
@@ -50,11 +53,21 @@ namespace Backend.Services.AccountService
         public async Task CreateAndPrepareAccountAsync(AccountModel accountModel)
         {
             var accounts = await GetAllAsync();
+
             if (accounts.Select(x => x.Login == accountModel.Login).SingleOrDefault())
             {
                 throw new Exception("Repit login!");
             }
-            var account = new Account(accountModel.Id, accountModel.Login, accountModel.Password);
+
+            var stocks = await _stocksService.GetAllAsync();
+            var stockList = new StockList() { 
+                Id = Guid.NewGuid(),
+                Title = "По умолчанию",
+                Stocks = new List<Stock>(stocks)
+            };
+
+            var account = new Account(accountModel.Id, accountModel.Login, accountModel.Password, stockList);
+
             await CreateAsync(account);
         }
 
@@ -63,5 +76,9 @@ namespace Backend.Services.AccountService
         public async Task DeleteAsync(Guid id) => await _accountRepository.DeleteAsync(id);
 
         public async Task CreateAsync(Account account) => await _accountRepository.CreateAsync(account);
+
+        public async Task<IList<Account>> GetAllAsync() => await _accountRepository.GetAllAsync();
+
+        public async Task<Account> GetAsync(Guid id) => await _accountRepository.GetAsync(id);
     }
 }
