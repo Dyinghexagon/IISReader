@@ -61,14 +61,23 @@ namespace Backend
             {
                 q.UseMicrosoftDependencyInjectionJobFactory();
                 // Just use the name of your job that you created in the Jobs folder.
-                var jobKey = new JobKey("NotificationJob");
-                q.AddJob<NotificationJob>(opts => opts.WithIdentity(jobKey));
+                var notificationJobKey = new JobKey("NotificationJob");
+                var updateStockJobKey = new JobKey("UpdateStockJob");
+
+                q.AddJob<NotificationJob>(opts => opts.WithIdentity(notificationJobKey));
+                q.AddJob<UpdateStockJob>(opts => opts.WithIdentity(updateStockJobKey));
 
                 q.AddTrigger(opts => opts
-                    .ForJob(jobKey)
+                    .ForJob(notificationJobKey)
                     .WithIdentity("NotificationJob-trigger")
                     //This Cron interval can be described as "run every minute" (when second is zero)
                     .WithCronSchedule("0 * * ? * *")
+                );
+
+                q.AddTrigger(opts => opts
+                    .ForJob(updateStockJobKey)
+                    .WithIdentity("UpdateStockJob-trigger")
+                    .WithCronSchedule("0 0/15 * * * ?")//every 15 minute
                 );
             });
 

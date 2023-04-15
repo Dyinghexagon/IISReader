@@ -6,8 +6,6 @@ namespace Backend.Services.StockService
     {
         public Task<List<StockChartData>> GetSecurityChartData(String secid);
 
-        public Task FillingStocksAsync();
-
         public Task<Stock?> GetStockBySecId(String secid);
     }
 }

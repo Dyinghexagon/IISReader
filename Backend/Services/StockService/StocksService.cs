@@ -17,8 +17,7 @@ namespace Backend.Services.StockService
 
         public async Task<IList<Stock>> GetAllAsync()
         {
-            var securitys = new List<Stock>();
-
+            var stocks = new List<Stock>();
 
             var request = new IssRequest();
             var path = "engines/stock/markets/shares/boards/TQBR/securities";
@@ -33,7 +32,7 @@ namespace Backend.Services.StockService
             {
                 var data = row.Values;
                 var secid = data["Secid"].ToString() ?? "";
-                securitys.Add(new Stock()
+                stocks.Add(new Stock()
                 {
                     Id = Guid.NewGuid(),
                     SecId = secid,
@@ -43,7 +42,7 @@ namespace Backend.Services.StockService
                 });
             }
 
-            return securitys;
+            return stocks;
         }
 
         private static Dictionary<String, String?> GetPairsSecIdName(IDictionary<String, Table> respones)
@@ -90,15 +89,6 @@ namespace Backend.Services.StockService
             }
 
             return charData;
-        }
-
-        public async Task FillingStocksAsync()
-        {
-            var stocks = await GetAllAsync();
-            foreach(var stock in stocks)
-            {
-                await CreateAsync(stock);
-            }
         }
 
         public async Task<Stock?> GetStockBySecId(String secid)

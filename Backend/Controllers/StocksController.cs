@@ -49,10 +49,5 @@ namespace Backend.Controllers
             return result;
         }
 
-        [HttpGet("FillingStocks")]
-        public async Task FillingStocks()
-        {
-            await _securityService.FillingStocksAsync();
-        }
     }
 }
