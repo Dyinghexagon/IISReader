@@ -2,22 +2,18 @@
 using Backend.Models.Client;
 using Backend.Helpers;
 using Backend.Repository.AccountRepository;
-using Backend.Services.StockService;
 
 namespace Backend.Services.AccountService
 {
     public class AccountsService : IAccountsService
     {
         private readonly IAccountsRepository _accountRepository;
-        private readonly IStocksService _stocksService;
 
         public AccountsService(
-            IAccountsRepository accountRepository,
-            IStocksService stocksService
+            IAccountsRepository accountRepository
         )
         {
             _accountRepository = accountRepository;
-            _stocksService = stocksService;
         }
 
         public async Task<Account?> GetAccountByLoginAsync(string login)
@@ -59,14 +55,7 @@ namespace Backend.Services.AccountService
                 throw new Exception("Repit login!");
             }
 
-            var stocks = await _stocksService.GetAllAsync();
-            var stockList = new StockList() { 
-                Id = Guid.NewGuid(),
-                Title = "По умолчанию",
-                Stocks = new List<Stock>(stocks)
-            };
-
-            var account = new Account(accountModel.Id, accountModel.Login, accountModel.Password, stockList);
+            var account = new Account(accountModel.Id, accountModel.Login, accountModel.Password, new());
 
             await CreateAsync(account);
         }

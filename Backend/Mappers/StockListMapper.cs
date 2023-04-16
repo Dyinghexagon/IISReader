@@ -5,17 +5,62 @@ namespace Backend.Mappers
 {
     public class StockListMapper : IModelMapper
     {
-        private readonly StockMapper _mapper = new StockMapper();
+        private readonly StockMapper _mapper = new();
 
-        public StockList? Map(StockListModel stockList)
+        public List<StockList>? Map(List<StockListModel>? stocks)
+        {
+            if (stocks == null)
+            {
+                return null;
+            }
+
+            var result = new List<StockList>();
+
+            foreach (var stock in stocks)
+            {
+                result.Add(new()
+                {
+                    Id = stock.Id,
+                    Title = stock.Title,
+                    Stocks = MapToStockList(stock.Stocks)
+                });
+            }
+
+            return result;
+        }
+
+        public List<StockListModel>? Map(List<StockList>? stocks)
+        {
+            if (stocks == null)
+            {
+                return null;
+            }
+
+            var result = new List<StockListModel>();
+
+            foreach (var stock in stocks)
+            {
+                result.Add(new()
+                {
+                    Id = stock.Id,
+                    Title = stock.Title,
+                    Stocks = MapToStockListModel(stock.Stocks)
+                });
+            }
+
+            return result;
+        }
+
+        private List<Stock>? MapToStockList(List<StockModel>? stockList)
         {
             if (stockList is null)
             {
                 return null;
             }
+
             var stocks = new List<Stock>();
 
-            foreach(var stockModel in stockList.Stocks)
+            foreach(var stockModel in stockList)
             {
                 var stock = _mapper.Map(stockModel);
                 if (stock is not null) {
@@ -23,15 +68,10 @@ namespace Backend.Mappers
                 }
             }
 
-            return new StockList()
-            {
-                Id = stockList.Id,
-                Title = stockList.Title,
-                Stocks = stocks
-            };
+            return stocks;
         }
 
-        public StockListModel? Map(StockList stockList)
+        private List<StockModel>? MapToStockListModel(List<Stock>? stockList)
         {
             if (stockList is null)
             {
@@ -40,7 +80,7 @@ namespace Backend.Mappers
 
             var stocks = new List<StockModel>();
 
-            foreach (var stock in stockList.Stocks)
+            foreach (var stock in stockList)
             {
                 var stockModel = _mapper.Map(stock);
                 if (stockModel is not null)
@@ -49,12 +89,7 @@ namespace Backend.Mappers
                 }
             }
 
-            return new StockListModel()
-            {
-                Id = stockList.Id,
-                Title = stockList.Title,
-                Stocks = stocks
-            };
+            return stocks;
         }
     }
 }

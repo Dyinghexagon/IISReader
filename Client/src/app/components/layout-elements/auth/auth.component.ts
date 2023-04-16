@@ -1,12 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { AbstractControl, UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Router } from "@angular/router";
 import { Guid } from "guid-typescript";
 import { AlertService } from "src/app/services/alert.service";
 import { AuthService } from "src/app/services/auth.service";
 import { AppState } from "../../models/app-state.module";
-import { IAccountModel, AccountModel } from "../../models/account.model";
-import { StockListModel } from "../../models/stock-list.model";
+import { AccountModel } from "../../models/account.model";
 
 @Component({
     selector: "auth",
@@ -23,14 +22,11 @@ export class AuthComponent implements OnInit {
     public hidePasswordRegForm: boolean = true;
     public hideRepitPasswordRegForm: boolean = true;
     
-    private returnUrl: string = "/";
-    
     private readonly REGEXP = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$/;
     private readonly MIN_LENGHT_LOGIN = 4;
     private readonly MAX_LENGHT_LOGIN = 12;
 
     constructor(
-        private readonly route: ActivatedRoute,
         private readonly router: Router,
         private readonly alertService: AlertService,
         private readonly authService: AuthService,
@@ -42,7 +38,6 @@ export class AuthComponent implements OnInit {
 
     public ngOnInit(): void {
         this.authService.logout();
-        this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/";
     }
 
     private initLoginForm(): UntypedFormGroup {
@@ -73,7 +68,7 @@ export class AuthComponent implements OnInit {
             id: Guid.create().toString(),
             login: this.login?.value,
             password: this.loginPassword?.value,
-            stockList: null
+            stockLists: []
         }));
 
         this.createAlertInternal(statusLogin, "Авторизация прошла успешно!", "Ошибка авторизации!");
@@ -84,7 +79,8 @@ export class AuthComponent implements OnInit {
             const statusReg = await this.authService.register(new AccountModel({
                 id: Guid.create().toString(),
                 login: this.regLogin?.value,
-                password: this.regPassword?.value
+                password: this.regPassword?.value,
+                stockLists: []
             }));
             this.createAlertInternal(statusReg, "Регистрация прошла успешно!", "Ошибка регистрации!");
         }

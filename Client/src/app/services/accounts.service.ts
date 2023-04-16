@@ -1,7 +1,9 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { identity } from "rxjs";
 import { AppConfig } from "../app.config";
 import { AccountModel } from "../components/models/account.model";
+import { StockListModel } from "../components/models/stock-list.model";
 import { BaseService } from "./base.service";
 
 @Injectable()
@@ -21,6 +23,12 @@ export class AccountsService extends BaseService {
 
     public getAcccounts(): Promise<AccountModel[]> {
         return this.get(`${this.config.accountsApi}/GetAccounts`);
+    }
+
+    public setNewStockList(accountId: string, stockList: StockListModel): Promise<void> {
+        return this.post(`${this.config.accountsApi}/setNewStockList`, {
+            id: accountId, stockList: stockList
+        });
     }
 
 }

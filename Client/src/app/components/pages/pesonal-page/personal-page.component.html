@@ -1,11 +1,18 @@
 <ul class="nav nav-tabs">
   <li class="nav-item">
-    <a class="nav-link active" aria-current="page">Уведомления</a>
+    <a class="nav-link" aria-current="page" (click)="tab = 'notification'" [ngClass]="{'active' : tab === 'notification'}">Уведомления</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link active">Планирование</a>
+    <a class="nav-link" (click)="tab = 'planning'" [ngClass]="{'active' : tab === 'planning'}">Планирование</a>
   </li>
 </ul>
+<div *ngIf="tab === 'planning'">
+  <button class="btn btn-primary" (click)="openModal()">Создать список бумаг</button>
+</div>
+<div *ngIf="tab === 'notification'">
+  notification
+</div>
+
 <div class="d-grid gap-2 d-md-block">
   <button class="btn btn-danger" (click)="logout()">Выйти из аккаунта</button>
 </div>

@@ -46,5 +46,10 @@ namespace Backend.Controllers
             return userModels;
         }
 
+        public async Task SetNewStockList(StockListModel stockList)
+        {
+            
+        }
+
     }
 }

@@ -16,7 +16,7 @@ export class AuthService extends BaseService {
 
     public register(account: AccountModel): Promise<number> {
         return this.post(`${this.config.authApi}/register`, account, this.jwt()).then((response: Response) => {
-            return response.status
+            return response.status;
         });
     }
 

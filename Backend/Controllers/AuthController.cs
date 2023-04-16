@@ -33,7 +33,7 @@ namespace Backend.Controllers
             {
                 await _accountService.CreateAndPrepareAccountAsync(account);
 
-                return Ok();
+                return Ok(account.Id);
             }
             catch (Exception ex)
             {

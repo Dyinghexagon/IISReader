@@ -4,6 +4,6 @@
     {
         public String Title { get; set; } = String.Empty;
 
-        public List<StockModel> Stocks { get; set; } = new List<StockModel>();
+        public List<StockModel>? Stocks { get; set; } = new List<StockModel>();
     }
 }

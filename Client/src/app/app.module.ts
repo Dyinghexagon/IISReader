@@ -25,6 +25,10 @@ import { AlertComponent } from './components/shared/alert/alert.component';
 import { AuthGuard } from './components/guards/auth.guard';
 import { AlertService } from './services/alert.service';
 import { AppState } from './components/models/app-state.module';
+import { MdbModalService } from 'mdb-angular-ui-kit/modal';
+import { AddNewStockListComponent } from './components/shared/modal/add-new-stock-list/add-new-stock-list-modal.component';
+import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
+import { ModalState } from './components/models/modal-state.module';
 
 @NgModule({
   declarations: [
@@ -38,7 +42,8 @@ import { AppState } from './components/models/app-state.module';
     PersonalPageComponent,
     AuthComponent,
     SecurityChatComponent,
-    SecurityPageComponent
+    SecurityPageComponent,
+    AddNewStockListComponent
   ],
   imports: [
     BrowserModule,
@@ -46,17 +51,20 @@ import { AppState } from './components/models/app-state.module';
     FormsModule,
     PageRoutingModuleModule,
     ReactiveFormsModule,
-    DataTablesModule
+    DataTablesModule,
+    MdbFormsModule
   ],
   providers: [ 
     AppConfig,
     AuthGuard,
-    AppState, 
+    AppState,
+    ModalState,
     AlertService,
     BaseService, 
     AccountsService,
     AuthService, 
-    StockService 
+    StockService,
+    MdbModalService
   ],
   bootstrap: [ AppComponent ]
 })

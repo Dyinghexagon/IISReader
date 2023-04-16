@@ -10,9 +10,9 @@ namespace Backend.Models.Backend
 
         public String PasswordSalt { get; set; }
 
-        public StockList? StockList { get; set; } = new StockList();
+        public List<StockList>? StockList { get; set; } = new List<StockList>();
 
-        public Account(Guid id, String login, String password, StockList stockList)
+        public Account(Guid id, String login, String password, List<StockList>? stockList)
         {
             Id = id;
             Login = login;

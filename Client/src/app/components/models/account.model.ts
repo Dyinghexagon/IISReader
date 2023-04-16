@@ -5,20 +5,23 @@ export class AccountModel {
     public id: string;
     public login: string;
     public password: string;
-    public stockList?: StockListModel | null;
+    public stockLists: StockListModel[] = [];
 
     constructor(data: IAccountModel) {
         this.id = data.id;
         this.login = data.login;
         this.password = data.password;
-        this.stockList = data.stockList;
+        this.stockLists = [];
     }
 
+    public newStockList(stockList: StockListModel): void {
+        this.stockLists?.push(stockList);
+    }
 }
 
 export interface IAccountModel {
     id: string;
     login: string;
     password: string;
-    stockList?: StockListModel | null;
+    stockLists: StockListModel[];
 }
