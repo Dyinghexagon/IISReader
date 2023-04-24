@@ -13,14 +13,16 @@ namespace Backend.Controllers
     {
         private readonly IAccountsService _accountService;
         private readonly AccountMapper _mapper;
-
+        private readonly Logger<AccountsController> _logger;
         public AccountsController(
             IAccountsService userService, 
-            AccountMapper mapper
+            AccountMapper mapper,
+            Logger<AccountsController> logger
         )
         {
             _accountService = userService;
             _mapper = mapper;
+            _logger = logger;
         }
 
         [AllowAnonymous]
@@ -34,7 +36,7 @@ namespace Backend.Controllers
 
         [AllowAnonymous]
         [HttpGet("GetAccounts")]
-        public async Task<List<AccountModel?>> GetUsers()
+        public async Task<List<AccountModel?>> GetAccounts()
         {
             var users = await _accountService.GetAllAsync();
             var userModels = new List<AccountModel?>();
@@ -46,9 +48,20 @@ namespace Backend.Controllers
             return userModels;
         }
 
-        public async Task SetNewStockList(StockListModel stockList)
+        [HttpPut]
+        public async Task<IActionResult> UpdateAccount(AccountModel accountModel)
         {
-            
+            try
+            {
+                var account = _mapper.Map(accountModel);
+                await _accountService.UpdateAsync(accountModel.Id, account);
+
+                return Ok(account);
+            } catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, ex);
+                return BadRequest(ex.Message);
+            }
         }
 
     }

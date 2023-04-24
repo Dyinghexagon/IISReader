@@ -1,6 +1,5 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { identity } from "rxjs";
 import { AppConfig } from "../app.config";
 import { AccountModel } from "../components/models/account.model";
 import { StockListModel } from "../components/models/stock-list.model";
@@ -8,7 +7,6 @@ import { BaseService } from "./base.service";
 
 @Injectable()
 export class AccountsService extends BaseService {
-    public user?: AccountModel;
 
     constructor(
         http: HttpClient,
@@ -29,6 +27,10 @@ export class AccountsService extends BaseService {
         return this.post(`${this.config.accountsApi}/setNewStockList`, {
             id: accountId, stockList: stockList
         });
+    }
+
+    public updateAccount(account: AccountModel): Promise<number> {
+        return this.put(`${this.config.accountsApi}/update`, account);
     }
 
 }
