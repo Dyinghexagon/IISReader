@@ -17,7 +17,7 @@ export class StockModel {
         return this._id;
     }
 
-    public get Secid(): string {
+    public get SecId(): string {
         return this._secid;
     }
     

@@ -1,4 +1,4 @@
-export class SecurityChartDataModel {
+export class StockChartDataModel {
     private _id: string;
     private _open: number;
     private _close: number;
@@ -6,7 +6,7 @@ export class SecurityChartDataModel {
     private _low: number;
     private _time: string;
 
-    constructor(data: ISecurityChartDataModel) {
+    constructor(data: IStockChartDataModel) {
         this._id = data.id;
         this._open = data.open;
         this._close = data.close;
@@ -40,7 +40,7 @@ export class SecurityChartDataModel {
     }
 }
 
-export interface ISecurityChartDataModel {
+export interface IStockChartDataModel {
     id: string;
     open: number;
     close: number;

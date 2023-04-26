@@ -2,17 +2,16 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 
 @Component({
-    selector: "security-page",
-    templateUrl: "./security-page.component.html",
-    styleUrls: ["./security-page.component.scss"]
+    selector: "stock-page",
+    templateUrl: "./stock-page.component.html",
+    styleUrls: ["./stock-page.component.scss"]
 })
 
-export class SecurityPageComponent implements OnInit {
+export class StockPageComponent implements OnInit {
 
     public secid?: string;
 
-    constructor(private route: ActivatedRoute,) {
-    }
+    constructor(private route: ActivatedRoute) { }
 
     public ngOnInit(): void {
         this.route.queryParams.subscribe(params => {

@@ -9,7 +9,7 @@ namespace Backend.Controllers
     [Route("api/stocks")]
     public class StocksController : ControllerBase
     {
-        private readonly IStocksService _securityService;
+        private readonly IStocksService _stockService;
         private readonly StockMapper _mapper;
 
         public StocksController(
@@ -17,14 +17,14 @@ namespace Backend.Controllers
             StockMapper mapper
         )
         {
-            _securityService = securityService;
+            _stockService = securityService;
             _mapper = mapper;
         }
 
-        [HttpGet("GetSecuritysList")]
+        [HttpGet("GetStocksList")]
         public async Task<List<StockModel?>> GetSecuritysList()
         {
-            var securitys = await _securityService.GetAllAsync();
+            var securitys = await _stockService.GetAllAsync();
             var result = new List<StockModel?>();
 
             foreach (var security in securitys)
@@ -35,10 +35,10 @@ namespace Backend.Controllers
             return result;
         }
 
-        [HttpGet("GetSecurityChartData/{secid}")]
+        [HttpGet("GetStockChartData/{secid}")]
         public async Task<List<StockChartDataModel?>> GetSecurityChartData(String secid)
         {
-            var securityChartDataModel = await _securityService.GetSecurityChartData(secid);
+            var securityChartDataModel = await _stockService.GetSecurityChartData(secid);
 
             var result = new List<StockChartDataModel?>();
             foreach(var security in securityChartDataModel)

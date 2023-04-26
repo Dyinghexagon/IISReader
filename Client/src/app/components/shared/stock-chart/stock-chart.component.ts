@@ -3,12 +3,12 @@ import { CandlestickData, ColorType, createChart, IChartApi, ISeriesApi } from "
 import { StockService } from "src/app/services/stock.service";
 
 @Component({
-    selector: "security-chat",
-    templateUrl: "./security-chart.component.html",
-    styleUrls: ["./security-chart.component.scss"]
+    selector: "stock-chat",
+    templateUrl: "./stock-chart.component.html",
+    styleUrls: ["./stock-chart.component.scss"]
 })
 
-export class SecurityChatComponent implements OnInit {
+export class StockChatComponent implements OnInit {
     @Input() secid?: string;
 
     constructor(public securityService: StockService) {
@@ -38,7 +38,9 @@ export class SecurityChatComponent implements OnInit {
             });
  
         let data: CandlestickData[] = [];
-        (await this.securityService.getSecurityChartData(this.secid ?? "")).forEach(item => {
+        const res = await this.securityService.getSecurityChartData(this.secid ?? "");
+        console.warn(res);
+        res.forEach(item => {
             data.push(
                 {
                     open: item.Open,

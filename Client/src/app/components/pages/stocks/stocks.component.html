@@ -15,8 +15,8 @@
             <th scope="row" class="d-flex justify-content-between align-items-center">
                 <img class="favorite" alt="favorite image" data-bs-toggle="tooltip" data-bs-placement="right" title="Добавить бумагу в избранное">{{ index + 1 }}
             </th>
-            <td><a href="#" routerLink="/security-page" [queryParams]="{secid: stock.Secid}">{{ stock.Name }}</a></td>
-            <td>{{ stock.Secid }}</td>
+            <td><a href="#" routerLink="/security-page" [queryParams]="{secid: stock.SecId}">{{ stock.Name }}</a></td>
+            <td>{{ stock.SecId }}</td>
             <td>{{ stock.CurrentPrice }} ₽</td>
             <td>{{ stock.ChangePerDay }} %</td>
         </tr>

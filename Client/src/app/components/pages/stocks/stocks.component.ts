@@ -26,6 +26,7 @@ export class StocksComponent implements OnInit, OnDestroy  {
         };
         this.stocks = await this.securityService.getSecurityList();
         this.dtTrigger.next(this.stocks);
+        console.warn(this.stocks);
     }
 
     public ngOnDestroy(): void {

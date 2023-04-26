@@ -13,10 +13,10 @@ import { HeaderComponent } from './components/layout-elements/header/header.comp
 import { PageRoutingModuleModule } from './components/page-routing-module/page-routing-module.module';
 import { MainPageComponent } from './components/pages/main-page/main-page.component';
 import { PersonalPageComponent } from './components/pages/pesonal-page/personal-page.component';
-import { SecurityPageComponent } from './components/pages/security-page/security-page.component';
+import { StockPageComponent } from './components/pages/stock-page/stock-page.component';
 import { StocksComponent } from './components/pages/stocks/stocks.component';
 import { SplashComponent } from './components/pages/splash/splash.component';
-import { SecurityChatComponent } from './components/shared/security-chart/security-chart.component';
+import { StockChatComponent } from './components/shared/stock-chart/stock-chart.component';
 import { BaseService } from './services/base.service';
 import { StockService } from './services/stock.service';
 import { AccountsService } from './services/accounts.service';
@@ -41,8 +41,8 @@ import { ModalState } from './components/models/modal-state.module';
     SplashComponent,
     PersonalPageComponent,
     AuthComponent,
-    SecurityChatComponent,
-    SecurityPageComponent,
+    StockChatComponent,
+    StockPageComponent,
     AddNewStockListComponent
   ],
   imports: [
