@@ -33,10 +33,7 @@ export class PersonalPageComponent implements OnInit {
         this.account = await this.appState.getAccount();
 
         this.modalState.addNewStockList.createdList$.subscribe((stockList: StockListModel) => {
-            console.warn(stockList);
-            this.account?.stockLists?.push(stockList);
-
-            console.warn(this.account?.stockLists);
+          this.account?.stockLists?.push(stockList);
         });
     }
 

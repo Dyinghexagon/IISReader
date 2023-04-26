@@ -15,7 +15,7 @@ export class StocksComponent implements OnInit, OnDestroy  {
     public date: string = "";
     public dtOptions: DataTables.Settings = {};
     public dtTrigger: Subject<any> = new Subject<StockModel[]>();
-    
+
     constructor(public securityService: StockService) { }
 
     public async ngOnInit(): Promise<void> {
@@ -26,7 +26,6 @@ export class StocksComponent implements OnInit, OnDestroy  {
         };
         this.stocks = await this.securityService.getSecurityList();
         this.dtTrigger.next(this.stocks);
-        console.warn(this.stocks);
     }
 
     public ngOnDestroy(): void {

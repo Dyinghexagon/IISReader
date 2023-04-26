@@ -20,26 +20,25 @@ export class StockChatComponent implements OnInit {
             width: 1200,
             height: 600,
             layout: {
-                textColor: 'black', 
-                background: { 
-                    type: ColorType.Solid, 
-                    color: 'white' 
-                } 
+                textColor: 'black',
+                background: {
+                    type: ColorType.Solid,
+                    color: 'white'
+                }
             }
         };
 
         const chart = createChart(document.getElementById('chart-container') as HTMLElement, chartOptions);
-        const candlestickSeries = chart.addCandlestickSeries({ 
-                upColor: '#26a69a', 
-                downColor: '#ef5350', 
-                borderVisible: false, 
-                wickUpColor: '#26a69a', 
-                wickDownColor: '#ef5350' 
+        const candlestickSeries = chart.addCandlestickSeries({
+                upColor: '#26a69a',
+                downColor: '#ef5350',
+                borderVisible: false,
+                wickUpColor: '#26a69a',
+                wickDownColor: '#ef5350'
             });
- 
+
         let data: CandlestickData[] = [];
         const res = await this.securityService.getSecurityChartData(this.secid ?? "");
-        console.warn(res);
         res.forEach(item => {
             data.push(
                 {
@@ -53,7 +52,7 @@ export class StockChatComponent implements OnInit {
         });
 
         candlestickSeries.setData(data);
-        
+
         this.addLegend(candlestickSeries, data, chart);
 
         chart.timeScale().fitContent();
@@ -64,7 +63,7 @@ export class StockChatComponent implements OnInit {
         let legend = document.getElementById("legend") as HTMLDivElement;
 
         container?.append(legend);
-        
+
         const getLastBar = () => data[data.length - 1];
         const buildDateString = (time: any) => `${time.year} - ${time.month} - ${time.day}`;
         const formatPrice = (price: any) => (Math.round(price * 100) / 100).toFixed(2);
@@ -74,7 +73,7 @@ export class StockChatComponent implements OnInit {
                 <div style="font-size: 22px; margin: 10px 0px;">${price}</div>
                 <div>${date}</div>`;
         };
-        
+
         const updateLegend = (param: any) => {
             const validCrosshairPoint = !(
                 param === undefined || param.time === undefined || param.point.x < 0 || param.point.y < 0
@@ -91,9 +90,9 @@ export class StockChatComponent implements OnInit {
             const formattedPrice = formatPrice(price);
             setTooltipHtml(this.secid, date, formattedPrice);
         };
-        
+
         chart.subscribeCrosshairMove(updateLegend);
-        
+
         updateLegend(undefined);
     }
 
