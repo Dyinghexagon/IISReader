@@ -22,7 +22,8 @@ namespace Backend.Mappers
                 {
                     Id = stock.Id,
                     Title = stock.Title,
-                    Stocks = _mapper.MapToStockList(stock.Stocks)
+                    Stocks = _mapper.MapToStockList(stock.Stocks),
+                    IsNotificated = stock.IsNotificated
                 });
             }
 
@@ -44,7 +45,8 @@ namespace Backend.Mappers
                 {
                     Id = stock.Id,
                     Title = stock.Title,
-                    Stocks = _mapper.MapToStockListModel(stock.Stocks)
+                    Stocks = _mapper.MapToStockListModel(stock.Stocks),
+                    IsNotificated = stock.IsNotificated
                 });
             }
 

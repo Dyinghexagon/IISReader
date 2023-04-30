@@ -7,6 +7,32 @@
   </li>
 </ul>
 <div *ngIf="tab === 'planning'">
+  <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Наименование списка</th>
+            <th scope="col">Статус</th>
+            <th scope="col">Удалить</th>
+            <th scope="col">Редактировать</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let stockList of account?.StockList; let index = index">
+            <td>{{ index + 1 }}</td>
+            <td>{{ stockList.Title }}</td>
+            <td>
+              <input type="checkbox" class="form-check-input" [(ngModel)]="stockList.IsNotificated" (ngModelChange)="notificatedChanged()">
+            </td>
+            <td>
+              <button class="btn btn-danger" (click)="removeStockList(index)">Удалить список</button>
+            </td>
+            <td>
+              <button class="btn btn-primary" (click)="removeStockList(index)">Редактировать список</button>
+            </td>
+        </tr>
+    </tbody>
+  </table>
   <button class="btn btn-primary" (click)="openModal()">Создать список бумаг</button>
 </div>
 <div *ngIf="tab === 'notification'">

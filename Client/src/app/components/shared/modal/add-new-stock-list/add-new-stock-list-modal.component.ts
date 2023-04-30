@@ -31,8 +31,10 @@ export class AddNewStockListComponent {
         const newNewStockList = new StockListModel({
             id: Guid.create().toString(),
             title: this.newStockListForm.get("title")?.value,
-            stocks: []
+            stocks: [],
+            isNotificated: true
         });
+
         this.state.addNewStockList.createdList$.next(newNewStockList);
     }
 }

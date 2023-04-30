@@ -2,10 +2,10 @@ import { StockListModel } from "./stock-list.model";
 
 export class AccountModel {
     
-    public id: string;
-    public login: string;
-    public password: string;
-    public stockLists: StockListModel[] = [];
+    private id: string;
+    private login: string;
+    private password: string;
+    private stockLists: StockListModel[] = [];
 
     constructor(data: IAccountModel) {
         this.id = data.id;
@@ -14,9 +14,22 @@ export class AccountModel {
         this.stockLists = [];
     }
 
-    public newStockList(stockList: StockListModel): void {
-        this.stockLists?.push(stockList);
+    public get Id() {
+        return this.id;
     }
+
+    public get Login() {
+        return this.login;
+    }
+
+    public get Password() {
+        return this.password;
+    }
+
+    public get StockList() {
+        return this.stockLists;
+    }
+
 }
 
 export interface IAccountModel {

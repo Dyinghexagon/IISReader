@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Backend.Models.Client;
 using Backend.Mappers;
 using Backend.Services.AccountService;
+using Backend.Models.Backend;
 
 namespace Backend.Controllers
 {
@@ -53,28 +54,52 @@ namespace Backend.Controllers
             return userModels;
         }
 
-        [HttpPost("SetNewStockList/{id:guid}")]
-        public async Task<IActionResult> SetNewStockList(Guid id, [FromBody] StockListModel stockListModel)
+        [AllowAnonymous]
+        [HttpPost("update/{accountId:guid}")]
+        public async Task<IResult> UpdateAccount(Guid accountId, [FromBody]AccountModel accountModel)
+        {
+            try
+            {
+                var account = _accountMapper.Map(accountModel);
+
+                if (account is null)
+                {
+                    return Results.BadRequest();
+                }
+                
+                await _accountService.UpdateAsync(accountId, account);
+
+                return Results.Ok();
+            } catch (Exception ex)
+            {
+                _logger.LogError("Error from update account model", ex.StackTrace);
+                return Results.BadRequest(ex.Message);
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpPost("SetNewStockList/{accountId:guid}")]
+        public async Task<IResult> SetNewStockList(Guid accountId, [FromBody]StockListModel stockListModel)
         {
             var stockList = _stockListMapper.MapStockList(stockListModel);
-            
+
             if (stockList is null)
             {
-                return BadRequest();
+                return Results.BadRequest();
             }
 
             try
             {
-                var account = await _accountService.GetAsync(id);
+                var account = await _accountService.GetAsync(accountId);
                 account.StockList?.Add(stockList);
-                await _accountService.UpdateAsync(id, account);
+                await _accountService.UpdateAsync(accountId, account);
 
-                return Ok(account);
+                return Results.Ok(account);
             }
             catch (Exception ex)
             {
                 _logger.LogError("Error from add new stock list", ex.StackTrace);
-                return BadRequest(ex.Message);
+                return Results.BadRequest(ex.Message);
             }
         }
 

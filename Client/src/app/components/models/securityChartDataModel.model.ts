@@ -1,42 +1,42 @@
 export class StockChartDataModel {
-    private _id: string;
-    private _open: number;
-    private _close: number;
-    private _hight: number;
-    private _low: number;
-    private _time: string;
+    private id: string;
+    private open: number;
+    private close: number;
+    private hight: number;
+    private low: number;
+    private time: string;
 
     constructor(data: IStockChartDataModel) {
-        this._id = data.id;
-        this._open = data.open;
-        this._close = data.close;
-        this._hight = data.hight;
-        this._low = data.low;
-        this._time = data.time;
+        this.id = data.id;
+        this.open = data.open;
+        this.close = data.close;
+        this.hight = data.hight;
+        this.low = data.low;
+        this.time = data.time;
     }
 
     public get Id(): string {
-        return this._id;
+        return this.id;
     }
 
     public get Open(): number {
-        return this._open;
+        return this.open;
     }
 
     public get Close(): number {
-        return this._close;
+        return this.close;
     }
 
     public get Hight(): number {
-        return this._hight;
+        return this.hight;
     }
 
     public get Low(): number {
-        return this._low;
+        return this.low;
     }
 
     public get Time(): string {
-        return this._time;
+        return this.time;
     }
 }
 

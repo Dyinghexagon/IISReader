@@ -15,10 +15,6 @@ export class AuthService extends BaseService {
         super(http, zone);
     }
 
-    public get tokenKey(): string {
-        return "accessToken";
-    }
-
     public get loginKey(): string {
         return "currentAccount";
     }
@@ -39,6 +35,7 @@ export class AuthService extends BaseService {
     }
 
     public logout() {
+        console.warn("logout");
         localStorage.removeItem(this.tokenKey);
         localStorage.removeItem(this.loginKey);
     }

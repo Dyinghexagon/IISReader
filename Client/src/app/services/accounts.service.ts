@@ -17,7 +17,7 @@ export class AccountsService extends BaseService {
     }
 
     public getAccount(login: string): Promise<AccountModel> {
-        return this.get(`${this.config.accountsApi}/GetAccount/${login}`);
+        return this.get(`${this.config.accountsApi}/GetAccount/${login}`).then(data => data.body);
     }
 
     public getAcccounts(): Promise<AccountModel[]> {
@@ -25,9 +25,11 @@ export class AccountsService extends BaseService {
     }
 
     public setNewStockList(accountId: string, stockList: StockListModel): Promise<void> {
-        return this.post(`${this.config.accountsApi}/setNewStockList`, {
-            id: accountId, stockList: stockList
-        });
+        return this.post(`${this.config.accountsApi}/SetNewStockList/${accountId}`, stockList);
+    }
+
+    public updateAccount(accountId: string, account: AccountModel | null): Promise<void> {
+        return this.post(`${this.config.accountsApi}/update/${accountId}`, account);
     }
 
 }

@@ -13,7 +13,7 @@ import { AccountModel } from "../../models/account.model";
     styleUrls: ["./auth.component.scss"]
 })
 
-export class AuthComponent implements OnInit {
+export class AuthComponent {
 
     public tab: "login" | "reg" = "login";
     public loginForm: UntypedFormGroup;
@@ -34,10 +34,6 @@ export class AuthComponent implements OnInit {
     ) {
         this.loginForm = this.initLoginForm();
         this.regForm = this.initRegForm();
-    }
-
-    public ngOnInit(): void {
-        this.authService.logout();
     }
 
     private initLoginForm(): UntypedFormGroup {
@@ -82,7 +78,7 @@ export class AuthComponent implements OnInit {
                     id: Guid.create().toString(),
                     login: this.regLogin?.value,
                     password: this.regPassword?.value,
-                    stockLists: []
+                    stockLists: [],
                 }));
             } catch (ex) {
                 status = 500;

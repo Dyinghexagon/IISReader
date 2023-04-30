@@ -8,10 +8,21 @@ export class BaseService {
     constructor(
         protected http: HttpClient,
         protected zone: NgZone
-        ) { }
+    ) { }
 
     private getHeaders(): HttpHeaders {
-        return new HttpHeaders({ "content-type": "application/json", "cache-control": "no-cache" });
+        return new HttpHeaders(
+            {
+                "content-type": "application/json", 
+                "cache-control": "no-cache",
+                "Accept": "application/json",
+                "Authorization": "Bearer " + this.getJwtToken()
+            }
+        );
+    }
+
+    public get tokenKey(): string {
+        return "accessToken";
     }
 
     public post(url: string, data: any, silent?: boolean): Promise<any> {
@@ -67,5 +78,9 @@ export class BaseService {
         });
 
         return promise;
+    }
+
+    public getJwtToken(): string | null {
+        return localStorage.getItem(this.tokenKey) ?? null;
     }
 }

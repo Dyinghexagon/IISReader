@@ -24,8 +24,4 @@ export class AppState {
         return null;
     }
 
-    public getJwtToken(): string | null {
-        return localStorage.getItem(this.authService.tokenKey) ?? null;
-    }
-
 }

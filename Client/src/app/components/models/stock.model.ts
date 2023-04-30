@@ -1,36 +1,36 @@
 export class StockModel {
-    private _id: string;
-    private _secid: string;
-    private _name: string;
-    private _currentPrice: number;
-    private _changePerDay: number;
+    private id: string;
+    private secid: string;
+    private name: string;
+    private currentPrice: number;
+    private changePerDay: number;
 
     constructor(data: IStockModel) {
-        this._id = data.id;
-        this._secid = data.secid;
-        this._name = data.name;
-        this._currentPrice = data.currentPrice;
-        this._changePerDay = data.changePerDay;
+        this.id = data.id;
+        this.secid = data.secid;
+        this.name = data.name;
+        this.currentPrice = data.currentPrice;
+        this.changePerDay = data.changePerDay;
     }
 
     public get Id(): string {
-        return this._id;
+        return this.id;
     }
 
     public get SecId(): string {
-        return this._secid;
+        return this.secid;
     }
     
     public get Name(): string {
-        return this._name;
+        return this.name;
     }
     
     public get CurrentPrice(): number {
-        return this._currentPrice;
+        return this.currentPrice;
     }
     
     public get ChangePerDay(): number {
-        return this._changePerDay;
+        return this.changePerDay;
     }
 }
 
