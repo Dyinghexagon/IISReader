@@ -50,7 +50,7 @@ namespace Backend.Services.AccountService
         {
             var accounts = await GetAllAsync();
 
-            if (accounts.Select(x => x.Login == accountModel.Login).SingleOrDefault())
+            if (accounts.Select(x => x.Login == accountModel.Login).FirstOrDefault())
             {
                 throw new Exception("Repit login!");
             }

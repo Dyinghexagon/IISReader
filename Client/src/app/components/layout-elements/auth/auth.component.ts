@@ -76,13 +76,20 @@ export class AuthComponent implements OnInit {
     
     public async submitRegForm(): Promise<void> {
         if (this.regForm.valid) {
-            const statusReg = await this.authService.register(new AccountModel({
-                id: Guid.create().toString(),
-                login: this.regLogin?.value,
-                password: this.regPassword?.value,
-                stockLists: []
-            }));
-            this.createAlertInternal(statusReg, "Регистрация прошла успешно!", "Ошибка регистрации!");
+            let status = 200;
+            try {
+                await this.authService.register(new AccountModel({
+                    id: Guid.create().toString(),
+                    login: this.regLogin?.value,
+                    password: this.regPassword?.value,
+                    stockLists: []
+                }));
+            } catch (ex) {
+                status = 500;
+                console.error(ex);
+            }
+
+            this.createAlertInternal(status, "Регистрация прошла успешно!", "Ошибка регистрации!");
         }
     }
 

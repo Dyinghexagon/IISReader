@@ -12,16 +12,20 @@ namespace Backend.Controllers
     public class AccountsController : ControllerBase
     {
         private readonly IAccountsService _accountService;
-        private readonly AccountMapper _mapper;
-        private readonly Logger<AccountsController> _logger;
+        private readonly AccountMapper _accountMapper;
+        private readonly StockListMapper _stockListMapper;
+        private readonly ILogger<AccountsController> _logger;
+
         public AccountsController(
             IAccountsService userService, 
-            AccountMapper mapper,
-            Logger<AccountsController> logger
+            AccountMapper accountMapper,
+            StockListMapper stockListMapper,
+            ILogger<AccountsController> logger
         )
         {
             _accountService = userService;
-            _mapper = mapper;
+            _accountMapper = accountMapper;
+            _stockListMapper = stockListMapper;
             _logger = logger;
         }
 
@@ -31,7 +35,7 @@ namespace Backend.Controllers
         {
             var account = await _accountService.GetAccountByLoginAsync(login);
 
-            return _mapper.Map(account);
+            return _accountMapper.Map(account);
         }
 
         [AllowAnonymous]
@@ -40,26 +44,36 @@ namespace Backend.Controllers
         {
             var users = await _accountService.GetAllAsync();
             var userModels = new List<AccountModel?>();
+
             foreach(var user in users)
             {
-                userModels.Add(_mapper.Map(user));
+                userModels.Add(_accountMapper.Map(user));
             }
 
             return userModels;
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateAccount(AccountModel accountModel)
+        [HttpPost("SetNewStockList/{id:guid}")]
+        public async Task<IActionResult> SetNewStockList(Guid id, [FromBody] StockListModel stockListModel)
         {
+            var stockList = _stockListMapper.MapStockList(stockListModel);
+            
+            if (stockList is null)
+            {
+                return BadRequest();
+            }
+
             try
             {
-                var account = _mapper.Map(accountModel);
-                await _accountService.UpdateAsync(accountModel.Id, account);
+                var account = await _accountService.GetAsync(id);
+                account.StockList?.Add(stockList);
+                await _accountService.UpdateAsync(id, account);
 
                 return Ok(account);
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
-                _logger.LogError(ex.Message, ex);
+                _logger.LogError("Error from add new stock list", ex.StackTrace);
                 return BadRequest(ex.Message);
             }
         }

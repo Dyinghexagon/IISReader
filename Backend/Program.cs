@@ -20,26 +20,21 @@ namespace Backend
             // Add services to the container.
             builder.Services.Configure<DatabaseOptions>(
                 builder.Configuration.GetSection("DatabaseOptions"));
-            builder.Services.Configure<RegistrationOptions>(
-                builder.Configuration.GetSection("RegistrationOptions"));
-            var secret = Encoding.ASCII.GetBytes(builder.Configuration.GetSection("RegistrationOptions")["Secret"]);
-            builder.Services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme= JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(x =>
-            {
-                x.RequireHttpsMetadata= false;
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
+
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(option =>
                 {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(secret),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
-            });
+                    option.TokenValidationParameters = new()
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = RegistrationOptions.Issuer,
+                        ValidateAudience = true,
+                        ValidAudience = RegistrationOptions.Audience,
+                        ValidateLifetime = true,
+                        IssuerSigningKey = RegistrationOptions.GetSymmetricSecurityKey(),
+                        ValidateIssuerSigningKey = true
+                    };
+                });
 
             builder.Services.AddSingleton<IAccountsRepository,  AccountsRepository>();
             builder.Services.AddSingleton<IStocksRepository,  StocksRepository>();
@@ -48,8 +43,9 @@ namespace Backend
             builder.Services.AddSingleton<IStocksService, StocksService>();
 
             builder.Services.AddSingleton<AccountMapper>();
-
+            builder.Services.AddSingleton<StockListMapper>();
             builder.Services.AddSingleton<StockMapper>();
+
             builder.Services.AddControllers()
                             .AddJsonOptions(
                             options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
@@ -87,6 +83,7 @@ namespace Backend
                 // when shutting down we want jobs to complete gracefully
                 options.WaitForJobsToComplete = true;
             });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

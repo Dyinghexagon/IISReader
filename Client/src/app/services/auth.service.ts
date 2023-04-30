@@ -1,5 +1,5 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Injectable, NgZone } from "@angular/core";
 import { AppConfig } from "../app.config";
 import { AccountModel } from "../components/models/account.model";
 import { BaseService } from "./base.service";
@@ -9,37 +9,37 @@ export class AuthService extends BaseService {
 
     constructor(
         http: HttpClient,
-        protected config: AppConfig,
+        zone: NgZone,
+        protected config: AppConfig
     ) {
-        super(http);
+        super(http, zone);
     }
 
-    public register(account: AccountModel): Promise<number> {
-        return this.post(`${this.config.authApi}/register`, account, this.jwt()).then((response: Response) => {
-            return response.status;
-        });
+    public get tokenKey(): string {
+        return "accessToken";
+    }
+
+    public get loginKey(): string {
+        return "currentAccount";
+    }
+
+    public register(account: AccountModel): Promise<void> {
+        return this.post(`${this.config.authApi}/register`, account).then(data => data);
     }
 
     public login(account: AccountModel): Promise<number> {
-        return this.post(`${this.config.authApi}/authenticate`, account).then((response: Response) => {
-            if (response) {
-                localStorage.setItem("currentAccount", JSON.stringify({id: account.id, login: account.login}));
+        return this.post(`${this.config.authApi}/authenticate`, account).then(response => {
+            if (response.status === 200) {
+                const data = response.body.Value;
+                localStorage.setItem(this.tokenKey, data.acces_token);
+                localStorage.setItem(this.loginKey, data.login);
             }
-
             return response.status;
         });
     }
 
     public logout() {
-        localStorage.removeItem("currentAccount");
-    }
-
-    private jwt() {
-        if (!localStorage.length) return new HttpHeaders({ "content-type": "application/json", "cache-control": "no-cache" });
-        let token = JSON.parse(localStorage.getItem("currentAccount") ?? "").token;
-        return new HttpHeaders({
-            "Accept":"application/json",
-            "Authorization": "Bearer " + token
-        });
+        localStorage.removeItem(this.tokenKey);
+        localStorage.removeItem(this.loginKey);
     }
 }

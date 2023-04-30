@@ -1,33 +1,71 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, NgZone } from "@angular/core";
+import { Observable } from "rxjs";
 
 @Injectable()
 export class BaseService {
 
-    constructor(protected http: HttpClient) { }
+    constructor(
+        protected http: HttpClient,
+        protected zone: NgZone
+        ) { }
 
-    private get headers(): HttpHeaders {
+    private getHeaders(): HttpHeaders {
         return new HttpHeaders({ "content-type": "application/json", "cache-control": "no-cache" });
     }
 
-    protected post(url: string, data: any, headers: HttpHeaders = this.headers): Promise<any> {
-        let res = this.http.post(url, data, { headers: headers ?? this.headers });
-        return res.toPromise().then(data => {
-            return data;
-        }).catch(err => err);
+    public post(url: string, data: any, silent?: boolean): Promise<any> {
+        const observable = this.http.post(url, JSON.stringify(data), { headers: this.getHeaders(), observe: "response", withCredentials: true  });
+        return this.subscribe(observable, url, silent);
     }
 
-    protected get(url: string): Promise<any> {
-        let res = this.http.get(url);
-        return res.toPromise().then(data => {
-            return data;
-        }).catch(err => err);
+    public get(url: string, silent?: boolean, full: boolean = false): Promise<any> {
+        const observable = this.http.get(url, { headers: this.getHeaders(), observe: "response", withCredentials: true });
+        return this.subscribe(observable, url, silent, full);
     }
 
-    protected put(url: string, data: any, headers: HttpHeaders = this.headers): Promise<any> {
-        let res = this.http.put(url, data, { headers: headers ?? this.headers });
-        return res.toPromise().then(data => {
-            return data;
-        }).catch(err => err);
+    public put(url: string, data: any, silent?: boolean): Promise<any> {
+        const observable = this.http.put(url, JSON.stringify(data), { headers: this.getHeaders(), observe: "response", withCredentials: true });
+        return this.subscribe(observable, url, silent);
+    }
+
+    public delete(url: string, silent?: boolean): Promise<any> {
+        const observable = this.http.delete(url, { headers: this.getHeaders(), observe: "response" });
+        return this.subscribe(observable, url, silent);
+    }
+
+    protected subscribe(observable: Observable<object>, url: string, silent?: boolean, full: boolean = false): Promise<any> {
+        const promise = new Promise((resolve, reject) => {
+            observable.subscribe({
+                next: (r: any) => {
+                    setTimeout(() => {
+                        this.zone.run(() => {
+                            resolve(r);
+                        });
+                    });
+                },
+                error: r => {
+                    if (silent) {   // ToDo check
+                        if (r.status === 500) {
+                            resolve({ code: "500" });
+                        } else {
+                            resolve(r.error || null);
+                        }
+                    } else {
+                        if (r.status === 401) {
+                            reject(r);
+                            return;
+                        }
+                        if (r.status === 403) {
+                            resolve(null);
+                        }
+
+                        resolve(r.error || null);
+                    }
+                }
+            });
+        });
+
+        return promise;
     }
 }

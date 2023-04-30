@@ -17,12 +17,14 @@ namespace Backend.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAccountsService _accountService;
-        private readonly String _secret;
+        private readonly ILogger<AuthController> _logger;
 
-        public AuthController(IAccountsService accountService, IOptions<RegistrationOptions> options)
+        public AuthController(
+            IAccountsService accountService,
+            ILogger<AuthController> logger)
         {
             _accountService = accountService;
-            _secret = options.Value.Secret;
+            _logger = logger;
         }
 
         [AllowAnonymous]
@@ -32,11 +34,12 @@ namespace Backend.Controllers
             try
             {
                 await _accountService.CreateAndPrepareAccountAsync(account);
-
-                return Ok(account.Id);
+                var token = GetJwtToken(account.Login);
+                return Ok(token);
             }
             catch (Exception ex)
             {
+                _logger.LogError("Error in registration account method", ex.StackTrace);
                 return BadRequest(ex.Message);
             }
 
@@ -44,32 +47,40 @@ namespace Backend.Controllers
 
         [AllowAnonymous]
         [HttpPost("authenticate")]
-        public async Task<IActionResult> Login([FromBody] AccountModel accountModel)
+        public async Task<IResult> Login([FromBody] AccountModel accountModel)
         {
             var account = await _accountService.Login(accountModel.Login, accountModel.Password);
 
             if (account == null)
             {
-                return NotFound();
+                return Results.Unauthorized();
             }
 
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_secret);
-            var tokenDescription = new SecurityTokenDescriptor
+            var roken = GetJwtToken(account.Login);
+
+            var response = new
             {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Name, account.Id.ToString())
-                }),
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(
-                    new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                acces_token = roken,
+                login = accountModel.Login
             };
 
-            var token = tokenHandler.CreateToken(tokenDescription);
-            var tokenString = tokenHandler.WriteToken(token);
+            return Results.Json(response);
+        }
 
-            return Ok(tokenString);
+        private static String GetJwtToken(String login)
+        {
+            var claims = new List<Claim>() { new Claim(ClaimTypes.Name, login) };
+            var jwt = new JwtSecurityToken(
+                issuer: RegistrationOptions.Issuer,
+                audience: RegistrationOptions.Audience,
+                claims: claims,
+                expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(2)),
+                signingCredentials: new(RegistrationOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256)
+                );
+
+            var token = new JwtSecurityTokenHandler().WriteToken(jwt);
+
+            return token;
         }
     }
 }

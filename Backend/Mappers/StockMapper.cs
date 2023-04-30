@@ -58,5 +58,47 @@ namespace Backend.Mappers
                     Time = stockChartDataModel.Time
                 };
         }
+
+        public List<StockModel>? MapToStockListModel(List<Stock>? stockList)
+        {
+            if (stockList is null)
+            {
+                return null;
+            }
+
+            var stocks = new List<StockModel>();
+
+            foreach (var stock in stockList)
+            {
+                var stockModel = Map(stock);
+                if (stockModel is not null)
+                {
+                    stocks.Add(stockModel);
+                }
+            }
+
+            return stocks;
+        }
+
+        public List<Stock>? MapToStockList(List<StockModel>? stockList)
+        {
+            if (stockList is null)
+            {
+                return null;
+            }
+
+            var stocks = new List<Stock>();
+
+            foreach (var stockModel in stockList)
+            {
+                var stock = Map(stockModel);
+                if (stock is not null)
+                {
+                    stocks.Add(stock);
+                }
+            }
+
+            return stocks;
+        }
     }
 }

@@ -22,7 +22,7 @@ namespace Backend.Mappers
                 {
                     Id = stock.Id,
                     Title = stock.Title,
-                    Stocks = MapToStockList(stock.Stocks)
+                    Stocks = _mapper.MapToStockList(stock.Stocks)
                 });
             }
 
@@ -44,52 +44,41 @@ namespace Backend.Mappers
                 {
                     Id = stock.Id,
                     Title = stock.Title,
-                    Stocks = MapToStockListModel(stock.Stocks)
+                    Stocks = _mapper.MapToStockListModel(stock.Stocks)
                 });
             }
 
             return result;
         }
 
-        private List<Stock>? MapToStockList(List<StockModel>? stockList)
+        public StockListModel? MapStockList(StockList? stockList)
         {
             if (stockList is null)
             {
                 return null;
             }
 
-            var stocks = new List<Stock>();
-
-            foreach(var stockModel in stockList)
+            return new()
             {
-                var stock = _mapper.Map(stockModel);
-                if (stock is not null) {
-                    stocks.Add(stock);
-                }
-            }
-
-            return stocks;
+                Id = stockList.Id,
+                Title = stockList.Title,
+                Stocks = _mapper.MapToStockListModel(stockList.Stocks)
+            };
         }
 
-        private List<StockModel>? MapToStockListModel(List<Stock>? stockList)
+        public StockList? MapStockList(StockListModel? stockList)
         {
             if (stockList is null)
             {
                 return null;
             }
 
-            var stocks = new List<StockModel>();
-
-            foreach (var stock in stockList)
+            return new()
             {
-                var stockModel = _mapper.Map(stock);
-                if (stockModel is not null)
-                {
-                    stocks.Add(stockModel);
-                }
-            }
-
-            return stocks;
+                Id = stockList.Id,
+                Title = stockList.Title,
+                Stocks = _mapper.MapToStockList(stockList.Stocks)
+            };
         }
     }
 }

@@ -1,7 +1,16 @@
-﻿namespace Backend.Models.Options
+﻿using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
+namespace Backend.Models.Options
 {
-    public class RegistrationOptions
+    public static class RegistrationOptions
     {
-        public String Secret { get; set; } = String.Empty;
+        public const String Secret = "eyJhbGciOiQssGts53G1";
+
+        public const String Issuer = "IISReaderServer";
+
+        public const String Audience = "IISReaderClient";
+
+        public static SymmetricSecurityKey GetSymmetricSecurityKey() => new(Encoding.UTF8.GetBytes(Secret));
     }
 }
