@@ -18,7 +18,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let stockList of account?.StockList; let index = index">
+        <tr *ngFor="let stockList of stockList; let index = index">
             <td>{{ index + 1 }}</td>
             <td>{{ stockList.Title }}</td>
             <td>

@@ -7,47 +7,43 @@ namespace Backend.Mappers
     {
         private readonly StockMapper _mapper = new();
 
-        public List<StockList>? Map(List<StockListModel>? stocks)
+        public List<StockList>? Map(List<StockListModel>? stockLists)
         {
-            if (stocks == null)
+            if (stockLists == null)
             {
                 return null;
             }
 
             var result = new List<StockList>();
 
-            foreach (var stock in stocks)
+            foreach (var stockList in stockLists)
             {
-                result.Add(new()
+                var newStockList = MapStockList(stockList);
+                if (newStockList is not null)
                 {
-                    Id = stock.Id,
-                    Title = stock.Title,
-                    Stocks = _mapper.MapToStockList(stock.Stocks),
-                    IsNotificated = stock.IsNotificated
-                });
+                    result.Add(newStockList);
+                }
             }
 
             return result;
         }
 
-        public List<StockListModel>? Map(List<StockList>? stocks)
+        public List<StockListModel>? Map(List<StockList>? stockLists)
         {
-            if (stocks == null)
+            if (stockLists == null)
             {
                 return null;
             }
 
             var result = new List<StockListModel>();
 
-            foreach (var stock in stocks)
+            foreach (var stockList in stockLists)
             {
-                result.Add(new()
+                var newStockList = MapStockList(stockList);
+                if (newStockList is not null)
                 {
-                    Id = stock.Id,
-                    Title = stock.Title,
-                    Stocks = _mapper.MapToStockListModel(stock.Stocks),
-                    IsNotificated = stock.IsNotificated
-                });
+                    result.Add(newStockList);
+                }
             }
 
             return result;
@@ -64,7 +60,8 @@ namespace Backend.Mappers
             {
                 Id = stockList.Id,
                 Title = stockList.Title,
-                Stocks = _mapper.MapToStockListModel(stockList.Stocks)
+                Stocks = _mapper.MapToStockListModel(stockList.Stocks),
+                IsNotificated = stockList.IsNotificated
             };
         }
 
@@ -79,7 +76,8 @@ namespace Backend.Mappers
             {
                 Id = stockList.Id,
                 Title = stockList.Title,
-                Stocks = _mapper.MapToStockList(stockList.Stocks)
+                Stocks = _mapper.MapToStockList(stockList.Stocks),
+                IsNotificated= stockList.IsNotificated
             };
         }
     }

@@ -43,12 +43,26 @@ export class PersonalPageComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.unsubscribe$))
             .subscribe(async (stockList: StockListModel) => {
                 this.accountService.setNewStockList(this.account?.Id ?? "", stockList);
+                this.notificatedChanged();
             });
+        
+        this.dtOptions = {
+            pagingType: 'full_numbers',
+            pageLength: 10,
+            processing: true
+        };
+
+        this.dtTrigger.next(this.account?.StockList);
     }
 
     public ngOnDestroy(): void {
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
+        this.dtTrigger.unsubscribe();
+    }
+
+    public get stockList() {
+        return this.account?.StockList;
     }
 
     public logout(): void {
@@ -71,6 +85,7 @@ export class PersonalPageComponent implements OnInit, OnDestroy {
 
     public notificatedChanged() {
         this.accountService.updateAccount(this.account?.Id ?? "", this.account);
+        this.dtTrigger.next(this.account?.StockList);
     }
 
 }
