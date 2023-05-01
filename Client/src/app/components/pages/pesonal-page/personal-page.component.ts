@@ -9,6 +9,7 @@ import { AppState } from "../../models/app-state.module";
 import { ModalState } from "../../models/modal-state.module";
 import { StockListModel } from "../../models/stock-list.model";
 import { AddNewStockListComponent } from "../../shared/modal/add-new-stock-list/add-new-stock-list-modal.component";
+import { EditStockListComponent } from "../../shared/modal/edit-stock-list/edit-stock-list.component";
 
 @Component({
     selector: "personal-page",
@@ -39,7 +40,7 @@ export class PersonalPageComponent implements OnInit, OnDestroy {
     public async ngOnInit(): Promise<void>  {
         this.account = await this.appState.getAccount();
 
-        this.modalState.addNewStockList.createdList$
+        this.modalState.addNewStockList.createdStockList$
             .pipe(takeUntil(this.unsubscribe$))
             .subscribe(async (stockList: StockListModel) => {
                 this.accountService.setNewStockList(this.account?.Id ?? "", stockList);
@@ -71,8 +72,16 @@ export class PersonalPageComponent implements OnInit, OnDestroy {
         this.appState.authState.logout$.next();
     }
 
-    public openModal(): void {
+    public openAddNewStockListModal(): void {
         this.modalRef = this.modalService.open(AddNewStockListComponent);
+    }
+
+    public openEditStockListModal(index: number): void {
+        const editingStockList = this.account?.StockList[index];
+        this.modalRef = this.modalService.open(EditStockListComponent, {
+            data: { stockList: editingStockList },
+            modalClass: "modal-lg"
+          });
     }
 
     public removeStockList(stockListIndex: number): void {

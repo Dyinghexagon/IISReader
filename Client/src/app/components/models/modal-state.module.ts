@@ -1,11 +1,11 @@
 import { Injectable } from "@angular/core";
-import { AddNewStockListState } from "./add-new-stock-list-state.module";
+import { StockListState } from "./add-new-stock-list-state.module";
 
 @Injectable()
 export class ModalState {
-    public readonly addNewStockList: AddNewStockListState;
+    public readonly addNewStockList: StockListState;
 
     constructor() {
-        this.addNewStockList = new AddNewStockListState();
+        this.addNewStockList = new StockListState();
     }
 }

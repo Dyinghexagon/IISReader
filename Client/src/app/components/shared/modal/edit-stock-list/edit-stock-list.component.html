@@ -1,0 +1,17 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="editNewStockList">Создание нового спсика ценных бумаг</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
+    </div>
+    <form [formGroup]="editStockListForm" (ngSubmit)="submitForm()">
+        <div class="modal-body">
+            <div class="form-outline mb-4">
+                <input type="text" id="title" class="form-control"  [placeholder]="stockList.Title" formControlName="title">
+            </div>
+        </div>
+        <stocks [stocks]="stockList.Stocks"></stocks>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" (click)="close()">Изменить список</button>
+        </div>
+    </form>
+</div>

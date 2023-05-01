@@ -29,6 +29,7 @@ import { MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { AddNewStockListComponent } from './components/shared/modal/add-new-stock-list/add-new-stock-list-modal.component';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { ModalState } from './components/models/modal-state.module';
+import { EditStockListComponent } from './components/shared/modal/edit-stock-list/edit-stock-list.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { ModalState } from './components/models/modal-state.module';
     AuthComponent,
     StockChatComponent,
     StockPageComponent,
-    AddNewStockListComponent
+    AddNewStockListComponent,
+    EditStockListComponent
   ],
   imports: [
     BrowserModule,

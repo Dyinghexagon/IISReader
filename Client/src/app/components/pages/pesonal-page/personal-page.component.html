@@ -28,12 +28,12 @@
               <button class="btn btn-danger" (click)="removeStockList(index)">Удалить список</button>
             </td>
             <td>
-              <button class="btn btn-primary" (click)="removeStockList(index)">Редактировать список</button>
+              <button class="btn btn-primary" (click)="openEditStockListModal(index)">Редактировать список</button>
             </td>
         </tr>
     </tbody>
   </table>
-  <button class="btn btn-primary" (click)="openModal()">Создать список бумаг</button>
+  <button class="btn btn-primary" (click)="openAddNewStockListModal()">Создать список бумаг</button>
 </div>
 <div *ngIf="tab === 'notification'">
   notification

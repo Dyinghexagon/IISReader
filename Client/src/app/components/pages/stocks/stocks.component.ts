@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { Subject } from "rxjs";
 import { StockService } from "src/app/services/stock.service";
 import { StockModel } from "../../models/stock.model";
@@ -10,8 +10,9 @@ import { StockModel } from "../../models/stock.model";
 })
 
 export class StocksComponent implements OnInit, OnDestroy  {
+    
+    @Input() public stocks: StockModel[] = [];
 
-    public stocks: StockModel[] = [];
     public date: string = "";
     public dtOptions: DataTables.Settings = {};
     public dtTrigger: Subject<any> = new Subject<StockModel[]>();
@@ -24,7 +25,11 @@ export class StocksComponent implements OnInit, OnDestroy  {
             pageLength: 10,
             processing: true
         };
-        this.stocks = await this.securityService.getSecurityList();
+
+        if (!this.stocks.length) {
+            this.stocks = await this.securityService.getSecurityList();
+        }
+
         this.dtTrigger.next(this.stocks);
     }
 
