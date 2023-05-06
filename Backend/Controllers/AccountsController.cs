@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using Backend.Models.Client;
 using Backend.Mappers;
 using Backend.Services.AccountService;
-using Backend.Models.Backend;
 
 namespace Backend.Controllers
 {

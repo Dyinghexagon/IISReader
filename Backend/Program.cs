@@ -6,9 +6,7 @@ using Backend.Repository.StockRepository;
 using Backend.Services.AccountService;
 using Backend.Services.StockService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using Quartz;
-using System.Text;
 
 namespace Backend
 {
