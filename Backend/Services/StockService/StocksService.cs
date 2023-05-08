@@ -22,7 +22,7 @@ namespace Backend.Services.StockService
             var request = new IssRequest();
             var path = "engines/stock/markets/shares/boards/TQBR/securities";
             request.FullPath(path);
-            request.AddQuery(new KeyValuePair<string, string>("marketdata.columns", "SECID, LAST, LASTTOPREVPRICE"));
+            request.AddQuery(new KeyValuePair<string, string>("marketdata.columns", "SECID, LAST, LASTTOPREVPRICE, VOLTODAY"));
             await request.Fetch();
             var respones = request.ToResponse();
 
@@ -38,7 +38,8 @@ namespace Backend.Services.StockService
                     SecId = secid,
                     Name = secidName[secid] ?? "",
                     CurrentPrice = Convert.ToDouble(data["Last"]),
-                    ChangePerDay = Convert.ToDouble(data["Lasttoprevprice"])
+                    ChangePerDay = Convert.ToDouble(data["Lasttoprevprice"]),
+                    CurrentVolume = Convert.ToInt64(data["Voltoday"])
                 });
             }
 

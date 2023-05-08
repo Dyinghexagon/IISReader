@@ -13,7 +13,8 @@ namespace Backend.Mappers
                 SecId = security.SecId,
                 Name = security.Name,
                 ChangePerDay = security.ChangePerDay,
-                CurrentPrice = security.CurrentPrice
+                CurrentPrice = security.CurrentPrice,
+                CurrentVolume = security.CurrentVolume
             };
         }
 
@@ -25,7 +26,8 @@ namespace Backend.Mappers
                 SecId = security.SecId,
                 Name = security.Name,
                 CurrentPrice = security.CurrentPrice,
-                ChangePerDay = security.ChangePerDay
+                ChangePerDay = security.ChangePerDay,
+                CurrentVolume = security.CurrentVolume
             };
         }
 

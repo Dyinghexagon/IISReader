@@ -4,6 +4,7 @@ export class StockModel {
     private name: string;
     private currentPrice: number;
     private changePerDay: number;
+    private currentVolume: number;
 
     constructor(data: IStockModel) {
         this.id = data.id;
@@ -11,6 +12,7 @@ export class StockModel {
         this.name = data.name;
         this.currentPrice = data.currentPrice;
         this.changePerDay = data.changePerDay;
+        this.currentVolume = data.currentVolume;
     }
 
     public get Id(): string {
@@ -32,6 +34,10 @@ export class StockModel {
     public get ChangePerDay(): number {
         return this.changePerDay;
     }
+
+    public get CurrentVolume(): number {
+        return this.currentVolume;
+    }
 }
 
 export interface IStockModel {
@@ -40,4 +46,5 @@ export interface IStockModel {
     name: string;
     currentPrice: number;
     changePerDay: number;
+    currentVolume: number;
 }

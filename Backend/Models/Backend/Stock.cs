@@ -10,5 +10,7 @@
 
         public Double ChangePerDay { get; set; } = Double.MinValue;
 
+        public Int64 CurrentVolume { get; set; } = Int64.MinValue;
+
     }
 }
