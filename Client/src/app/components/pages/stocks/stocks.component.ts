@@ -31,6 +31,7 @@ export class StocksComponent implements OnInit, OnDestroy  {
         }
 
         this.dtTrigger.next(this.stocks);
+        console.warn(this.stocks)
     }
 
     public ngOnDestroy(): void {

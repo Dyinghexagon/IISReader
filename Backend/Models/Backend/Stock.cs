@@ -1,6 +1,6 @@
 ﻿namespace Backend.Models.Backend
 {
-    public class Stock : Entity
+    public class Stock : Entity, IEquatable<Stock>
     {
         public String SecId { get; set; } = String.Empty;
 
@@ -12,5 +12,9 @@
 
         public Int64 CurrentVolume { get; set; } = Int64.MinValue;
 
+        public bool Equals(Stock? other)
+        {
+            return SecId.Equals(other?.SecId);
+        }
     }
 }
