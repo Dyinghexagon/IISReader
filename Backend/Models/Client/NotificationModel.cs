@@ -1,6 +1,6 @@
-﻿namespace Backend.Models.Backend
+﻿namespace Backend.Models.Client
 {
-    public class Notification : Entity
+    public class NotificationModel : Entity
     {
         public String Title { get; set; } = String.Empty;
 

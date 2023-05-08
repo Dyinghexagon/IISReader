@@ -30,6 +30,7 @@ import { AddNewStockListComponent } from './components/shared/modal/add-new-stoc
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { ModalState } from './components/models/modal-state.module';
 import { EditStockListComponent } from './components/shared/modal/edit-stock-list/edit-stock-list.component';
+import { NotificatedService } from './services/notification.service';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { EditStockListComponent } from './components/shared/modal/edit-stock-lis
     AccountsService,
     AuthService, 
     StockService,
-    MdbModalService
+    MdbModalService,
+    NotificatedService
   ],
   bootstrap: [ AppComponent ]
 })

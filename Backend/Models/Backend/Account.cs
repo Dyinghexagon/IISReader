@@ -12,7 +12,9 @@ namespace Backend.Models.Backend
 
         public List<StockList> StockList { get; set; } = new List<StockList>();
 
-        public Account(Guid id, String login, String password, List<StockList> stockList)
+        public List<Notification> Notifications { get; set; } = new List<Notification>();
+
+        public Account(Guid id, String login, String password, List<StockList> stockList, List<Notification> notifications)
         {
             Id = id;
             Login = login;
@@ -20,6 +22,7 @@ namespace Backend.Models.Backend
             PasswordHash = Convert.ToBase64String(passwordHash);
             PasswordSalt = Convert.ToBase64String(passwordSalt);
             StockList = stockList;
+            Notifications = notifications;
         }
     }
 }

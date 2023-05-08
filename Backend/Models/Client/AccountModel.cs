@@ -8,5 +8,7 @@
 
         public List<StockListModel> StockList { get; set; } = new List<StockListModel>();
 
+        public List<NotificationModel> Notifications { get; set; } = new List<NotificationModel>();
+
     }
 }

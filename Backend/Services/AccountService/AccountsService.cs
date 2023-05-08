@@ -72,7 +72,7 @@ namespace Backend.Services.AccountService
                }
             };
 
-            var account = new Account(accountModel.Id, accountModel.Login, accountModel.Password, stockList);
+            var account = new Account(accountModel.Id, accountModel.Login, accountModel.Password, stockList, new());
 
             await CreateAsync(account);
         }

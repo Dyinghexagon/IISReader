@@ -1,6 +1,8 @@
-﻿using Backend.Models.Backend;
+﻿using Backend.Hubs.NotificationHub;
+using Backend.Models.Backend;
 using Backend.Services.AccountService;
 using Backend.Services.StockService;
+using Microsoft.AspNetCore.SignalR;
 using Quartz;
 using System.Linq;
 
@@ -12,14 +14,17 @@ namespace Backend.Jobs
         private readonly IStocksService _stocksService;
         private readonly ILogger<NotificationJob> _logger;
         private readonly Int64 _commonVolume;
+        private readonly IHubContext<NotificationHub> _hub;
         public NotificationJob(
             IAccountsService accountService,
             IStocksService stocksService,
+            IHubContext<NotificationHub> hub,
             ILogger<NotificationJob> logger
         )
         {
             _accountService = accountService;
             _stocksService = stocksService;
+            _hub = hub;
             _logger = logger;
             _commonVolume = 1000;
         }
@@ -40,7 +45,16 @@ namespace Backend.Jobs
                 {
                     foreach (var stock in stockList.Stocks.Where(stock => notificatedStcoks.Contains(stock))) 
                     {
-                        _logger.LogInformation($"Account: {account.Login}\n stock: {stock.SecId}\n");
+                        await _hub.Clients.All.SendAsync("TransferStockData", new Notification()
+                        {
+                            Id = Guid.NewGuid(),
+                            Date = DateTime.Now,
+                            SecId = stock.SecId,
+                            Title = "Заголовок",
+                            Description = "Описание",
+                            isReaded = false,
+                            Volume = stock.CurrentVolume
+                        });
                     }
                 }
             }

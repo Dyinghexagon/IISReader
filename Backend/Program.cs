@@ -1,3 +1,4 @@
+using Backend.Hubs.NotificationHub;
 using Backend.Jobs;
 using Backend.Mappers;
 using Backend.Models.Options;
@@ -74,6 +75,8 @@ namespace Backend
                 options.WaitForJobsToComplete = true;
             });
 
+            builder.Services.AddSignalR();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -98,6 +101,8 @@ namespace Backend
             {
                 endpoints.MapControllers();
             });
+
+            app.MapHub<NotificationHub>("/notification");
 
             app.Run();
         }
