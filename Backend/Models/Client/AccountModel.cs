@@ -6,7 +6,7 @@
 
         public String Password { get; set; } = String.Empty;
 
-        public List<StockListModel>? StockList { get; set; } = new List<StockListModel>();
+        public List<StockListModel> StockList { get; set; } = new List<StockListModel>();
 
     }
 }

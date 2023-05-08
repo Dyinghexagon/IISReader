@@ -7,13 +7,8 @@ namespace Backend.Mappers
     {
         private readonly StockMapper _mapper = new();
 
-        public List<StockList>? Map(List<StockListModel>? stockLists)
+        public List<StockList> Map(List<StockListModel> stockLists)
         {
-            if (stockLists == null)
-            {
-                return null;
-            }
-
             var result = new List<StockList>();
 
             foreach (var stockList in stockLists)
@@ -28,13 +23,8 @@ namespace Backend.Mappers
             return result;
         }
 
-        public List<StockListModel>? Map(List<StockList>? stockLists)
+        public List<StockListModel> Map(List<StockList> stockLists)
         {
-            if (stockLists == null)
-            {
-                return null;
-            }
-
             var result = new List<StockListModel>();
 
             foreach (var stockList in stockLists)
@@ -49,13 +39,8 @@ namespace Backend.Mappers
             return result;
         }
 
-        public StockListModel? MapStockList(StockList? stockList)
+        public StockListModel MapStockList(StockList stockList)
         {
-            if (stockList is null)
-            {
-                return null;
-            }
-
             return new()
             {
                 Id = stockList.Id,
@@ -65,13 +50,8 @@ namespace Backend.Mappers
             };
         }
 
-        public StockList? MapStockList(StockListModel? stockList)
+        public StockList MapStockList(StockListModel stockList)
         {
-            if (stockList is null)
-            {
-                return null;
-            }
-
             return new()
             {
                 Id = stockList.Id,
