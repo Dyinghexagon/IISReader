@@ -45,16 +45,22 @@ namespace Backend.Jobs
                 {
                     foreach (var stock in stockList.Stocks.Where(stock => notificatedStcoks.Contains(stock))) 
                     {
-                        await _hub.Clients.All.SendAsync("TransferStockData", new Notification()
-                        {
-                            Id = Guid.NewGuid(),
-                            Date = DateTime.Now,
-                            SecId = stock.SecId,
-                            Title = "Заголовок",
-                            Description = "Описание",
-                            isReaded = false,
-                            Volume = stock.CurrentVolume
-                        });
+                        if (account.Notifications.Count < 500) {
+                            account.Notifications.Add(new Notification()
+                            {
+                                Id = Guid.NewGuid(),
+                                Date = DateTime.Now,
+                                SecId = stock.SecId,
+                                Title = "Заголовок",
+                                Description = "Описание",
+                                isReaded = false,
+                                Volume = stock.CurrentVolume
+                            });
+
+                            await _hub.Clients.All.SendAsync("TransferStockData");
+                            await _accountService.UpdateAsync(account.Id, account);
+                            _logger.LogInformation($"Notification for account: {account.Id} send!");
+                        }
                     }
                 }
             }

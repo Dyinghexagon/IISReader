@@ -64,7 +64,8 @@ export class AuthComponent {
             id: Guid.create().toString(),
             login: this.login?.value,
             password: this.loginPassword?.value,
-            stockLists: []
+            stockLists: [],
+            notifications: []
         }));
 
         this.createAlertInternal(statusLogin, "Авторизация прошла успешно!", "Ошибка авторизации!");
@@ -79,6 +80,7 @@ export class AuthComponent {
                     login: this.regLogin?.value,
                     password: this.regPassword?.value,
                     stockLists: [],
+                    notifications: []
                 }));
             } catch (ex) {
                 status = 500;

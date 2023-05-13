@@ -1,10 +1,10 @@
-import { Injectable } from "@angular/core";
+import { Injectable, OnDestroy } from "@angular/core";
 import { NavigationStart, Router } from "@angular/router";
 import { Observable, Subject } from "rxjs";
 import { IAlert } from "../components/models/alert.model";
 
 @Injectable()
-export class AlertService {
+export class AlertService implements OnDestroy {
     private alert = new Subject<IAlert>();
     private keepAfterNavigationChange = true;
 
@@ -15,6 +15,10 @@ export class AlertService {
                     this.keepAfterNavigationChange = false;
                 }
         })
+    }
+
+    public ngOnDestroy(): void {
+        this.alert.unsubscribe();
     }
     
     public get message(): Observable<IAlert> {

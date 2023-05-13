@@ -35,7 +35,6 @@ export class AuthService extends BaseService {
     }
 
     public logout() {
-        console.warn("logout");
         localStorage.removeItem(this.tokenKey);
         localStorage.removeItem(this.loginKey);
     }

@@ -19,9 +19,9 @@
                                 <input type="password" id="password" class="form-control" placeholder="Пароль" formControlName="password">
                             </div>
                             <div class="icon-wrapper">
-                                <img *ngIf="hidePasswordLoginForm && loginPassword?.value.length > 0" class="icon" src="../../../assets/eye.svg" alt="скрыть/показать"
+                                <img *ngIf="hidePasswordLoginForm && loginPassword?.value.length > 0" class="icon" src="../../../assets/images/eye.svg" alt="скрыть/показать"
                                     (click)="hidePassword('password'); hidePasswordLoginForm = !hidePasswordLoginForm">
-                                <img *ngIf="!hidePasswordLoginForm && loginPassword?.value.length > 0" class="icon" src="../../../assets/crossed-eye.svg" alt="скрыть/показать"
+                                <img *ngIf="!hidePasswordLoginForm && loginPassword?.value.length > 0" class="icon" src="../../../assets/images/crossed-eye.svg" alt="скрыть/показать"
                                     (click)="hidePassword('password'); hidePasswordLoginForm = !hidePasswordLoginForm">
                             </div>
                         </div>

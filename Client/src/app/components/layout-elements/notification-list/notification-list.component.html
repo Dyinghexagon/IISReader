@@ -1,0 +1,12 @@
+
+
+<div class="dropdown">
+    <img class="dropdown-toggle" src="../../../assets/images/bell.svg" alt="notification logo" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+        <li *ngFor="let notification of account?.Notifications">
+            <notification-item
+                [notification]="notification">
+            </notification-item>
+        </li>
+    </ul>
+  </div>

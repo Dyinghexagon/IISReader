@@ -1,33 +1,40 @@
+import { NotificationModel } from "./notification.model";
 import { StockListModel } from "./stock-list.model";
 
 export class AccountModel {
     
-    private id: string;
-    private login: string;
-    private password: string;
-    private stockLists: StockListModel[] = [];
+    private _id: string;
+    private _login: string;
+    private _password: string;
+    private _stockLists: StockListModel[] = [];
+    private _notifications: NotificationModel[] = [];
 
     constructor(data: IAccountModel) {
-        this.id = data.id;
-        this.login = data.login;
-        this.password = data.password;
-        this.stockLists = [];
+        this._id = data.id;
+        this._login = data.login;
+        this._password = data.password;
+        this._stockLists = data.stockLists;
+        this._notifications = data.notifications;
     }
 
-    public get Id() {
-        return this.id;
+    public get Id(): string {
+        return this._id;
     }
 
-    public get Login() {
-        return this.login;
+    public get Login(): string {
+        return this._login;
     }
 
-    public get Password() {
-        return this.password;
+    public get Password(): string {
+        return this._password;
     }
 
-    public get StockList() {
-        return this.stockLists;
+    public get StockList(): StockListModel[] {
+        return this._stockLists;
+    }
+
+    public get Notifications(): NotificationModel[] {
+        return this._notifications;
     }
 
 }
@@ -37,4 +44,5 @@ export interface IAccountModel {
     login: string;
     password: string;
     stockLists: StockListModel[];
+    notifications: NotificationModel[];
 }

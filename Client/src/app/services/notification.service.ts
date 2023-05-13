@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
-import { Injectable, NgZone } from "@angular/core";
+import { Injectable, NgZone, OnDestroy } from "@angular/core";
 import * as signalR from "@microsoft/signalr";
+import { Subject } from "rxjs";
 import { AppConfig } from "../app.config";
 import { BaseService } from "./base.service";
 
@@ -8,11 +9,10 @@ import { BaseService } from "./base.service";
     providedIn: "root"
 })
 
-export class NotificatedService extends BaseService {
+export class NotificatedService extends BaseService implements OnDestroy {
+    private hubConnection: signalR.HubConnection;
 
-    public notifications!: Notification[];
-
-    private hubConnection!: signalR.HubConnection;
+    public notificateSend$: Subject<void> = new Subject<void>();
 
     constructor(
         http: HttpClient,
@@ -20,26 +20,25 @@ export class NotificatedService extends BaseService {
         protected config: AppConfig
     ) {
         super(http, zone);
-    }
-
-    public startConnection(): void {
-        this.hubConnection = new signalR.HubConnectionBuilder().withUrl("https://localhost:7252/notification", {
-            skipNegotiation: true,
-            transport: signalR.HttpTransportType.WebSockets
-        }).build();
-
+        this.hubConnection = new signalR.HubConnectionBuilder()
+            .withUrl(config.notificationApi, {
+                skipNegotiation: true,
+                transport: signalR.HttpTransportType.WebSockets
+            }
+        ).build();
         this.hubConnection.start()
             .then(() => console.warn("Connection started!"))
             .catch(err => console.log('Error while starting connection: ' + err));
-    }
 
-    public addTransferStockDataListener(): void {
-        console.warn(this.hubConnection);
-
-        this.hubConnection.on("transferstockdata", (data) => {
-            this.notifications = data;
-            console.warn(data);
+        this.hubConnection.on("transferstockdata", () => {
+            this.notificateSend$.next();
         });
     }
+
+    public ngOnDestroy(): void {
+        this.notificateSend$.unsubscribe();
+    }
+
+
 
 }

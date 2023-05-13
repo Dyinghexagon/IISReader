@@ -31,6 +31,8 @@ import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { ModalState } from './components/models/modal-state.module';
 import { EditStockListComponent } from './components/shared/modal/edit-stock-list/edit-stock-list.component';
 import { NotificatedService } from './services/notification.service';
+import { NotificationList } from './components/layout-elements/notification-list/notification-list.component';
+import { NotificationItem } from './components/layout-elements/notification-list/notification-item/notification-item.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,9 @@ import { NotificatedService } from './services/notification.service';
     StockChatComponent,
     StockPageComponent,
     AddNewStockListComponent,
-    EditStockListComponent
+    EditStockListComponent,
+    NotificationList,
+    NotificationItem
   ],
   imports: [
     BrowserModule,

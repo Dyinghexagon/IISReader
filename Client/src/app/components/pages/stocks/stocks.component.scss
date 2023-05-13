@@ -1,9 +1,9 @@
 .favorite {
     height: 30px;
-    content: url("../../../../assets/star.svg");
+    content: url("../../../../assets/images/star.svg");
 
     &:hover {
         cursor: pointer;
-        content: url("../../../../assets/star-gold.svg");
+        content: url("../../../../assets/images/star-gold.svg");
     }
 }
