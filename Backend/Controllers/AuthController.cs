@@ -59,7 +59,7 @@ namespace Backend.Controllers
             var response = new
             {
                 acces_token = roken,
-                login = accountModel.Login
+                login = account.Login
             };
 
             return Results.Json(response);

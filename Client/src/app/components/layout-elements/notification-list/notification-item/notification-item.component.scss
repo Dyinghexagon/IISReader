@@ -1,4 +1,8 @@
 .toast:not(.show) {
     display: block;
     background: white;
+
+    &.is-readed {
+        background: rgba($color: white, $alpha: 0.5);
+    }
 }

@@ -1,7 +1,8 @@
-<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" [class.is-readed]="notification.IsReaded">
     <div class="toast-header">
       <strong class="me-auto">{{ notification.Title }}</strong>
       <small class="text-muted">{{ notification.Date }}</small>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Прочитано" (click)="readNotification()"></button>
     </div>
     <div class="toast-body">
         <h5>Тикет бумаги</h5>
@@ -9,6 +10,6 @@
         <h5>Описание</h5>
         <p>{{ notification.Description }}</p>
         <h5>Объем</h5>
-        <p>{{ notification.Volume }}</p>
+        <span>{{ notification.Volume }}</span>
     </div>
-  </div>
+</div>

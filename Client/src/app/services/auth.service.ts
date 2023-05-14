@@ -20,6 +20,7 @@ export class AuthService extends BaseService {
     }
 
     public register(account: AccountModel): Promise<void> {
+        console.warn(account);
         return this.post(`${this.config.authApi}/register`, account).then(data => data);
     }
 

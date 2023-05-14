@@ -32,6 +32,7 @@ export class NotificatedService extends BaseService implements OnDestroy {
 
         this.hubConnection.on("transferstockdata", () => {
             this.notificateSend$.next();
+            console.warn("send!");
         });
     }
 

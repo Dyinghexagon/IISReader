@@ -43,6 +43,8 @@ namespace Backend.Services.StockService
                 });
             }
 
+            await UpdateAllAsync(stocks);
+
             return stocks;
         }
 
@@ -96,6 +98,14 @@ namespace Backend.Services.StockService
         {
             var stocks = await GetAllAsync();
             return stocks.FirstOrDefault(x => x.SecId == secid);
+        }
+
+        public async Task UpdateAllAsync(List<Stock> stocks)
+        {
+            foreach(var stock in stocks)
+            {
+                await UpdateAsync(stock.Id, stock);
+            }
         }
 
         public async Task<Stock> GetAsync(Guid id) => await _stockRepository.GetAsync(id);

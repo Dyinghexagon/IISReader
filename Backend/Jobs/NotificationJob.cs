@@ -26,7 +26,7 @@ namespace Backend.Jobs
             _stocksService = stocksService;
             _hub = hub;
             _logger = logger;
-            _commonVolume = 1000;
+            _commonVolume = 1000000;
         }
 
         public async Task Execute(IJobExecutionContext context)
@@ -37,7 +37,7 @@ namespace Backend.Jobs
             {
                 notificatedStcoks.Add(stock);
             }
-            
+
             var accounts = await _accountService.GetAllAsync();
             foreach(var account in accounts.Where(account => account.StockList.Any()))
             {
@@ -45,7 +45,8 @@ namespace Backend.Jobs
                 {
                     foreach (var stock in stockList.Stocks.Where(stock => notificatedStcoks.Contains(stock))) 
                     {
-                        if (account.Notifications.Count < 500) {
+                        if (account.Notifications.Count < 10)
+                        {
                             account.Notifications.Add(new Notification()
                             {
                                 Id = Guid.NewGuid(),
@@ -56,13 +57,16 @@ namespace Backend.Jobs
                                 isReaded = false,
                                 Volume = stock.CurrentVolume
                             });
-
-                            await _hub.Clients.All.SendAsync("TransferStockData");
-                            await _accountService.UpdateAsync(account.Id, account);
-                            _logger.LogInformation($"Notification for account: {account.Id} send!");
+                        } else
+                        {
+                            account.Notifications.Clear();
                         }
                     }
                 }
+
+                await _accountService.UpdateAsync(account.Id, account);
+                _logger.LogInformation($"Notification for account: {account.Id} send!");
+                await _hub.Clients.All.SendAsync("TransferStockData");
             }
         }
     }

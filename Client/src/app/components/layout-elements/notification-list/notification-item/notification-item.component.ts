@@ -8,4 +8,8 @@ import { NotificationModel } from "src/app/components/models/notification.model"
 })
 export class NotificationItem {
     @Input() public notification!: NotificationModel;
+
+    public readNotification() {
+        this.notification.IsReaded = true;
+    }
 }
