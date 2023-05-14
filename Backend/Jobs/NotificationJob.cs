@@ -45,7 +45,7 @@ namespace Backend.Jobs
                 {
                     foreach (var stock in stockList.Stocks.Where(stock => notificatedStcoks.Contains(stock))) 
                     {
-                        if (account.Notifications.Count < 10)
+                        if (account.Notifications.Count < 200)
                         {
                             account.Notifications.Add(new Notification()
                             {

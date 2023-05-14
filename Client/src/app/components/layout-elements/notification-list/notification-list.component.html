@@ -1,9 +1,9 @@
 
 
 <div class="dropdown">
-    <img *ngIf="!Notifications" class="dropdown-toggle" src="../../../assets/images/bell.svg" alt="notification logo" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-    <img *ngIf="Notifications" class="dropdown-toggle" src="../../../assets/images/bell-notification.svg" alt="notification logo" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+    <img *ngIf="!Notifications" class="dropdown-toggle" src="../../../assets/images/bell.svg" alt="notification logo" id="dropdownNotificationList" data-bs-toggle="dropdown" aria-expanded="false">
+    <img *ngIf="Notifications" class="dropdown-toggle" src="../../../assets/images/bell-notification.svg" alt="notification logo" id="dropdownNotificationList" data-bs-toggle="dropdown" aria-expanded="false">
+    <ul class="dropdown-menu" aria-labelledby="dropdownNotificationList">
         <li *ngFor="let notification of Notifications">
             <notification-item
                 [notification]="notification">
