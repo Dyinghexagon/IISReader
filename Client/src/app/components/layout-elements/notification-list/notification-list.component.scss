@@ -1,9 +1,5 @@
-.dropdown-menu {
-    overflow: hidden;
-    overflow-y: auto;
-    max-height: calc(100vh - 150px);
-    width: 350px;
-    background: gray;
+ul {
+    list-style: none;
 
     li {
         margin-bottom: 15px;
@@ -12,4 +8,4 @@
             margin-bottom: 0px;
         }
     }
-  }
+}

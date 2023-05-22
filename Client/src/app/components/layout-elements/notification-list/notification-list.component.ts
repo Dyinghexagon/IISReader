@@ -1,46 +1,32 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
-import { data } from "jquery";
-import { Subject, takeUntil } from "rxjs";
-import { NotificatedService } from "src/app/services/notification.service";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { AccountModel } from "../../models/account.model";
-import { AppState } from "../../models/app-state.module";
-import { NotificationModel } from "../../models/notification.model";
+import { INotification } from "../../models/notification.model";
 
 @Component({
     selector: "notification-list",
     templateUrl: "./notification-list.component.html",
     styleUrls: ["./notification-list.component.scss"]
 })
-export class NotificationList implements OnInit, OnDestroy {
+export class NotificationList {
 
-    public account: AccountModel | null = null;
-    private readonly unsubscribe$ = new Subject<void>();
+    @Input() account!: AccountModel | null;
+    @Output() accountChange = new EventEmitter<AccountModel | null>();
 
-    constructor(
-        private readonly appstate: AppState,
-        private readonly notificatedService: NotificatedService
-    ) {
-    }
+    public p: number = 1;
 
-    public async ngOnInit(): Promise<void> {
-        this.account = await this.appstate.getAccount();
+    constructor() {}
 
-        this.notificatedService.notificateSend$
-            .pipe(takeUntil(this.unsubscribe$))
-            .subscribe(async () => {
-                this.account = await this.appstate.getAccount();
-            });
-    }
-
-    public ngOnDestroy(): void {
-        this.unsubscribe$.next();
-        this.unsubscribe$.complete();
-    }
-
-    public get Notifications(): NotificationModel[] | undefined {
+    public get Notifications(): INotification[] {
         const notificationsIsReaded = this.account?.Notifications.filter(notification => notification.IsReaded);
         const notificationsNotReaded = this.account?.Notifications.filter(notification => !notification.IsReaded);
-        return notificationsIsReaded && notificationsNotReaded ? [...notificationsNotReaded, ...notificationsIsReaded] : undefined;
+        return notificationsIsReaded && notificationsNotReaded ? [...notificationsNotReaded, ...notificationsIsReaded] : [];
+    }
 
+    public changeNotificationStatus(event: INotification): void {
+        const targetNotification = this.account?.Notifications.find(notification => notification.Id === event.Id);
+        if (targetNotification) {
+            targetNotification.IsReaded = event.IsReaded;
+            this.accountChange.emit(this.account);
+        }
     }
 }

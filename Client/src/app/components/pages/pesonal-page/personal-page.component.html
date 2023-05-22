@@ -22,7 +22,7 @@
             <td>{{ index + 1 }}</td>
             <td>{{ stockList.Title }}</td>
             <td>
-              <input type="checkbox" class="form-check-input" [(ngModel)]="stockList.IsNotificated" (ngModelChange)="notificatedChanged()">
+              <input type="checkbox" class="form-check-input" [(ngModel)]="stockList.IsNotificated" (ngModelChange)="notifyChanged()">
             </td>
             <td>
               <button class="btn btn-danger" (click)="removeStockList(index)">Удалить список</button>
@@ -36,7 +36,11 @@
   <button class="btn btn-primary" (click)="openAddNewStockListModal()">Создать список бумаг</button>
 </div>
 <div *ngIf="tab === 'notification'">
-  notification
+  <h4>Cписок уведомлений</h4>
+  <notification-list
+    [account]="account"
+    (accountChange)="notifyChanged()"
+  ></notification-list>
 </div>
 
 <div class="d-grid gap-2 d-md-block">

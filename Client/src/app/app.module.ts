@@ -33,6 +33,7 @@ import { EditStockListComponent } from './components/shared/modal/edit-stock-lis
 import { NotificatedService } from './services/notification.service';
 import { NotificationList } from './components/layout-elements/notification-list/notification-list.component';
 import { NotificationItem } from './components/layout-elements/notification-list/notification-item/notification-item.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { NotificationItem } from './components/layout-elements/notification-list
     PageRoutingModuleModule,
     ReactiveFormsModule,
     DataTablesModule,
-    MdbFormsModule
+    MdbFormsModule,
+    NgxPaginationModule
   ],
   providers: [ 
     AppConfig,
