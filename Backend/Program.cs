@@ -5,6 +5,7 @@ using Backend.Models.Options;
 using Backend.Repository.AccountRepository;
 using Backend.Repository.StockRepository;
 using Backend.Services.AccountService;
+using Backend.Services.ArchiveStockService;
 using Backend.Services.StockService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Quartz;
@@ -36,14 +37,16 @@ namespace Backend
                 });
 
             builder.Services.AddSingleton<IAccountsRepository,  AccountsRepository>();
-            builder.Services.AddSingleton<IStocksRepository,  StocksRepository>();
+            builder.Services.AddSingleton<IArchiveStocksRepository,  AchiveStocksRepository>();
 
             builder.Services.AddSingleton<IAccountsService,  AccountsService>();
-            builder.Services.AddSingleton<IStocksService, StocksService>();
+            builder.Services.AddSingleton<IActualStocksService, ActualStocksService>();
+            builder.Services.AddSingleton<IArchiveStockService, ArchiveStockService>();
 
             builder.Services.AddSingleton<AccountMapper>();
             builder.Services.AddSingleton<StockListMapper>();
-            builder.Services.AddSingleton<StockMapper>();
+            builder.Services.AddSingleton<ActualStockMapper>();
+            builder.Services.AddSingleton<StockChartDataMapper>();
 
             builder.Services.AddControllers()
                             .AddJsonOptions(
@@ -57,12 +60,21 @@ namespace Backend
                 q.UseMicrosoftDependencyInjectionJobFactory();
                 // Just use the name of your job that you created in the Jobs folder.
                 var notificationJobKey = new JobKey("NotificationJob");
+                var acrchiveStockJob = new JobKey("ArchiveStockJob");
 
                 q.AddJob<NotificationJob>(opts => opts.WithIdentity(notificationJobKey));
+                q.AddJob<ArchiveStockJob>(opts => opts.WithIdentity(acrchiveStockJob));
 
                 q.AddTrigger(opts => opts
                     .ForJob(notificationJobKey)
                     .WithIdentity("NotificationJob-trigger")
+                    //This Cron interval can be described as "run every minute" (when second is zero)
+                    .WithCronSchedule("0 * * ? * *")
+                );
+
+                q.AddTrigger(opts => opts
+                    .ForJob(acrchiveStockJob)
+                    .WithIdentity("ArchiveStockJob-trigger")
                     //This Cron interval can be described as "run every minute" (when second is zero)
                     .WithCronSchedule("0 * * ? * *")
                 );

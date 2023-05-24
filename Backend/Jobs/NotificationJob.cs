@@ -1,6 +1,8 @@
 ﻿using Backend.Hubs.NotificationHub;
 using Backend.Models.Backend;
+using Backend.Models.Backend.StockModel;
 using Backend.Services.AccountService;
+using Backend.Services.ArchiveStockService;
 using Backend.Services.StockService;
 using Microsoft.AspNetCore.SignalR;
 using Quartz;
@@ -11,56 +13,62 @@ namespace Backend.Jobs
     public class NotificationJob : IJob
     {
         private readonly IAccountsService _accountService;
-        private readonly IStocksService _stocksService;
+        private readonly IActualStocksService _actualStocksService;
+        private readonly IArchiveStockService _archiveStockService;
         private readonly ILogger<NotificationJob> _logger;
-        private readonly Int64 _commonVolume;
         private readonly IHubContext<NotificationHub> _hub;
+
         public NotificationJob(
             IAccountsService accountService,
-            IStocksService stocksService,
+            IActualStocksService actualStocksService,
+            IArchiveStockService archiveStockService,
             IHubContext<NotificationHub> hub,
             ILogger<NotificationJob> logger
         )
         {
             _accountService = accountService;
-            _stocksService = stocksService;
+            _actualStocksService = actualStocksService;
+            _archiveStockService = archiveStockService;
             _hub = hub;
             _logger = logger;
-            _commonVolume = 1000000;
         }
 
         public async Task Execute(IJobExecutionContext context)
         {
-            var notificatedStcoks = new List<Stock>();
-            var stocks = await _stocksService.GetAllAsync();
-            foreach (var stock in stocks.Where(stock => stock.CurrentVolume > _commonVolume))
-            {
-                notificatedStcoks.Add(stock);
-            }
-
             var accounts = await _accountService.GetAllAsync();
             foreach(var account in accounts.Where(account => account.StockList.Any()))
             {
                 foreach (var stockList in account.StockList.Where(stockList => stockList.IsNotificated))
                 {
-                    foreach (var stock in stockList.Stocks.Where(stock => notificatedStcoks.Contains(stock))) 
+                    foreach (var stock in stockList.Stocks) 
                     {
-                        if (account.Notifications.Count < 200)
+                        var actualStockData = await _actualStocksService.GetAsync(stock.Id);
+                        if (actualStockData is null)
                         {
-                            account.Notifications.Add(new Notification()
-                            {
-                                Id = Guid.NewGuid(),
-                                Date = DateTime.Now,
-                                SecId = stock.SecId,
-                                Title = "Заголовок",
-                                Description = "Описание",
-                                isReaded = false,
-                                Volume = stock.CurrentVolume
-                            });
-                        } else
-                        {
-                            account.Notifications.Clear();
+                            continue;
                         }
+                        var archiveData = await _archiveStockService.GetAsync(stock.Id);
+                        var volume = archiveData.GetVolume(stockList.CalculationType);
+                        if (actualStockData.CurrentVolume > volume) {
+                            if (account.Notifications.Count < 200)
+                            {
+                                account.Notifications.Add(new Notification()
+                                {
+                                    Id = Guid.NewGuid(),
+                                    Date = DateTime.Now,
+                                    SecId = stock.Id,
+                                    Title = "Заголовок",
+                                    Description = "Описание",
+                                    isReaded = false,
+                                    Volume = stock.CurrentVolume
+                                });
+                            }
+                            else
+                            {
+                                account.Notifications.Clear();
+                            }
+                        }
+
                     }
                 }
 

@@ -1,12 +1,14 @@
-﻿namespace Backend.Models.Client
+﻿using Backend.Models.Client.StockModel;
+
+namespace Backend.Models.Client
 {
     public class StockListModel : Entity
     {
-        public String Title { get; set; } = String.Empty;
+        public string Title { get; set; } = string.Empty;
 
-        public List<StockModel> Stocks { get; set; } = new List<StockModel>();
+        public List<ActualStockModel> Stocks { get; set; } = new List<ActualStockModel>();
 
-        public Boolean IsNotificated { get; set; } = true;
+        public bool IsNotificated { get; set; } = true;
 
     }
 }

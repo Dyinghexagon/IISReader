@@ -5,7 +5,7 @@ namespace Backend.Mappers
 {
     public class StockListMapper : IModelMapper
     {
-        private readonly StockMapper _mapper = new();
+        private readonly ActualStockMapper _mapper = new();
 
         public List<StockList> Map(List<StockListModel> stockLists)
         {

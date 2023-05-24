@@ -1,7 +1,8 @@
-﻿using Backend.Models.Client;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Backend.Mappers;
 using Backend.Services.StockService;
+using Backend.Services.ArchiveStockService;
+using Backend.Models.Client.StockModel;
 
 namespace Backend.Controllers
 {
@@ -9,27 +10,33 @@ namespace Backend.Controllers
     [Route("api/stocks")]
     public class StocksController : ControllerBase
     {
-        private readonly IStocksService _stockService;
-        private readonly StockMapper _mapper;
+        private readonly IActualStocksService _actualStockService;
+        private readonly IArchiveStockService _archiveStockService;
+        private readonly ActualStockMapper _actualStockMapper;
+        private readonly StockChartDataMapper _archiveStockMapper;
 
         public StocksController(
-            IStocksService securityService,
-            StockMapper mapper
+            IActualStocksService securityService,
+            IArchiveStockService archiveStockService,
+            ActualStockMapper actualStockMapper,
+            StockChartDataMapper archiveStockMapper
         )
         {
-            _stockService = securityService;
-            _mapper = mapper;
+            _actualStockService = securityService;
+            _archiveStockService = archiveStockService;
+            _actualStockMapper = actualStockMapper;
+            _archiveStockMapper = archiveStockMapper;
         }
 
         [HttpGet("GetStocksList")]
-        public async Task<List<StockModel?>> GetSecuritysList()
+        public async Task<List<ActualStockModel?>> GetSecuritysList()
         {
-            var securitys = await _stockService.GetAllAsync();
-            var result = new List<StockModel?>();
+            var securitys = await _actualStockService.GetAllAsync();
+            var result = new List<ActualStockModel?>();
 
             foreach (var security in securitys)
             {
-                result.Add(_mapper.Map(security));
+                result.Add(_actualStockMapper.Map(security));
             }
 
             return result;
@@ -38,12 +45,12 @@ namespace Backend.Controllers
         [HttpGet("GetStockChartData/{secid}")]
         public async Task<List<StockChartDataModel?>> GetSecurityChartData(String secid)
         {
-            var securityChartDataModel = await _stockService.GetSecurityChartData(secid);
+            var securityChartDataModel = await _archiveStockService.GetSecurityChartData(secid);
 
             var result = new List<StockChartDataModel?>();
             foreach(var security in securityChartDataModel)
             {
-                result.Add(_mapper.MapChat(security));
+                result.Add(_archiveStockMapper.Map(security));
             }
 
             return result;

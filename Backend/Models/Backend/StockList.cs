@@ -1,11 +1,15 @@
-﻿namespace Backend.Models.Backend
+﻿using Backend.Models.Backend.StockModel;
+
+namespace Backend.Models.Backend
 {
     public class StockList : Entity
     {
-        public String Title { get; set; } = String.Empty;
+        public string Title { get; set; } = string.Empty;
 
-        public List<Stock> Stocks { get; set; } = new List<Stock>();
+        public List<ActualStock> Stocks { get; set; } = new List<ActualStock>();
 
-        public Boolean IsNotificated { get; set; } = true;
+        public bool IsNotificated { get; set; } = true;
+
+        public CalculationType CalculationType { get; set; } = CalculationType.Hormonic;
     }
 }

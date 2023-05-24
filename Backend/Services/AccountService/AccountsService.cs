@@ -2,22 +2,23 @@
 using Backend.Models.Client;
 using Backend.Helpers;
 using Backend.Repository.AccountRepository;
-using Backend.Repository.StockRepository;
+using Backend.Services.StockService;
+using Backend.Models.Backend.StockModel;
 
 namespace Backend.Services.AccountService
 {
     public class AccountsService : IAccountsService
     {
         private readonly IAccountsRepository _accountRepository;
-        private readonly IStocksRepository _stockRepository;
+        private readonly IActualStocksService _actualStockService;
 
         public AccountsService(
             IAccountsRepository accountRepository,
-            IStocksRepository stocksRepository
+            IActualStocksService actualStocksService
         )
         {
             _accountRepository = accountRepository;
-            _stockRepository = stocksRepository;
+            _actualStockService = actualStocksService;
         }
 
         public async Task<Account?> GetAccountByLoginAsync(string login)
@@ -59,7 +60,7 @@ namespace Backend.Services.AccountService
                 throw new Exception("Repit login!");
             }
 
-            var allStocks = await _stockRepository.GetAllAsync();
+            var allStocks = await _actualStockService.GetAllAsync();
 
             var stockList = new List<StockList>()
             {
@@ -68,7 +69,7 @@ namespace Backend.Services.AccountService
                    Id = Guid.NewGuid(),
                    IsNotificated = true,
                    Title = "Избранное",
-                   Stocks = new List<Stock>(allStocks)
+                   Stocks = new List<ActualStock>(allStocks)
                }
             };
 
