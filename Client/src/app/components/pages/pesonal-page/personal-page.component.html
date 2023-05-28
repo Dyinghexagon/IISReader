@@ -20,9 +20,9 @@
     <tbody>
         <tr *ngFor="let stockList of account?.StockList; let index = index">
             <td>{{ index + 1 }}</td>
-            <td>{{ stockList.title }}</td>
+            <td>{{ stockList.Title }}</td>
             <td>
-              <input type="checkbox" class="form-check-input" [(ngModel)]="stockList.isNotificated" (ngModelChange)="notifyChanged()">
+              <input type="checkbox" class="form-check-input" [(ngModel)]="stockList.IsNotificated" (ngModelChange)="notifyChanged()">
             </td>
             <td>
               <button class="btn btn-danger" (click)="removeStockList(index)">Удалить список</button>

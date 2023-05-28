@@ -10,15 +10,15 @@
     </thead>
     <tbody>
         <tr *ngFor="let stock of stocks; let index = index"
-                [class.table-success]="stock.changePerDay > 0"
-                [class.table-danger]="stock.changePerDay < 0">
+                [class.table-success]="stock.ChangePerDay > 0"
+                [class.table-danger]="stock.ChangePerDay < 0">
             <th scope="row" class="d-flex justify-content-between align-items-center">
                 <img class="favorite" alt="favorite image" data-bs-toggle="tooltip" data-bs-placement="right" title="Добавить бумагу в избранное">{{ index + 1 }}
             </th>
-            <td><a href="#" routerLink="/security-page" [queryParams]="{secid: stock.secId}">{{ stock.name }}</a></td>
-            <td>{{ stock.secId }}</td>
-            <td>{{ stock.currentPrice }} ₽</td>
-            <td>{{ stock.changePerDay }} %</td>
+            <td><a href="#" routerLink="/security-page" [queryParams]="{secid: stock.Id}">{{ stock.Name }}</a></td>
+            <td>{{ stock.Id }}</td>
+            <td>{{ stock.CurrentPrice }} ₽</td>
+            <td>{{ stock.ChangePerDay }} %</td>
         </tr>
     </tbody>
 </table>

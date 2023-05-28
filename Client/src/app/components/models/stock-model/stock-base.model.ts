@@ -1,5 +1,5 @@
 export interface IStockBase {
-  secId: string;
+  Id: string;
 }
 
 export enum  CalculationType {

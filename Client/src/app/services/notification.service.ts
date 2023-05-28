@@ -30,12 +30,13 @@ export class NotificatedService extends BaseService implements OnDestroy {
         ).build();
         this.hubConnection.start()
             .then(() => {
-                this.alertService.createAllert(200, "Аномальная сделка обнаружена", "Ошибка!");
+                console.warn("Connection started!");
             })
             .catch(err => console.log('Error while starting connection: ' + err));
 
         this.hubConnection.on("transferstockdata", () => {
             this.notificateSend$.next();
+            this.alertService.createAllert(200, "Аномальная сделка обнаружена", "Ошибка!");
         });
     }
 

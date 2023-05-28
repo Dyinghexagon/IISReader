@@ -82,7 +82,6 @@ export class PersonalPageComponent implements OnInit, OnDestroy {
 
   public openEditStockListModal(index: number): void {
     const editingStockList = this.account?.StockList[index];
-    console.warn(editingStockList);
     this.modalRef = this.modalService.open(EditStockListComponent, {
       data: { stockList: editingStockList },
       modalClass: "modal-lg"

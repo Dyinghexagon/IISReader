@@ -25,7 +25,6 @@ export class AccountsService extends BaseService {
     }
 
     public setNewStockList(accountId: string, stockList: IStockListModel): Promise<void> {
-      console.warn(stockList);
       return this.post(`${this.config.accountsApi}/SetNewStockList/${accountId}`, stockList);
     }
 
