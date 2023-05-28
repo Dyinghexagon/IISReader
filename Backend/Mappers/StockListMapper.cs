@@ -46,7 +46,8 @@ namespace Backend.Mappers
                 Id = stockList.Id,
                 Title = stockList.Title,
                 Stocks = _mapper.MapToStockListModel(stockList.Stocks),
-                IsNotificated = stockList.IsNotificated
+                IsNotificated = stockList.IsNotificated,
+                CalculationType = stockList.CalculationType
             };
         }
 
@@ -57,7 +58,8 @@ namespace Backend.Mappers
                 Id = stockList.Id,
                 Title = stockList.Title,
                 Stocks = _mapper.MapToStockList(stockList.Stocks),
-                IsNotificated= stockList.IsNotificated
+                IsNotificated = stockList.IsNotificated,
+                CalculationType = stockList.CalculationType
             };
         }
     }
