@@ -3,7 +3,6 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms
 import { Guid } from "guid-typescript";
 import { MdbModalRef } from "mdb-angular-ui-kit/modal";
 import { ModalState } from "src/app/components/models/modal-state.module";
-import { IStockListModel } from "src/app/components/models/stock-list.model";
 import { CalculationType } from "src/app/components/models/stock-model/stock-base.model";
 
 @Component({
@@ -14,15 +13,16 @@ import { CalculationType } from "src/app/components/models/stock-model/stock-bas
 
 export class AddNewStockListComponent {
   public newStockListForm: UntypedFormGroup;
+  public calculationType: CalculationType;
 
   constructor(
     private readonly state: ModalState,
     public modalRef: MdbModalRef<AddNewStockListComponent>
   ) {
     this.newStockListForm = new UntypedFormGroup({
-      title: new UntypedFormControl("", [Validators.minLength(1), Validators.maxLength(100)]),
-      calculationType: new UntypedFormControl("", [Validators.required])
+      title: new UntypedFormControl("", [Validators.minLength(1), Validators.maxLength(100)])
     });
+    this.calculationType = CalculationType.Arifmetic
   }
 
   public close(): void {
@@ -31,11 +31,11 @@ export class AddNewStockListComponent {
 
   public async submitForm(): Promise<void> {
     this.state.addNewStockList.createdStockList$.next({
-      id: Guid.create().toString(),
-      title: this.newStockListForm.get("title")?.value,
-      stocks: [],
-      isNotificated: true,
-      calculationType: this.newStockListForm.get("calculationType")?.value as CalculationType
+      Id: Guid.create().toString(),
+      Title: this.newStockListForm.get("title")?.value,
+      Stocks: [],
+      IsNotificated: true,
+      CalculationType: this.calculationType
     });
   }
 }

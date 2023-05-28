@@ -17,15 +17,16 @@ export class EditStockListComponent {
   @Input() public stockList!: IStockListModel;
 
   public editStockListForm: UntypedFormGroup;
+  public calculationType: CalculationType;
 
   constructor(
     private readonly state: ModalState,
     public modalRef: MdbModalRef<EditStockListComponent>
   ) {
     this.editStockListForm = new UntypedFormGroup({
-      title: new UntypedFormControl("", [Validators.minLength(1), Validators.maxLength(100)]),
-      calculationType: new UntypedFormControl("", [Validators.required])
+      title: new UntypedFormControl("", [Validators.minLength(1), Validators.maxLength(100)])
     });
+    this.calculationType = CalculationType.Arifmetic
   }
 
   public close(): void {
@@ -34,11 +35,11 @@ export class EditStockListComponent {
 
   public async submitForm(): Promise<void> {
     this.state.addNewStockList.editedStockList$.next({
-      id: Guid.create().toString(),
-      title: this.editStockListForm.get("titlw")?.value ?? "Новый список",
-      stocks: [],
-      isNotificated: true,
-      calculationType: this.editStockListForm.get("calculationType")?.value as CalculationType
+      Id: Guid.create().toString(),
+      Title: this.editStockListForm.get("titlw")?.value ?? "Новый список",
+      Stocks: [],
+      IsNotificated: true,
+      CalculationType: this.calculationType
     });
   }
 }

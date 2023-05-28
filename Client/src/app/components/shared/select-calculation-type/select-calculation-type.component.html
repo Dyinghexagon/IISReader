@@ -1,0 +1,13 @@
+  <div class="form-outline mb-4">
+        <select 
+        class="form-select" 
+        aria-label="Select calculation type" 
+        name="select-calculation-type" 
+        id="select-calculation-type" 
+        (ngModelChange)="calculationTypeChange.emit($event)"
+        [(ngModel)]="calculationType">
+            <option *ngFor="let label of labesl" [value]="label.Type">
+                {{ label.Name }}
+            </option>
+    </select>
+  </div>

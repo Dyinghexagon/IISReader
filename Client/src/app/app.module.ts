@@ -31,9 +31,10 @@ import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { ModalState } from './components/models/modal-state.module';
 import { EditStockListComponent } from './components/shared/modal/edit-stock-list/edit-stock-list.component';
 import { NotificatedService } from './services/notification.service';
-import { NotificationList } from './components/layout-elements/notification-list/notification-list.component';
-import { NotificationItem } from './components/layout-elements/notification-list/notification-item/notification-item.component';
+import { NotificationList as NotificationListComponent } from './components/layout-elements/notification-list/notification-list.component';
+import { NotificationItem as NotificationItemComponent } from './components/layout-elements/notification-list/notification-item/notification-item.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { SelectCalculationType as SelectCalculationTypeComponent } from './components/shared/select-calculation-type/select-calculation-type.component';
 
 @NgModule({
   declarations: [
@@ -50,8 +51,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
     StockPageComponent,
     AddNewStockListComponent,
     EditStockListComponent,
-    NotificationList,
-    NotificationItem
+    NotificationListComponent,
+    NotificationItemComponent,
+    SelectCalculationTypeComponent
   ],
   imports: [
     BrowserModule,
