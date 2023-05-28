@@ -25,11 +25,15 @@ export class AccountsService extends BaseService {
     }
 
     public setNewStockList(accountId: string, stockList: IStockListModel): Promise<void> {
-      return this.post(`${this.config.accountsApi}/SetNewStockList/${accountId}`, stockList);
+        return this.post(`${this.config.accountsApi}/SetNewStockList/${accountId}`, stockList);
+    }
+
+    public updateStockList(accountId: string, stockList: IStockListModel): Promise<void> {
+        return this.put(`${this.config.accountsApi}/UpdateStockList/${accountId}`, stockList);
     }
 
     public updateAccount(accountId: string, account: AccountModel | null): Promise<void> {
-        return this.post(`${this.config.accountsApi}/update/${accountId}`, account);
+        return this.post(`${this.config.accountsApi}/Update/${accountId}`, account);
     }
 
 }

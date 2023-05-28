@@ -6,19 +6,23 @@
             <th scope="col">Тикет</th>
             <th scope="col">Текущая цена</th>
             <th scope="col">Изменение за день</th>
+            <th scope="col">Управление ценной бумагой</th>
         </tr>
     </thead>
     <tbody>
         <tr *ngFor="let stock of stocks; let index = index"
                 [class.table-success]="stock.ChangePerDay > 0"
                 [class.table-danger]="stock.ChangePerDay < 0">
-            <th scope="row" class="d-flex justify-content-between align-items-center">
-                <img class="favorite" alt="favorite image" data-bs-toggle="tooltip" data-bs-placement="right" title="Добавить бумагу в избранное">{{ index + 1 }}
-            </th>
-            <td><a href="#" routerLink="/security-page" [queryParams]="{secid: stock.Id}">{{ stock.Name }}</a></td>
-            <td>{{ stock.Id }}</td>
-            <td>{{ stock.CurrentPrice }} ₽</td>
-            <td>{{ stock.ChangePerDay }} %</td>
+            <td scope="row">{{ index + 1 }}</td>
+            <td scope="row"><a href="#" routerLink="/security-page" [queryParams]="{secid: stock.Id}">{{ stock.Name }}</a></td>
+            <td scope="row">{{ stock.Id }}</td>
+            <td scope="row">{{ stock.CurrentPrice }} ₽</td>
+            <td scope="row">{{ stock.ChangePerDay }} %</td>
+            <td scope="row">
+                <manage-stock
+                    [stock]="stock"
+                ></manage-stock>
+            </td>
         </tr>
     </tbody>
 </table>

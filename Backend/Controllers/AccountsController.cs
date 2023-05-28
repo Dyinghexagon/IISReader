@@ -54,7 +54,7 @@ namespace Backend.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("update/{accountId:guid}")]
+        [HttpPost("Update/{accountId:guid}")]
         public async Task<IResult> UpdateAccount(Guid accountId, [FromBody]AccountModel accountModel)
         {
             try
@@ -78,7 +78,7 @@ namespace Backend.Controllers
 
         [AllowAnonymous]
         [HttpPost("SetNewStockList/{accountId:guid}")]
-        public async Task<IResult> SetNewStockList(Guid accountId, [FromBody]StockListModel stockListModel)
+        public async Task<IResult> SetNewStockListAsync(Guid accountId, [FromBody]StockListModel stockListModel)
         {
             var stockList = _stockListMapper.MapStockList(stockListModel);
 
@@ -98,6 +98,42 @@ namespace Backend.Controllers
             catch (Exception ex)
             {
                 _logger.LogError("Error from add new stock list", ex.StackTrace);
+                return Results.BadRequest(ex.Message);
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpPut("UpdateStockList/{accountId:guid}")]
+        public async Task<IResult> UpdateStockListAsync(Guid accountId, [FromBody] StockListModel stockListModel)
+        {
+            var stockList = _stockListMapper.MapStockList(stockListModel);
+
+            if (stockList is null)
+            {
+                return Results.BadRequest();
+            }
+
+            try
+            {
+                var account = await _accountService.GetAsync(accountId);
+                var updatedStockList = account.StockList.Find(stockList =>  stockList.Id == stockList.Id);
+                if (updatedStockList is null) {
+                    return Results.BadRequest();
+                }
+
+                updatedStockList.Title = stockList.Title;
+                updatedStockList.CalculationType = stockList.CalculationType;
+                updatedStockList.Stocks.Clear();
+                updatedStockList.IsNotificated = stockList.IsNotificated;
+                updatedStockList.Stocks.AddRange(stockList.Stocks);
+
+                await _accountService.UpdateAsync(accountId, account);
+
+                return Results.Ok(account);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error from update stock list", ex.StackTrace);
                 return Results.BadRequest(ex.Message);
             }
         }

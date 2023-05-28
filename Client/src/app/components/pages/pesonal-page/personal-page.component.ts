@@ -9,8 +9,8 @@ import { AccountModel } from "../../models/account.model";
 import { AppState } from "../../models/app-state.module";
 import { ModalState } from "../../models/modal-state.module";
 import { IStockListModel } from "../../models/stock-list.model";
-import { AddNewStockListComponent } from "../../shared/modal/add-new-stock-list/add-new-stock-list-modal.component";
-import { EditStockListComponent } from "../../shared/modal/edit-stock-list/edit-stock-list.component";
+import { AddNewStockListModalComponent } from "../../shared/modal/add-new-stock-list/add-new-stock-list-modal.component";
+import { EditStockListModalComponent } from "../../shared/modal/edit-stock-list/edit-stock-list-modal.component";
 
 @Component({
   selector: "personal-page",
@@ -22,7 +22,8 @@ export class PersonalPageComponent implements OnInit, OnDestroy {
 
   public account!: AccountModel | null;
   public tab: "planning" | "notification" = "notification";
-  public modalRef: MdbModalRef<AddNewStockListComponent> | null = null;
+  public addNewStockListModalRef: MdbModalRef<AddNewStockListModalComponent> | null = null;
+  public editStockListModalRef: MdbModalRef<EditStockListModalComponent> | null = null;
   public dtOptions: DataTables.Settings = {};
   public dtTrigger: Subject<any> = new Subject<IStockListModel[]>();
 
@@ -48,11 +49,17 @@ export class PersonalPageComponent implements OnInit, OnDestroy {
         this.account = await this.appState.getAccount();
       });
 
-    this.modalState.addNewStockList.createdStockList$
+    this.modalState.stockListState.createdStockList$
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(async (stockList: IStockListModel) => {
-        this.accountService.setNewStockList(this.account?.Id ?? "", stockList);
-        this.notifyChanged();
+        await this.accountService.setNewStockList(this.account?.Id ?? "", stockList);
+        await this.notifyChanged();
+      });
+    this.modalState.stockListState.editedStockList$
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(async (editList: IStockListModel) => {
+        await this.accountService.updateStockList(this.account?.Id ?? "", editList);
+        await this.notifyChanged();
       });
 
     this.dtOptions = {
@@ -77,28 +84,28 @@ export class PersonalPageComponent implements OnInit, OnDestroy {
   }
 
   public openAddNewStockListModal(): void {
-    this.modalRef = this.modalService.open(AddNewStockListComponent);
+    this.addNewStockListModalRef = this.modalService.open(AddNewStockListModalComponent);
   }
 
   public openEditStockListModal(index: number): void {
     const editingStockList = this.account?.StockList[index];
-    this.modalRef = this.modalService.open(EditStockListComponent, {
+    this.editStockListModalRef = this.modalService.open(EditStockListModalComponent, {
       data: { stockList: editingStockList },
       modalClass: "modal-lg"
     });
   }
 
-  public removeStockList(stockListIndex: number): void {
+  public async removeStockList(stockListIndex: number): Promise<void> {
     if (stockListIndex > -1) {
       this.account?.StockList.splice(stockListIndex, 1);
     }
 
     this.dtTrigger.next(this.account?.StockList);
-    this.notifyChanged();
+    await this.notifyChanged();
   }
 
   public async notifyChanged(): Promise<void> {
-    await this.accountService.updateAccount(this.account?.Id ?? "", this.account);
+    this.account = await this.appState.getAccount();
   }
 
 }

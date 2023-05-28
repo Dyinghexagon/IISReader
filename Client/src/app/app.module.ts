@@ -26,15 +26,17 @@ import { AuthGuard } from './components/guards/auth.guard';
 import { AlertService } from './services/alert.service';
 import { AppState } from './components/models/app-state.module';
 import { MdbModalService } from 'mdb-angular-ui-kit/modal';
-import { AddNewStockListComponent } from './components/shared/modal/add-new-stock-list/add-new-stock-list-modal.component';
+import { AddNewStockListModalComponent } from './components/shared/modal/add-new-stock-list/add-new-stock-list-modal.component';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { ModalState } from './components/models/modal-state.module';
-import { EditStockListComponent } from './components/shared/modal/edit-stock-list/edit-stock-list.component';
+import { EditStockListModalComponent } from './components/shared/modal/edit-stock-list/edit-stock-list-modal.component';
 import { NotificatedService } from './services/notification.service';
 import { NotificationList as NotificationListComponent } from './components/layout-elements/notification-list/notification-list.component';
 import { NotificationItem as NotificationItemComponent } from './components/layout-elements/notification-list/notification-item/notification-item.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SelectCalculationType as SelectCalculationTypeComponent } from './components/shared/select-calculation-type/select-calculation-type.component';
+import { ManageStockComponent } from './components/shared/manage-stock/manage-stock.component';
+import { ManageStocksModalComponent } from './components/shared/modal/manage-stocks/manage-stocks-modal.component';
 
 @NgModule({
   declarations: [
@@ -49,11 +51,13 @@ import { SelectCalculationType as SelectCalculationTypeComponent } from './compo
     AuthComponent,
     StockChatComponent,
     StockPageComponent,
-    AddNewStockListComponent,
-    EditStockListComponent,
+    AddNewStockListModalComponent,
+    EditStockListModalComponent,
     NotificationListComponent,
     NotificationItemComponent,
-    SelectCalculationTypeComponent
+    SelectCalculationTypeComponent,
+    ManageStockComponent,
+    ManageStocksModalComponent
   ],
   imports: [
     BrowserModule,

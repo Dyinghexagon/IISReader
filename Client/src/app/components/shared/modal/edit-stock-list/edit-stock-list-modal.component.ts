@@ -8,11 +8,11 @@ import { CalculationType } from "src/app/components/models/stock-model/stock-bas
 
 @Component({
   selector: "edit-stock-list-modal",
-  templateUrl: "./edit-stock-list.component.html",
-  styleUrls: ["./edit-stock-list.component.scss"]
+  templateUrl: "./edit-stock-list-modal.component.html",
+  styleUrls: ["./edit-stock-list-modal.component.scss"]
 })
 
-export class EditStockListComponent {
+export class EditStockListModalComponent {
 
   @Input() public stockList!: IStockListModel;
 
@@ -21,7 +21,7 @@ export class EditStockListComponent {
 
   constructor(
     private readonly state: ModalState,
-    public modalRef: MdbModalRef<EditStockListComponent>
+    public modalRef: MdbModalRef<EditStockListModalComponent>
   ) {
     this.editStockListForm = new UntypedFormGroup({
       title: new UntypedFormControl("", [Validators.minLength(1), Validators.maxLength(100)])
@@ -34,11 +34,11 @@ export class EditStockListComponent {
   }
 
   public async submitForm(): Promise<void> {
-    this.state.addNewStockList.editedStockList$.next({
-      Id: Guid.create().toString(),
-      Title: this.editStockListForm.get("titlw")?.value ?? "Новый список",
-      Stocks: [],
-      IsNotificated: true,
+    this.state.stockListState.editedStockList$.next({
+      Id: this.stockList.Id,
+      Title: this.editStockListForm.get("title")?.value ?? "Новый список",
+      Stocks: this.stockList.Stocks,
+      IsNotificated: this.stockList.IsNotificated,
       CalculationType: this.calculationType
     });
   }

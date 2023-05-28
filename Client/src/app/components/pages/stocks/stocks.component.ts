@@ -6,7 +6,6 @@ import { IActualStockModel } from "../../models/stock-model/actual-stock.model";
 @Component({
     selector: "stocks",
     templateUrl: "./stocks.component.html",
-    styleUrls: [ "./stocks.component.scss" ]
 })
 
 export class StocksComponent implements OnInit, OnDestroy  {

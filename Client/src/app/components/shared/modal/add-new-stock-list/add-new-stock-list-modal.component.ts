@@ -11,13 +11,13 @@ import { CalculationType } from "src/app/components/models/stock-model/stock-bas
   styleUrls: ["add-new-stock-list-modal.component.scss"]
 })
 
-export class AddNewStockListComponent {
+export class AddNewStockListModalComponent {
   public newStockListForm: UntypedFormGroup;
   public calculationType: CalculationType;
 
   constructor(
     private readonly state: ModalState,
-    public modalRef: MdbModalRef<AddNewStockListComponent>
+    public modalRef: MdbModalRef<AddNewStockListModalComponent>
   ) {
     this.newStockListForm = new UntypedFormGroup({
       title: new UntypedFormControl("", [Validators.minLength(1), Validators.maxLength(100)])
@@ -30,7 +30,7 @@ export class AddNewStockListComponent {
   }
 
   public async submitForm(): Promise<void> {
-    this.state.addNewStockList.createdStockList$.next({
+    this.state.stockListState.createdStockList$.next({
       Id: Guid.create().toString(),
       Title: this.newStockListForm.get("title")?.value,
       Stocks: [],

@@ -1,0 +1,8 @@
+@import "../../../../../assets/variables";
+
+.list-group-item:hover {
+    cursor: pointer;
+    color: $white-color;
+    background-color: $slider-item-title-font-color;
+    border-color: $slider-item-title-font-color
+}
