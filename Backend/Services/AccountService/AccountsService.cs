@@ -60,7 +60,7 @@ namespace Backend.Services.AccountService
                 throw new Exception("Repit login!");
             }
 
-            var allStocks = await _actualStockService.GetAllAsync();
+            //var allStocks = await _actualStockService.GetAllAsync();
 
             var stockList = new List<StockList>()
             {
@@ -69,7 +69,7 @@ namespace Backend.Services.AccountService
                    Id = Guid.NewGuid(),
                    IsNotificated = true,
                    Title = "Избранное",
-                   Stocks = new List<ActualStock>(allStocks)
+                   Stocks = new List<ActualStock>()
                }
             };
 

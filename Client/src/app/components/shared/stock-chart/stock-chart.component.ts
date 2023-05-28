@@ -42,11 +42,11 @@ export class StockChatComponent implements OnInit {
         res.forEach(item => {
             data.push(
                 {
-                    open: item.Open,
-                    high: item.Hight,
-                    low: item.Low,
-                    close: item.Close,
-                    time: item.Time
+                    open: item.open,
+                    high: item.hight,
+                    low: item.low,
+                    close: item.close,
+                    time: item.time
                 }
             )
         });

@@ -11,6 +11,8 @@
 
         public long CurrentVolume { get; set; } = long.MinValue;
 
+        public CalculationType CalculationType { get; set; } = CalculationType.Hormonic;
+
         public bool Equals(ActualStock? other)
         {
             return Id.Equals(other?.Id);

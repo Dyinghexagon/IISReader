@@ -6,10 +6,17 @@
     <form [formGroup]="editStockListForm" (ngSubmit)="submitForm()">
         <div class="modal-body">
             <div class="form-outline mb-4">
-                <input type="text" id="title" class="form-control"  [placeholder]="stockList.Title" formControlName="title">
+                <input type="text" id="title" class="form-control"  [placeholder]="stockList.title" formControlName="title">
+            </div>
+            <div class="form-outline mb-4">
+              <select name="select-calculation-type" id="select-calculation-type" formControlName="calculationType">
+                <option value="0">Среднее гармоническое</option>
+                <option value="1">Среднее арефметическое</option>
+                <option value="2">Среднее квадратичное</option>
+              </select>
             </div>
         </div>
-        <stocks [stocks]="stockList.Stocks"></stocks>
+        <stocks [stocks]="stockList.stocks"></stocks>
         <div class="modal-footer">
             <button type="submit" class="btn btn-primary" (click)="close()">Изменить список</button>
         </div>

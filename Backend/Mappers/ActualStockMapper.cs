@@ -5,27 +5,29 @@ namespace Backend.Mappers
 {
     public class ActualStockMapper : IModelMapper
     {
-        public ActualStockModel Map(ActualStock security)
+        public ActualStockModel Map(ActualStock actualStock)
         {
             return new ActualStockModel()
             {
-                Id = security.Id,
-                Name = security.Name,
-                ChangePerDay = security.ChangePerDay,
-                CurrentPrice = security.CurrentPrice,
-                CurrentVolume = security.CurrentVolume
+                Id = actualStock.Id,
+                Name = actualStock.Name,
+                ChangePerDay = actualStock.ChangePerDay,
+                CurrentPrice = actualStock.CurrentPrice,
+                CurrentVolume = actualStock.CurrentVolume,
+                CalculationType = actualStock.CalculationType
             };
         }
 
-        public ActualStock Map(ActualStockModel security)
+        public ActualStock Map(ActualStockModel actualStockModel)
         {
             return new ActualStock()
             {
-                Id = security.Id,
-                Name = security.Name,
-                CurrentPrice = security.CurrentPrice,
-                ChangePerDay = security.ChangePerDay,
-                CurrentVolume = security.CurrentVolume
+                Id = actualStockModel.Id,
+                Name = actualStockModel.Name,
+                CurrentPrice = actualStockModel.CurrentPrice,
+                ChangePerDay = actualStockModel.ChangePerDay,
+                CurrentVolume = actualStockModel.CurrentVolume,
+                CalculationType = actualStockModel.CalculationType
             };
         }
 

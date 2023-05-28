@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { Subject } from "rxjs";
 import { StockService } from "src/app/services/stock.service";
-import { StockModel } from "../../models/stock.model";
+import { IActualStockModel } from "../../models/stock-model/actual-stock.model";
 
 @Component({
     selector: "stocks",
@@ -10,12 +10,12 @@ import { StockModel } from "../../models/stock.model";
 })
 
 export class StocksComponent implements OnInit, OnDestroy  {
-    
-    @Input() public stocks: StockModel[] = [];
+
+    @Input() public stocks: IActualStockModel[] = [];
 
     public date: string = "";
     public dtOptions: DataTables.Settings = {};
-    public dtTrigger: Subject<any> = new Subject<StockModel[]>();
+    public dtTrigger: Subject<any> = new Subject<IActualStockModel[]>();
 
     constructor(public securityService: StockService) { }
 

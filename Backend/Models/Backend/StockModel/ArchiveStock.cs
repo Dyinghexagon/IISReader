@@ -64,11 +64,4 @@
         }
 
     }
-
-    public enum CalculationType
-    {
-        Hormonic,
-        Arifmetic,
-        Square
-    }
 }

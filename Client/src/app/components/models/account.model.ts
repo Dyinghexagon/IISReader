@@ -1,12 +1,12 @@
 import { INotification } from "./notification.model";
-import { StockListModel } from "./stock-list.model";
+import { IStockListModel } from "./stock-list.model";
 
 export class AccountModel {
-    
+
     private id: string;
     private login: string;
     private password: string;
-    private stockLists: StockListModel[] = [];
+    private stockLists: IStockListModel[] = [];
     private notifications: INotification[] = [];
 
     constructor(data: IAccountModel) {
@@ -29,7 +29,7 @@ export class AccountModel {
         return this.password;
     }
 
-    public get StockList(): StockListModel[] {
+    public get StockList(): IStockListModel[] {
         return this.stockLists;
     }
 
@@ -43,6 +43,6 @@ export interface IAccountModel {
     id: string;
     login: string;
     password: string;
-    stockLists: StockListModel[];
+    stockLists: IStockListModel[];
     notifications: INotification[];
 }

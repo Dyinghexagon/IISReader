@@ -1,8 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, NgZone } from "@angular/core";
 import { AppConfig } from "../app.config";
-import { StockModel } from "../components/models/stock.model";
-import { StockChartDataModel } from "../components/models/securityChartDataModel.model";
+import { IActualStockModel } from "../components/models/stock-model/actual-stock.model";
+import { IStockChartDataModel } from "../components/models/stock-model/stock-char-data.mnodel";
 import { BaseService } from "./base.service";
 
 @Injectable()
@@ -16,11 +16,11 @@ export class StockService extends BaseService {
         super(http, zone);
     }
 
-    public getSecurityList(): Promise<StockModel[]> {
+    public getSecurityList(): Promise<IActualStockModel[]> {
         return this.get(`${this.config.stocksApi}/GetStocksList`).then(data => data.body);
     }
 
-    public async getSecurityChartData(secid: string): Promise<StockChartDataModel[]> {
+    public async getSecurityChartData(secid: string): Promise<IStockChartDataModel[]> {
         return this.get(`${this.config.stocksApi}/GetStockChartData/${secid}`).then(data => data.body);
     }
 

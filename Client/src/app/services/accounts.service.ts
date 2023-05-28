@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable, NgZone } from "@angular/core";
 import { AppConfig } from "../app.config";
 import { AccountModel } from "../components/models/account.model";
-import { StockListModel } from "../components/models/stock-list.model";
+import { IStockListModel } from "../components/models/stock-list.model";
 import { BaseService } from "./base.service";
 
 @Injectable()
@@ -24,8 +24,9 @@ export class AccountsService extends BaseService {
         return this.get(`${this.config.accountsApi}/GetAccounts`);
     }
 
-    public setNewStockList(accountId: string, stockList: StockListModel): Promise<void> {
-        return this.post(`${this.config.accountsApi}/SetNewStockList/${accountId}`, stockList);
+    public setNewStockList(accountId: string, stockList: IStockListModel): Promise<void> {
+      console.warn(stockList);
+      return this.post(`${this.config.accountsApi}/SetNewStockList/${accountId}`, stockList);
     }
 
     public updateAccount(accountId: string, account: AccountModel | null): Promise<void> {
