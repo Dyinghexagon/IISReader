@@ -3,6 +3,7 @@ import { Router } from "@angular/router";
 import { MdbModalRef, MdbModalService } from "mdb-angular-ui-kit/modal";
 import { Subject, takeUntil } from "rxjs";
 import { AccountsService } from "src/app/services/accounts.service";
+import { AlertService } from "src/app/services/alert.service";
 import { AuthService } from "src/app/services/auth.service";
 import { NotificatedService } from "src/app/services/notification.service";
 import { AccountModel } from "../../models/account.model";
@@ -34,9 +35,10 @@ export class PersonalPageComponent implements OnInit, OnDestroy {
     private readonly appState: AppState,
     private readonly modalState: ModalState,
     private readonly authService: AuthService,
+    private readonly alertService: AlertService,
     private readonly modalService: MdbModalService,
     private readonly accountService: AccountsService,
-    private readonly notificatedService: NotificatedService
+    private readonly notificatedService: NotificatedService,
   ) {
   }
 
@@ -53,11 +55,13 @@ export class PersonalPageComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(async (stockList: IStockListModel) => {
         await this.accountService.setNewStockList(this.account?.Id ?? "", stockList);
+        this.alertService.createAllert(200, "Уведомление о создании списка!", "Список успешно создан", "");
       });
     this.modalState.stockListState.editedStockList$
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(async (editList: IStockListModel) => {
         await this.accountService.updateStockList(this.account?.Id ?? "", editList);
+        this.alertService.createAllert(200, "Уведомление об обновлении списка!", "Список успешно обновлен", "");
       });
 
     this.dtOptions = {
@@ -96,6 +100,7 @@ export class PersonalPageComponent implements OnInit, OnDestroy {
   public async removeStockList(stockListIndex: number): Promise<void> {
     if (stockListIndex > -1) {
       this.account?.StockList.splice(stockListIndex, 1);
+      this.alertService.createAllert(200, "Уведомление об удалении списка!", "Список успешно удален", "");
     }
 
     this.dtTrigger.next(this.account?.StockList);

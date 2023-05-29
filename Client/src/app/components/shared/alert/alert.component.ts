@@ -1,5 +1,6 @@
-import { Component, OnInit } from "@angular/core";
-import { AlertService } from "src/app/services/alert.service";
+import { Component, Input } from "@angular/core";
+import { data } from "jquery";
+import { MdbModalRef } from "mdb-angular-ui-kit/modal";
 import { IAlert } from "../../models/alert.model";
 
 @Component({
@@ -8,25 +9,18 @@ import { IAlert } from "../../models/alert.model";
     styleUrls: ["./alert.component.scss"]
 })
 
-export class AlertComponent implements OnInit {
-    public alert!: IAlert;
-    public close: boolean = true;
+export class AlertModalComponent {
+    @Input() public alert!: IAlert; 
 
-    constructor(private alertService: AlertService) {
+    constructor(public modalRef: MdbModalRef<AlertModalComponent>) {}
+
+    public get Date(): string {
+        const date = this.alert.date;
+        return `${date.getDay()}.${date.getMonth()}.${date.getFullYear()}`;
     }
 
-    public ngOnInit(): void {
-        this.alertService.message.subscribe(alert => {
-            this.alert = alert;
-            this.close = true;
-            setTimeout(() => {
-                this.closeAlert();
-            }, 5 * 1000);
-        });
-    }
-
-    public closeAlert(): void {
-        this.close = false;
+    public close(): void {
+        this.modalRef.close();
     }
 
 }

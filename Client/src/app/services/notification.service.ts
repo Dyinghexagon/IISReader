@@ -36,7 +36,7 @@ export class NotificatedService extends BaseService implements OnDestroy {
 
         this.hubConnection.on("transferstockdata", () => {
             this.notificateSend$.next();
-            this.alertService.createAllert(200, "Аномальная сделка обнаружена", "Ошибка!");
+            this.alertService.createAllert(200, "Уведомление об аномальной сделки", "Аномальная сделка обнаружена", "Ошибка!");
         });
     }
 

@@ -37,5 +37,6 @@ export class AddNewStockListModalComponent {
       IsNotificated: true,
       CalculationType: this.calculationType
     });
+    this.close();
   }
 }

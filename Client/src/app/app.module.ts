@@ -21,7 +21,7 @@ import { BaseService } from './services/base.service';
 import { StockService } from './services/stock.service';
 import { AccountsService } from './services/accounts.service';
 import { AuthService } from './services/auth.service';
-import { AlertComponent } from './components/shared/alert/alert.component';
+import { AlertModalComponent } from './components/shared/alert/alert.component';
 import { AuthGuard } from './components/guards/auth.guard';
 import { AlertService } from './services/alert.service';
 import { AppState } from './components/models/app-state.module';
@@ -41,7 +41,7 @@ import { ManageStocksModalComponent } from './components/shared/modal/manage-sto
 @NgModule({
   declarations: [
     AppComponent,
-    AlertComponent,
+    AlertModalComponent,
     MainPageComponent,
     FooterComponent,
     HeaderComponent,

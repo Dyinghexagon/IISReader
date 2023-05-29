@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component } from "@angular/core";
 import { AbstractControl, UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Guid } from "guid-typescript";
@@ -92,7 +92,7 @@ export class AuthComponent {
     }
 
     private createAlertInternal(status: number, successMessange: string, errorMessage: string): void {
-        this.alertService.createAllert(status, successMessange, errorMessage);
+        this.alertService.createAllert(status, "Уведомление об аккаунте", successMessange, errorMessage);
         this.router.navigate(["/personal-page"]);
         this.appState.authState.login$.next();
     }

@@ -42,5 +42,6 @@ export class EditStockListModalComponent {
       IsNotificated: this.stockList.IsNotificated ?? true,
       CalculationType: this.calculationType
     });
+    this.close();
   }
 }
