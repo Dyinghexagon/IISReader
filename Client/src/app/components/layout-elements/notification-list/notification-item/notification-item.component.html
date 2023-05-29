@@ -1,15 +1,17 @@
-<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" [class.is-readed]="notification.IsReaded">
-    <div class="toast-header">
-      <strong class="me-auto">{{ notification.Title }}</strong>
-      <small class="text-muted">{{ notification.Date }}</small>
-      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Прочитано" (click)="readNotification()"></button>
+<div class="notification-wrapper bg-dark">
+  <img src="../../../../../assets/images/notification-abnormal.svg" class="rounded me-2" alt="Иконка уведомления">
+  <div class="content-wrapper">
+    <div class="title-wrapper">
+      <strong class="title-content">{{ notification.Title }}</strong>
+      <strong>{{ notification.Date }}</strong>
     </div>
-    <div class="toast-body">
-        <h5>Тикет бумаги</h5>
-        <p>{{ notification.SecId }}</p>
-        <h5>Описание</h5>
-        <p>{{ notification.Description }}</p>
-        <h5>Объем</h5>
-        <span>{{ notification.Volume }}</span>
+    <div class="body-wrapper">
+      <h5>Тикет бумаги</h5>
+      <p>{{ notification.SecId }}</p>
+      <h5>Описание</h5>
+      <p>{{ notification.Description }}</p>
+      <h5>Объем</h5>
+      <span>{{ notification.Volume }}</span>
     </div>
+  </div>
 </div>
