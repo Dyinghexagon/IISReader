@@ -34,11 +34,12 @@ export class EditStockListModalComponent {
   }
 
   public async submitForm(): Promise<void> {
+    const title = this.editStockListForm.get("title")?.value as string;
     this.state.stockListState.editedStockList$.next({
       Id: this.stockList.Id,
-      Title: this.editStockListForm.get("title")?.value ?? "Новый список",
-      Stocks: this.stockList.Stocks,
-      IsNotificated: this.stockList.IsNotificated,
+      Title: title.length === 0 ? this.stockList.Title : title,
+      Stocks: this.stockList.Stocks ?? [],
+      IsNotificated: this.stockList.IsNotificated ?? true,
       CalculationType: this.calculationType
     });
   }

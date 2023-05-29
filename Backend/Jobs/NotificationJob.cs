@@ -1,12 +1,10 @@
 ﻿using Backend.Hubs.NotificationHub;
 using Backend.Models.Backend;
-using Backend.Models.Backend.StockModel;
 using Backend.Services.AccountService;
 using Backend.Services.ArchiveStockService;
 using Backend.Services.StockService;
 using Microsoft.AspNetCore.SignalR;
 using Quartz;
-using System.Linq;
 
 namespace Backend.Jobs
 {

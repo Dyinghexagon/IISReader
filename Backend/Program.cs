@@ -9,6 +9,9 @@ using Backend.Services.ArchiveStockService;
 using Backend.Services.StockService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Quartz;
+using System.Text.Json.Serialization;
+using System.Text.Json;
+using Backend.Services;
 
 namespace Backend
 {
@@ -48,9 +51,14 @@ namespace Backend
             builder.Services.AddSingleton<ActualStockMapper>();
             builder.Services.AddSingleton<StockChartDataMapper>();
 
+
             builder.Services.AddControllers()
-                            .AddJsonOptions(
-                            options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
+                            .AddJsonOptions(options =>
+                            {
+                                options.JsonSerializerOptions.PropertyNamingPolicy = null;
+                                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                            });
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

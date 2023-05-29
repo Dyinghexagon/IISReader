@@ -59,7 +59,10 @@ export class ManageStocksModalComponent implements OnInit {
                     break;
                 }
                 default: {
-                    selectedStockList.Stocks.push(this.stock);
+                    const index = this.getIndexStockByStockList(selectedStockList);
+                    if (index === -1) {
+                        selectedStockList.Stocks.push(this.stock);
+                    }
                 }
             }
             await this.accountService.updateStockList(this.account?.Id ?? "", selectedStockList);

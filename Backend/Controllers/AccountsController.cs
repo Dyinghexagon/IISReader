@@ -103,8 +103,8 @@ namespace Backend.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPut("UpdateStockList/{accountId:guid}")]
-        public async Task<IResult> UpdateStockListAsync(Guid accountId, [FromBody] StockListModel stockListModel)
+        [HttpPost("UpdateStockList/{accountId:guid}")]
+        public async Task<IResult> UpdateStockListAsync(Guid accountId, [FromBody]StockListModel stockListModel)
         {
             var stockList = _stockListMapper.MapStockList(stockListModel);
 

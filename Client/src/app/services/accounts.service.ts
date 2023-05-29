@@ -29,7 +29,7 @@ export class AccountsService extends BaseService {
     }
 
     public updateStockList(accountId: string, stockList: IStockListModel): Promise<void> {
-        return this.put(`${this.config.accountsApi}/UpdateStockList/${accountId}`, stockList);
+        return this.post(`${this.config.accountsApi}/UpdateStockList/${accountId}`, stockList);
     }
 
     public updateAccount(accountId: string, account: AccountModel | null): Promise<void> {

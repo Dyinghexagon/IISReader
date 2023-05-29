@@ -63,15 +63,19 @@ export class BaseService {
                             resolve(r.error || null);
                         }
                     } else {
-                        if (r.status === 401) {
-                            reject(r);
-                            return;
+                        switch(r.status) {
+                            case 400 || 403: {
+                                resolve(null);
+                                break;
+                            }
+                            case 401: {
+                                reject(r);
+                                break;
+                            }
+                            default: {
+                                resolve(r.error || null);
+                            }
                         }
-                        if (r.status === 403) {
-                            resolve(null);
-                        }
-
-                        resolve(r.error || null);
                     }
                 }
             });

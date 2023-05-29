@@ -53,13 +53,11 @@ export class PersonalPageComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(async (stockList: IStockListModel) => {
         await this.accountService.setNewStockList(this.account?.Id ?? "", stockList);
-        await this.notifyChanged();
       });
     this.modalState.stockListState.editedStockList$
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(async (editList: IStockListModel) => {
         await this.accountService.updateStockList(this.account?.Id ?? "", editList);
-        await this.notifyChanged();
       });
 
     this.dtOptions = {
