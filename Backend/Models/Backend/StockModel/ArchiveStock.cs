@@ -29,9 +29,9 @@
 
         private double HormonicCalculation()
         {
-            var sum = 1 / Volumes.First().Value;
+            var sum = 0.0;
 
-            foreach (var volum in Volumes.Skip(1))
+            foreach (var volum in Volumes)
             {
                 sum += 1 / volum.Value;
             }
@@ -41,9 +41,9 @@
 
         private double ArifmeticCalculation()
         {
-            var sum = Volumes.First().Value;
+            var sum = 0.0;
 
-            foreach (var volum in Volumes.Skip(1))
+            foreach (var volum in Volumes)
             {
                 sum += volum.Value;
             }
@@ -53,9 +53,9 @@
 
         private double SquareCalculation()
         {
-            var sum = Volumes.First().Value * Volumes.First().Value;
+            var sum = 0.0;
 
-            foreach (var volum in Volumes.Skip(1))
+            foreach (var volum in Volumes)
             {
                 sum += volum.Value * volum.Value;
             }
