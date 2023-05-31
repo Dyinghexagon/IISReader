@@ -1,4 +1,4 @@
-<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-striped">
+<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-striped table-bordered table-sm row-border hover" *ngIf="isNeedAllStock || this.stocks.length > 0">
     <thead>
         <tr>
             <th scope="col">#</th>
@@ -13,12 +13,12 @@
         <tr *ngFor="let stock of stocks; let index = index"
                 [class.table-success]="stock.ChangePerDay > 0"
                 [class.table-danger]="stock.ChangePerDay < 0">
-            <td scope="row">{{ index + 1 }}</td>
-            <td scope="row"><a href="#" routerLink="/security-page" [queryParams]="{secid: stock.Id}">{{ stock.Name }}</a></td>
-            <td scope="row">{{ stock.Id }}</td>
-            <td scope="row">{{ stock.CurrentPrice }} ₽</td>
-            <td scope="row">{{ stock.ChangePerDay }} %</td>
-            <td scope="row">
+            <td scope="row" valign="middle">{{ index + 1 }}</td>
+            <td scope="row" valign="middle"><a href="#" routerLink="/stock-page" [queryParams]="{secid: stock.Id}">{{ stock.Name }}</a></td>
+            <td scope="row" valign="middle">{{ stock.Id }}</td>
+            <td scope="row" valign="middle">{{ stock.CurrentPrice }} ₽</td>
+            <td scope="row" valign="middle">{{ stock.ChangePerDay }} %</td>
+            <td scope="row" align="center" valign="middle">
                 <manage-stock
                     [stock]="stock"
                 ></manage-stock>

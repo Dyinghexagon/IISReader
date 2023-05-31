@@ -24,8 +24,8 @@ export class AccountsService extends BaseService {
         return this.get(`${this.config.accountsApi}/GetAccounts`);
     }
 
-    public setNewStockList(accountId: string, stockList: IStockListModel): Promise<void> {
-        return this.post(`${this.config.accountsApi}/SetNewStockList/${accountId}`, stockList);
+    public setNewStockList(accountId: string, stockList: IStockListModel, isAddAllStocks: boolean): Promise<void> {
+        return this.post(`${this.config.accountsApi}/SetNewStockList/${accountId}/${isAddAllStocks}`, stockList);
     }
 
     public updateStockList(accountId: string, stockList: IStockListModel): Promise<void> {

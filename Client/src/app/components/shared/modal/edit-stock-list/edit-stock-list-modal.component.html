@@ -12,7 +12,10 @@
                 [(calculationType)]="calculationType"
             ></select-calculation-type>
         </div>
-        <stocks [stocks]="stockList.Stocks"></stocks>
+        <stocks 
+            [stocks]="stockList.Stocks"
+            [isNeedAllStock]="true"
+        ></stocks>
         <div class="modal-footer">
             <button type="submit" class="btn btn-primary" (click)="submitForm()">Изменить список</button>
         </div>

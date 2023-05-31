@@ -1,8 +1,7 @@
 export interface IStockChartDataModel {
-  open: number;
-  close: number;
-  hight: number;
-  low: number;
-  time: string;
-
+  Open: number;
+  Close: number;
+  Hight: number;
+  Low: number;
+  Time: string;
 }

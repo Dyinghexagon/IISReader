@@ -1,5 +1,6 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { AfterViewInit, Component, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
+import { DataTableDirective } from "angular-datatables";
 import { MdbModalRef, MdbModalService } from "mdb-angular-ui-kit/modal";
 import { Subject, takeUntil } from "rxjs";
 import { AccountsService } from "src/app/services/accounts.service";
@@ -7,6 +8,7 @@ import { AlertService } from "src/app/services/alert.service";
 import { AuthService } from "src/app/services/auth.service";
 import { NotificatedService } from "src/app/services/notification.service";
 import { AccountModel } from "../../models/account.model";
+import { ICreateStockListCOnfig } from "../../models/add-new-stock-list-state.module";
 import { AppState } from "../../models/app-state.module";
 import { ModalState } from "../../models/modal-state.module";
 import { IStockListModel } from "../../models/stock-list.model";
@@ -43,6 +45,13 @@ export class PersonalPageComponent implements OnInit, OnDestroy {
   }
 
   public async ngOnInit(): Promise<void> {
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      pageLength: 10,
+      processing: true,
+      autoWidth: true
+    };
+
     this.account = await this.appState.getAccount();
 
     this.notificatedService.notificateSend$
@@ -53,22 +62,28 @@ export class PersonalPageComponent implements OnInit, OnDestroy {
 
     this.modalState.stockListState.createdStockList$
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(async (stockList: IStockListModel) => {
-        await this.accountService.setNewStockList(this.account?.Id ?? "", stockList);
+      .subscribe(async (config: ICreateStockListCOnfig) => {
+        const stockList = config.stockList;
+        await this.accountService.setNewStockList(this.account?.Id ?? "", stockList, config.isAddAllStocks);
+        this.account?.StockList.push(stockList);
+        await this.notifyChanged();
         this.alertService.createAllert(200, "Уведомление о создании списка!", "Список успешно создан", "");
       });
     this.modalState.stockListState.editedStockList$
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(async (editList: IStockListModel) => {
         await this.accountService.updateStockList(this.account?.Id ?? "", editList);
+        this.account?.StockList.forEach(stockList => {
+          if (stockList.Id === editList.Id) {
+            stockList.CalculationType = editList.CalculationType;
+            stockList.IsNotificated = editList.IsNotificated;
+            stockList.Stocks = editList.Stocks;
+            stockList.Title = editList.Title;
+          }
+        })
+        await this.notifyChanged();
         this.alertService.createAllert(200, "Уведомление об обновлении списка!", "Список успешно обновлен", "");
       });
-
-    this.dtOptions = {
-      pagingType: 'full_numbers',
-      pageLength: 10,
-      processing: true
-    };
 
     this.dtTrigger.next(this.account?.StockList);
   }
@@ -101,14 +116,12 @@ export class PersonalPageComponent implements OnInit, OnDestroy {
     if (stockListIndex > -1) {
       this.account?.StockList.splice(stockListIndex, 1);
       this.alertService.createAllert(200, "Уведомление об удалении списка!", "Список успешно удален", "");
+      await this.notifyChanged();
     }
-
-    this.dtTrigger.next(this.account?.StockList);
-    await this.notifyChanged();
   }
 
   public async notifyChanged(): Promise<void> {
-    this.account = await this.appState.getAccount();
+    await this.accountService.updateAccount(this.account?.Id ?? "", this.account);
   }
 
 }

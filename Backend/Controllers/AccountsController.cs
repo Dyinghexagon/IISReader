@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Backend.Models.Client;
 using Backend.Mappers;
 using Backend.Services.AccountService;
+using Backend.Services.StockService;
 
 namespace Backend.Controllers
 {
@@ -12,18 +13,21 @@ namespace Backend.Controllers
     public class AccountsController : ControllerBase
     {
         private readonly IAccountsService _accountService;
+        private readonly IActualStocksService _actualStocksService;
         private readonly AccountMapper _accountMapper;
         private readonly StockListMapper _stockListMapper;
         private readonly ILogger<AccountsController> _logger;
 
         public AccountsController(
-            IAccountsService userService, 
+            IAccountsService accountService,
+            IActualStocksService actualStocksService,
             AccountMapper accountMapper,
             StockListMapper stockListMapper,
             ILogger<AccountsController> logger
         )
         {
-            _accountService = userService;
+            _accountService = accountService;
+            _actualStocksService = actualStocksService;
             _accountMapper = accountMapper;
             _stockListMapper = stockListMapper;
             _logger = logger;
@@ -77,14 +81,20 @@ namespace Backend.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("SetNewStockList/{accountId:guid}")]
-        public async Task<IResult> SetNewStockListAsync(Guid accountId, [FromBody]StockListModel stockListModel)
+        [HttpPost("SetNewStockList/{accountId:guid}/{isAddAllStocks:bool}")]
+        public async Task<IResult> SetNewStockListAsync(Guid accountId, bool isAddAllStocks, [FromBody]StockListModel stockListModel)
         {
             var stockList = _stockListMapper.MapStockList(stockListModel);
 
             if (stockList is null)
             {
                 return Results.BadRequest();
+            }
+
+            if (isAddAllStocks)
+            {
+                var allStock = await _actualStocksService.GetAllAsync();
+                stockList.Stocks.AddRange(allStock);
             }
 
             try

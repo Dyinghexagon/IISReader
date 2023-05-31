@@ -15,7 +15,6 @@ import { MainPageComponent } from './components/pages/main-page/main-page.compon
 import { PersonalPageComponent } from './components/pages/pesonal-page/personal-page.component';
 import { StockPageComponent } from './components/pages/stock-page/stock-page.component';
 import { StocksComponent } from './components/pages/stocks/stocks.component';
-import { SplashComponent } from './components/pages/splash/splash.component';
 import { StockChatComponent } from './components/shared/stock-chart/stock-chart.component';
 import { BaseService } from './services/base.service';
 import { StockService } from './services/stock.service';
@@ -46,7 +45,6 @@ import { ManageStocksModalComponent } from './components/shared/modal/manage-sto
     FooterComponent,
     HeaderComponent,
     StocksComponent,
-    SplashComponent,
     PersonalPageComponent,
     AuthComponent,
     StockChatComponent,

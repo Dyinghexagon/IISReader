@@ -33,6 +33,8 @@ namespace Backend.Jobs
 
         public async Task Execute(IJobExecutionContext context)
         {
+            var isNotificated = false;
+
             var accounts = await _accountService.GetAllAsync();
             foreach(var account in accounts.Where(account => account.StockList.Any()))
             {
@@ -60,6 +62,7 @@ namespace Backend.Jobs
                                     isReaded = false,
                                     Volume = stock.CurrentVolume
                                 });
+                                isNotificated = true;
                             }
                             else
                             {
@@ -70,9 +73,12 @@ namespace Backend.Jobs
                     }
                 }
 
-                await _accountService.UpdateAsync(account.Id, account);
-                _logger.LogInformation($"Notification for account: {account.Id} send!");
-                await _hub.Clients.All.SendAsync("TransferStockData");
+                if (isNotificated)
+                {
+                    await _accountService.UpdateAsync(account.Id, account);
+                    _logger.LogInformation($"Notification for account: {account.Id} send!");
+                    await _hub.Clients.All.SendAsync("TransferStockData");
+                }
             }
         }
     }

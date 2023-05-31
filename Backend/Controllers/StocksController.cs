@@ -16,13 +16,13 @@ namespace Backend.Controllers
         private readonly StockChartDataMapper _archiveStockMapper;
 
         public StocksController(
-            IActualStocksService securityService,
+            IActualStocksService actualStockService,
             IArchiveStockService archiveStockService,
             ActualStockMapper actualStockMapper,
             StockChartDataMapper archiveStockMapper
         )
         {
-            _actualStockService = securityService;
+            _actualStockService = actualStockService;
             _archiveStockService = archiveStockService;
             _actualStockMapper = actualStockMapper;
             _archiveStockMapper = archiveStockMapper;

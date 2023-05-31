@@ -20,7 +20,8 @@ export class AddNewStockListModalComponent {
     public modalRef: MdbModalRef<AddNewStockListModalComponent>
   ) {
     this.newStockListForm = new UntypedFormGroup({
-      title: new UntypedFormControl("", [Validators.minLength(1), Validators.maxLength(100)])
+      title: new UntypedFormControl("", [Validators.minLength(1), Validators.maxLength(100)]),
+      isAddAllStocks: new UntypedFormControl(false, [Validators.required]), 
     });
     this.calculationType = CalculationType.Arifmetic
   }
@@ -31,11 +32,14 @@ export class AddNewStockListModalComponent {
 
   public async submitForm(): Promise<void> {
     this.state.stockListState.createdStockList$.next({
-      Id: Guid.create().toString(),
-      Title: this.newStockListForm.get("title")?.value,
-      Stocks: [],
-      IsNotificated: true,
-      CalculationType: this.calculationType
+      stockList: {
+        Id: Guid.create().toString(),
+        Title: this.newStockListForm.get("title")?.value,
+        Stocks: [],
+        IsNotificated: true,
+        CalculationType: this.calculationType
+      },
+      isAddAllStocks: this.newStockListForm.get("isAddAllStocks")?.value
     });
     this.close();
   }

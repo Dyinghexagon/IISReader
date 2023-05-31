@@ -2,7 +2,6 @@
 using Backend.Models.Client;
 using Backend.Helpers;
 using Backend.Repository.AccountRepository;
-using Backend.Services.StockService;
 using Backend.Models.Backend.StockModel;
 
 namespace Backend.Services.AccountService
@@ -10,15 +9,10 @@ namespace Backend.Services.AccountService
     public class AccountsService : IAccountsService
     {
         private readonly IAccountsRepository _accountRepository;
-        private readonly IActualStocksService _actualStockService;
 
-        public AccountsService(
-            IAccountsRepository accountRepository,
-            IActualStocksService actualStocksService
-        )
+        public AccountsService(IAccountsRepository accountRepository)
         {
             _accountRepository = accountRepository;
-            _actualStockService = actualStocksService;
         }
 
         public async Task<Account?> GetAccountByLoginAsync(string login)
@@ -59,8 +53,6 @@ namespace Backend.Services.AccountService
             {
                 throw new Exception("Repit login!");
             }
-
-            //var allStocks = await _actualStockService.GetAllAsync();
 
             var stockList = new List<StockList>()
             {

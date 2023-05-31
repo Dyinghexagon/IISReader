@@ -1,4 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { Subject } from "rxjs";
 import { StockService } from "src/app/services/stock.service";
 import { IActualStockModel } from "../../models/stock-model/actual-stock.model";
@@ -11,21 +12,30 @@ import { IActualStockModel } from "../../models/stock-model/actual-stock.model";
 export class StocksComponent implements OnInit, OnDestroy  {
 
     @Input() public stocks: IActualStockModel[] = [];
+    @Input() public isNeedAllStock?: boolean = true;
 
-    public date: string = "";
     public dtOptions: DataTables.Settings = {};
     public dtTrigger: Subject<any> = new Subject<IActualStockModel[]>();
 
-    constructor(public securityService: StockService) { }
+    constructor(
+        public securityService: StockService,
+        private route: ActivatedRoute
+    ) { }
 
-    public async ngOnInit(): Promise<void> {
+    public async ngOnInit(): Promise<void> {   
         this.dtOptions = {
-            pagingType: 'full_numbers',
+            pagingType: 'full',
             pageLength: 10,
-            processing: true
+            paging: true,
+            processing: true,
+            autoWidth: true
         };
+    
+        this.route.queryParams.subscribe(params => {
+            this.isNeedAllStock = params["isNeedAllStock"];
+        });
 
-        if (!this.stocks.length) {
+        if (this.isNeedAllStock) {
             this.stocks = await this.securityService.getSecurityList();
         }
 
