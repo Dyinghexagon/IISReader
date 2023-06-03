@@ -35,11 +35,6 @@ namespace Backend.Jobs
 
         public async Task Execute(IJobExecutionContext context)
         {
-            if (true)
-            {
-                _logger.LogInformation($"Notification job skeep!");
-                return;
-            }
             var isNotificated = false;
 
             var accounts = await _accountService.GetAllAsync();
@@ -56,8 +51,9 @@ namespace Backend.Jobs
                         { 
                             continue;
                         }
-
-                        if (isAbnormalTransactiOnoccurred(actualStockData, archiveData, stockList.CalculationType)) {
+                        var averengVolumne = archiveData.GetVolume(stockList.CalculationType);
+                        var currentVolumne = actualStockData.CurrentVolume * stockList.Ratio;
+                        if (currentVolumne > averengVolumne) {
                             account.Notifications.Add(new Notification()
                             {
                                 Id = Guid.NewGuid(),
@@ -80,14 +76,6 @@ namespace Backend.Jobs
                     await _hub.Clients.All.SendAsync("TransferStockData");
                 }
             }
-        }
-
-        private bool isAbnormalTransactiOnoccurred(ActualStock actualStock, ArchiveStock archiveStock, CalculationType calculationType)
-        {
-            var averengeVolume = archiveStock.GetVolume(calculationType);
-            var lastVolume = Convert.ToDouble(archiveStock.Volumes.Last().Value);
-
-            return lastVolume > averengeVolume && (averengeVolume != 0.0 || lastVolume != 0.0);
         }
     }
 }

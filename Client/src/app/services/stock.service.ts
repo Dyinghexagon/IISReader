@@ -20,12 +20,12 @@ export class StockService extends BaseService {
         return this.get(`${this.config.stocksApi}/GetStocksList`).then(data => data.body);
     }
 
-    public async initArchiveStocks(): Promise<void> {
-        return this.get(`${this.config.stocksApi}/InitArchiveStock`).then(data => data.body);
-    }
-
     public async getArchiveData(secid: string): Promise<IArchiveDataModel> {
         return this.get(`${this.config.stocksApi}/GetArchiveData/${secid}`).then(data => data.body)
+    }
+
+    public async getArchiveDataByYear(secid: string, year: number): Promise<Map<string, IArchiveDataModel>> {
+        return this.get(`${this.config.stocksApi}/GetArchiveData/${secid}/${year}`).then(data => data.body)
     }
 
 }

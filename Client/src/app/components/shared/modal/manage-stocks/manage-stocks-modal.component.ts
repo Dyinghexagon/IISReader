@@ -5,6 +5,7 @@ import { AppState } from "src/app/components/models/app-state.module";
 import { IStockListModel } from "src/app/components/models/stock-list.model";
 import { IActualStockModel } from "src/app/components/models/stock-model/actual-stock.model";
 import { AccountsService } from "src/app/services/accounts.service";
+import { AlertService } from "src/app/services/alert.service";
 
 @Component({
     selector: "manage-stocks-modal",
@@ -21,7 +22,8 @@ export class ManageStocksModalComponent implements OnInit {
     constructor(
         public modalRef: MdbModalRef<ManageStocksModalComponent>,
         private readonly appState: AppState,
-        private readonly accountService: AccountsService
+        private readonly accountService: AccountsService,
+        private readonly alertService: AlertService
     ) { }
 
     public async ngOnInit(): Promise<void> {
@@ -54,6 +56,7 @@ export class ManageStocksModalComponent implements OnInit {
                         const index = this.getIndexStockByStockList(stockList);
                         if (index > -1) {
                             stockList.Stocks.splice(index, 1);
+                            this.alertService.createAllert(200, "Уведомление о работе со списком бумаг!", "Бумага удалена из списока!", "");
                         }
                     })
                     break;
@@ -62,6 +65,7 @@ export class ManageStocksModalComponent implements OnInit {
                     const index = this.getIndexStockByStockList(selectedStockList);
                     if (index === -1) {
                         selectedStockList.Stocks.push(this.stock);
+                        this.alertService.createAllert(200, "Уведомление о работе со списком бумаг!", "Бумага добавлена в список!", "");
                     }
                 }
             }

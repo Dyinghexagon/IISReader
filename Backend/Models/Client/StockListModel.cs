@@ -11,5 +11,7 @@ namespace Backend.Models.Client
         public bool IsNotificated { get; set; } = true;
 
         public CalculationType CalculationType { get; set; } = CalculationType.Hormonic;
+
+        public int Ratio { get; set; } = 2;
     }
 }

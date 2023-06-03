@@ -36,6 +36,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { SelectCalculationType as SelectCalculationTypeComponent } from './components/shared/select-calculation-type/select-calculation-type.component';
 import { ManageStockComponent } from './components/shared/manage-stock/manage-stock.component';
 import { ManageStocksModalComponent } from './components/shared/modal/manage-stocks/manage-stocks-modal.component';
+import { SelectRatioComponent } from './components/shared/ration-selector/select-ratio.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { ManageStocksModalComponent } from './components/shared/modal/manage-sto
     NotificationItemComponent,
     SelectCalculationTypeComponent,
     ManageStockComponent,
-    ManageStocksModalComponent
+    ManageStocksModalComponent,
+    SelectRatioComponent
   ],
   imports: [
     BrowserModule,

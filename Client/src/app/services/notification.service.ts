@@ -30,7 +30,6 @@ export class NotificatedService extends BaseService implements OnDestroy {
         ).build();
         this.hubConnection.start()
             .then(() => {
-                console.warn("Connection started!");
             })
             .catch(err => console.log('Error while starting connection: ' + err));
 

@@ -1,12 +1,11 @@
 export interface IArchiveDataModel {
-    Data: IActualStockModel[];
+    Data: Map<string, IArchiveDataModel>;
 }
 
-export interface IActualStockModel {
+export interface IArchiveStockModel {
     Open: number;
     Close: number;
     Hight: number;
     Low: number;
-    Time: string;
     Volumn: number;
 }

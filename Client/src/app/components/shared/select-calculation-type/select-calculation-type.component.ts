@@ -10,30 +10,5 @@ export class SelectCalculationType {
     @Input() public calculationType!: CalculationType;
     @Output() public calculationTypeChange = new EventEmitter<CalculationType>();
 
-    public enumValues: CalculationType[] = [
-        CalculationType.Arifmetic,
-        CalculationType.Hormonic,
-        CalculationType.Square
-    ];
-
-    public labesl: ISelectCalculationTypeLabel[] = [
-        {
-            Name: "Среднее арифметическое",
-            Type: CalculationType.Arifmetic
-        },
-        {
-            Name: "Среднее гармоническое",
-            Type: CalculationType.Hormonic
-        },
-        {
-            Name: "Среднее квадратическое",
-            Type: CalculationType.Square
-        }
-    ]
-
-}
-
-export interface ISelectCalculationTypeLabel {
-    Name: string;
-    Type: CalculationType;
+    public calculationTypeValue = CalculationType;
 }

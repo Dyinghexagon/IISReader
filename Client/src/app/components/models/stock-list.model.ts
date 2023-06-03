@@ -6,5 +6,6 @@ export interface IStockListModel {
   Title: string;
   Stocks: IActualStockModel[];
   IsNotificated: boolean;
-  CalculationType: CalculationType
+  CalculationType: CalculationType;
+  Ratio: number;
 }

@@ -7,7 +7,6 @@ import { AccountsService } from "src/app/services/accounts.service";
 import { AlertService } from "src/app/services/alert.service";
 import { AuthService } from "src/app/services/auth.service";
 import { NotificatedService } from "src/app/services/notification.service";
-import { StockService } from "src/app/services/stock.service";
 import { AccountModel } from "../../models/account.model";
 import { ICreateStockListCOnfig } from "../../models/add-new-stock-list-state.module";
 import { AppState } from "../../models/app-state.module";
@@ -41,8 +40,7 @@ export class PersonalPageComponent implements OnInit, OnDestroy {
     private readonly alertService: AlertService,
     private readonly modalService: MdbModalService,
     private readonly accountService: AccountsService,
-    private readonly notificatedService: NotificatedService,
-    private readonly stockService: StockService
+    private readonly notificatedService: NotificatedService
   ) {}
 
   public async ngOnInit(): Promise<void> {
@@ -66,14 +64,15 @@ export class PersonalPageComponent implements OnInit, OnDestroy {
       .subscribe(async (config: ICreateStockListCOnfig) => {
         const stockList = config.stockList;
         await this.accountService.setNewStockList(this.account?.Id ?? "", stockList, config.isAddAllStocks);
+        this.alertService.createAllert(200, "Уведомление о создании списка!", "Список успешно создан", "");
         this.account?.StockList.push(stockList);
         await this.notifyChanged();
-        this.alertService.createAllert(200, "Уведомление о создании списка!", "Список успешно создан", "");
       });
     this.modalState.stockListState.editedStockList$
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(async (editList: IStockListModel) => {
         await this.accountService.updateStockList(this.account?.Id ?? "", editList);
+        this.alertService.createAllert(200, "Уведомление об обновлении списка!", "Список успешно обновлен", "");
         this.account?.StockList.forEach(stockList => {
           if (stockList.Id === editList.Id) {
             stockList.CalculationType = editList.CalculationType;
@@ -83,7 +82,6 @@ export class PersonalPageComponent implements OnInit, OnDestroy {
           }
         })
         await this.notifyChanged();
-        this.alertService.createAllert(200, "Уведомление об обновлении списка!", "Список успешно обновлен", "");
       });
 
     this.dtTrigger.next(this.account?.StockList);
@@ -124,10 +122,4 @@ export class PersonalPageComponent implements OnInit, OnDestroy {
   public async notifyChanged(): Promise<void> {
     await this.accountService.updateAccount(this.account?.Id ?? "", this.account);
   }
-
-  public async initArchive(): Promise<void> {
-    const q = await this.stockService.initArchiveStocks();
-    console.warn(q);
-  }
-
 }

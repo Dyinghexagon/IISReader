@@ -1,0 +1,9 @@
+<p class="h5">Выбор коэффициента аномальной сделки</p>
+<div class="form-outline mb-4">
+    <select class="form-select" aria-label="Select ratio value" name="select-ratio-value" id="select-ratio-value"
+        [(ngModel)]="ration" (ngModelChange)="rationChange.emit($event)">
+        <option [value]="2">2</option>
+        <option [value]="3">3</option>
+        <option [value]="4">4</option>
+    </select>
+</div>

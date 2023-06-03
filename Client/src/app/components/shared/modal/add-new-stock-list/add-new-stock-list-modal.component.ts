@@ -14,6 +14,7 @@ import { CalculationType } from "src/app/components/models/stock-model/stock-bas
 export class AddNewStockListModalComponent {
   public newStockListForm: UntypedFormGroup;
   public calculationType: CalculationType;
+  public ratio: number;
 
   constructor(
     private readonly state: ModalState,
@@ -24,6 +25,7 @@ export class AddNewStockListModalComponent {
       isAddAllStocks: new UntypedFormControl(false, [Validators.required]), 
     });
     this.calculationType = CalculationType.Arifmetic
+    this.ratio = 2;
   }
 
   public close(): void {
@@ -37,7 +39,8 @@ export class AddNewStockListModalComponent {
         Title: this.newStockListForm.get("title")?.value,
         Stocks: [],
         IsNotificated: true,
-        CalculationType: this.calculationType
+        CalculationType: this.calculationType,
+        Ratio: this.ratio
       },
       isAddAllStocks: this.newStockListForm.get("isAddAllStocks")?.value
     });

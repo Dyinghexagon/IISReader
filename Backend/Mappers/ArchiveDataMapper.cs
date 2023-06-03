@@ -16,40 +16,41 @@ namespace Backend.Mappers
             };
         }
 
-        private List<ArchiveStock> MapData(List<ArchiveStockModel> archiveStockModels)
+        private Dictionary<string, ArchiveStock> MapData(Dictionary<string, ArchiveStockModel> archiveStockModels)
         {
-            var data = new List<ArchiveStock>();
+            var data = new Dictionary<string, ArchiveStock>();
 
-            foreach (var archiveStockModel in archiveStockModels)
+            foreach(var archiveStock in archiveStockModels)
             {
-                data.Add(new ArchiveStock()
+                data.Add(archiveStock.Key, new()
                 {
-                    Close = archiveStockModel.Close,
-                    Hight = archiveStockModel.Hight,
-                    Open = archiveStockModel.Open,
-                    Low = archiveStockModel.Low,
-                    Volumn = archiveStockModel.Volumn
+                    Close = archiveStock.Value.Close,
+                    Open = archiveStock.Value.Open,
+                    Low = archiveStock.Value.Low,
+                    Hight = archiveStock.Value.Hight,
+                    Volumn = archiveStock.Value.Volumn
                 });
             }
 
             return data;
         }
 
-        private List<ArchiveStockModel> MapData(List<ArchiveStock> archiveStockModels)
+        private Dictionary<string, ArchiveStockModel> MapData(Dictionary<string, ArchiveStock> archiveStockModels)
         {
-            var data = new List<ArchiveStockModel>();
+            var data = new Dictionary<string, ArchiveStockModel>();
 
-            foreach (var archiveStockModel in archiveStockModels)
+            foreach (var archiveStock in archiveStockModels)
             {
-                data.Add(new ArchiveStockModel()
+                data.Add(archiveStock.Key, new()
                 {
-                    Close = archiveStockModel.Close,
-                    Hight = archiveStockModel.Hight,
-                    Open = archiveStockModel.Open,
-                    Low = archiveStockModel.Low,
-                    Volumn = archiveStockModel.Volumn
+                    Close = archiveStock.Value.Close,
+                    Open = archiveStock.Value.Open,
+                    Low = archiveStock.Value.Low,
+                    Hight = archiveStock.Value.Hight,
+                    Volumn = archiveStock.Value.Volumn
                 });
             }
+
 
             return data;
         }

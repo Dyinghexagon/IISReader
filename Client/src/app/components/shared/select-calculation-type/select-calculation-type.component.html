@@ -1,13 +1,9 @@
-  <div class="form-outline mb-4">
-        <select 
-        class="form-select" 
-        aria-label="Select calculation type" 
-        name="select-calculation-type" 
-        id="select-calculation-type" 
-        (ngModelChange)="calculationTypeChange.emit($event)"
-        [(ngModel)]="calculationType">
-            <option *ngFor="let label of labesl" [value]="label.Type">
-                {{ label.Name }}
-            </option>
-    </select>
-  </div>
+<p class="h5">Выбор типа расчета аномальной сделки</p>
+<div class="form-outline mb-4">
+  <select class="form-select" aria-label="Select calculation type" name="select-calculation-type"
+    id="select-calculation-type" [(ngModel)]="calculationType" (ngModelChange)="calculationTypeChange.emit($event)">
+    <option [value]="calculationTypeValue.Arifmetic">Среднее арифметическое</option>
+    <option [value]="calculationTypeValue.Hormonic">Среднее гармоническое</option>
+    <option [value]="calculationTypeValue.Square">Среднее квадратическое</option>
+  </select>
+</div>

@@ -29,14 +29,33 @@ namespace Backend.Services.ArchiveStockService
         {
             var secIds = await GetAllSecIdAsync();
             var yaers = GetYears();
+            var archiveDataList = new List<ArchiveData>();
 
             foreach (var secId in secIds)
             {
-                foreach(var yaer in yaers)
+                var test = await GetAsync(secId);
+
+                if (test is not null)
                 {
-                    var archiveData = await GetArchiveDataByYearAsync(secId, yaer);
-                    await CreateAsync(archiveData);
+                    continue;
                 }
+
+                var dataByYears = new List<Dictionary<string, ArchiveStock>>();
+                foreach (var yaer in yaers)
+                {
+                    var data = await GetArchiveDataByYearAsync(secId, yaer);
+                    dataByYears.Add(data);
+                }
+
+                var archiveData = new ArchiveData()
+                {
+                    Id = secId,
+                    Data = dataByYears.SelectMany(dict => dict)
+                         .ToLookup(pair => pair.Key, pair => pair.Value)
+                         .ToDictionary(group => group.Key, group => group.First())
+                };
+
+                await CreateAsync(archiveData);
             }
         }
 
@@ -60,10 +79,8 @@ namespace Backend.Services.ArchiveStockService
             return secIds;
         }
 
-        private async Task<ArchiveData> GetArchiveDataByYearAsync(string secid, string year)
+        private async Task<Dictionary<string, ArchiveStock>> GetArchiveDataByYearAsync(string secid, string year)
         {
-            var archiveData = new ArchiveData();
-
             var requesFormFirstHalfYear = GetRequest(secid, $"{year}-01-01", $"{year}-06-01");
             var requesFormSecondHalfYear = GetRequest(secid, $"{year}-06-01", $"{year}-12-31");
                         
@@ -73,26 +90,29 @@ namespace Backend.Services.ArchiveStockService
             await requesFormSecondHalfYear.Fetch();
             var responesFormSecondHalfYear = requesFormSecondHalfYear.ToResponse();
 
+            var dataFormFormFirstHalfYear = GetArchiveStocksByHalfYear(responesFormFirstHalfYear);
+            var dataFormSecondHalfYear = GetArchiveStocksByHalfYear(responesFormSecondHalfYear);
 
-            return archiveData;
+            return dataFormFormFirstHalfYear.Union(dataFormSecondHalfYear)
+                    .GroupBy(g => g.Key)
+                    .ToDictionary(pair => pair.Key, pair => pair.First().Value);
         }
 
-        private List<ArchiveStock> GetArchiveStocksByHalfYear(IDictionary<String, Fiss.Response.Table> respones)
+        private Dictionary<string, ArchiveStock> GetArchiveStocksByHalfYear(IDictionary<String, Fiss.Response.Table> respones)
         {
-            var archiveStock = new List<ArchiveStock>();
-            foreach (var row in respones["Marketdata"].Rows.ToList())
+            var archiveStock = new Dictionary<string, ArchiveStock>();
+            foreach (var row in respones["Candles"].Rows.ToList())
             {
                 var data = row.Values;
                 var date = data["Begin"].ToString() ?? "";
 
-                archiveStock.Add(new()
+                archiveStock.Add(date, new()
                 {
                     Open = Convert.ToDouble(data["Open"]),
                     Close = Convert.ToDouble(data["Close"]),
                     Hight = Convert.ToDouble(data["High"]),
                     Low = Convert.ToDouble(data["Low"]),
-                    Time = date,
-                    Volumn = 
+                    Volumn = Convert.ToDouble(data["Volume"])
                 });
             }
 
@@ -116,7 +136,7 @@ namespace Backend.Services.ArchiveStockService
         {
             var years = new List<string>();
 
-            for (var year = 2010; year < DateTime.Now.Year; year++)
+            for (var year = 2010; year <= DateTime.Now.Year; year++)
             {
                 years.Add(year.ToString());
             }

@@ -10,8 +10,6 @@
 
         public double Low { get; set; }
 
-        public string Time { get; set; } = string.Empty;
-
         public double Volumn { get; set; }
     }
 }

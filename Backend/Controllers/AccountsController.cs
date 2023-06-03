@@ -91,16 +91,17 @@ namespace Backend.Controllers
                 return Results.BadRequest();
             }
 
-            if (isAddAllStocks)
-            {
-                var allStock = await _actualStocksService.GetAllAsync();
-                stockList.Stocks.AddRange(allStock);
-            }
-
             try
             {
                 var account = await _accountService.GetAsync(accountId);
-                account.StockList?.Add(stockList);
+
+                if (isAddAllStocks)
+                {
+                    var allStock = await _actualStocksService.GetAllAsync();
+                    stockList.Stocks.AddRange(allStock);
+                }
+
+                account.StockList.Add(stockList);
                 await _accountService.UpdateAsync(accountId, account);
 
                 return Results.Ok(account);

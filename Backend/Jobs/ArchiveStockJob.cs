@@ -19,11 +19,6 @@ namespace Backend.Jobs
 
         public async Task Execute(IJobExecutionContext context)
         {
-            if (true)
-            {
-                _logger.LogInformation($"ArchiveStock job skeep!");
-                return;
-            }
             await _archiveStockService.UpdateDataAsync();
             _logger.LogInformation("ArchiveStockJob is job!");
         }

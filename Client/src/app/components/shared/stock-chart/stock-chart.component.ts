@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { CandlestickData, ColorType, createChart, IChartApi, ISeriesApi } from "lightweight-charts"
 import { StockService } from "src/app/services/stock.service";
+import { IArchiveStockModel } from "../../models/stock-model/archive-data.model";
 
 @Component({
     selector: "stock-chat",
@@ -36,18 +37,17 @@ export class StockChatComponent implements OnInit {
             });
 
         let data: CandlestickData[] = [];
-        const archiveData = await this.securityService.getArchiveData(this.secid ?? "");
-        
-        archiveData.Data.forEach(item => {
-            data.push(
-                {
-                    open: item.Open,
-                    high: item.Hight,
-                    low: item.Low,
-                    close: item.Close,
-                    time: item.Time
-                }
-            )
+        const archiveData = await this.securityService.getArchiveDataByYear(this.secid ?? "", new Date().getFullYear());
+        Object.entries(archiveData).forEach(item => {
+            const key = item[0];
+            const value = item[1] as IArchiveStockModel;
+            data.push({
+                open: value.Open,
+                close: value.Close,
+                high: value.Hight,
+                low: value.Low,
+                time: key
+            });
         });
 
         candlestickSeries.setData(data);
