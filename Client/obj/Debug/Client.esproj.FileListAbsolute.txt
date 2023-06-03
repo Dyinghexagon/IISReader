@@ -1,0 +1,2 @@
+D:\ФАЙЛЫ\Учёба\ПАРЫ\Диплом\IISReader\Client\obj\Debug\Client.esproj.SuggestedBindingRedirects.cache
+D:\ФАЙЛЫ\Учёба\ПАРЫ\Диплом\IISReader\Client\obj\Debug\Client.esproj.CoreCompileInputs.cache

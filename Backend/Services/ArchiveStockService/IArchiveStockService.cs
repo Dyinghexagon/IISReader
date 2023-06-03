@@ -1,21 +1,19 @@
-﻿using Backend.Models.Backend.StockModel;
-using Backend.Models.Client;
+﻿using Backend.Models.Backend;
+using Backend.Models.Backend.StockModel;
 
 namespace Backend.Services.ArchiveStockService
 {
     public interface IArchiveStockService
     {
-        public Task<IList<ArchiveStock>> GetAllAsync();
+        public Task<IList<ArchiveData>> GetAllAsync();
 
-        public Task<ArchiveStock> GetAsync(String id);
+        public Task<ArchiveData> GetAsync(String id);
 
-        public Task CreateAsync(ArchiveStock item);
+        public Task CreateAsync(ArchiveData item);
 
-        public Task UpdateAsync(String id, ArchiveStock item);
+        public Task UpdateAsync(String id, ArchiveData item);
 
         public Task DeleteAsync(String id);
-
-        public Task<List<StockChartData>> GetSecurityChartData(String secid);
 
         public Task UpdateDataAsync();
     }

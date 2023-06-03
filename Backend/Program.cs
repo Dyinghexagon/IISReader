@@ -49,7 +49,7 @@ namespace Backend
             builder.Services.AddSingleton<AccountMapper>();
             builder.Services.AddSingleton<StockListMapper>();
             builder.Services.AddSingleton<ActualStockMapper>();
-            builder.Services.AddSingleton<StockChartDataMapper>();
+            builder.Services.AddSingleton<ArchiveDataMapper>();
 
 
             builder.Services.AddControllers()

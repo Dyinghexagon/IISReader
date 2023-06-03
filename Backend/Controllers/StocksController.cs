@@ -3,6 +3,7 @@ using Backend.Mappers;
 using Backend.Services.StockService;
 using Backend.Services.ArchiveStockService;
 using Backend.Models.Client.StockModel;
+using Backend.Models.Client;
 
 namespace Backend.Controllers
 {
@@ -13,19 +14,19 @@ namespace Backend.Controllers
         private readonly IActualStocksService _actualStockService;
         private readonly IArchiveStockService _archiveStockService;
         private readonly ActualStockMapper _actualStockMapper;
-        private readonly StockChartDataMapper _archiveStockMapper;
+        private readonly ArchiveDataMapper _archiveDataMapper;
 
         public StocksController(
             IActualStocksService actualStockService,
             IArchiveStockService archiveStockService,
             ActualStockMapper actualStockMapper,
-            StockChartDataMapper archiveStockMapper
+            ArchiveDataMapper archiveDataMapper
         )
         {
             _actualStockService = actualStockService;
             _archiveStockService = archiveStockService;
             _actualStockMapper = actualStockMapper;
-            _archiveStockMapper = archiveStockMapper;
+            _archiveDataMapper = archiveDataMapper;
         }
 
         [HttpGet("GetStocksList")]
@@ -42,18 +43,10 @@ namespace Backend.Controllers
             return result;
         }
 
-        [HttpGet("GetStockChartData/{secid}")]
-        public async Task<List<StockChartDataModel?>> GetSecurityChartData(String secid)
+        [HttpGet("GetArchiveData/{secid:string}")]
+        public async Task<ArhiveDataModel> GetArchiveData(string secid)
         {
-            var securityChartDataModel = await _archiveStockService.GetSecurityChartData(secid);
-
-            var result = new List<StockChartDataModel?>();
-            foreach(var security in securityChartDataModel)
-            {
-                result.Add(_archiveStockMapper.Map(security));
-            }
-
-            return result;
+            return new ArhiveDataModel();
         }
 
         [HttpGet("InitArchiveStock")]

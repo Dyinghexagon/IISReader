@@ -1,67 +1,15 @@
 ﻿namespace Backend.Models.Backend.StockModel
 {
-    public class ArchiveStock : StockBase
+    public class ArchiveStock
     {
+        public double Open { get; set; }
 
-        public Dictionary<string, double> Volumes { get; set; } = new Dictionary<string, double>();
+        public double Close { get; set; }
 
-        public double GetVolume(CalculationType calculationType)
-        {
-            switch (calculationType)
-            {
-                case CalculationType.Hormonic:
-                    {
-                        return HormonicCalculation();
-                    }
-                case CalculationType.Arifmetic:
-                    {
-                        return ArifmeticCalculation();
-                    }
-                case CalculationType.Square:
-                    {
-                        return SquareCalculation();
-                    }
-            }
+        public double Hight { get; set; }
 
-            return double.MinValue;
-        }
+        public double Low { get; set; }
 
-
-        private double HormonicCalculation()
-        {
-            var sum = 0.0;
-
-            foreach (var volum in Volumes)
-            {
-                sum += 1 / volum.Value;
-            }
-
-            return Volumes.Count / sum;
-        }
-
-        private double ArifmeticCalculation()
-        {
-            var sum = 0.0;
-
-            foreach (var volum in Volumes)
-            {
-                sum += volum.Value;
-            }
-
-            return Volumes.Count / sum;
-        }
-
-        private double SquareCalculation()
-        {
-            var sum = 0.0;
-
-            foreach (var volum in Volumes)
-            {
-                sum += volum.Value * volum.Value;
-            }
-
-            return Math.Sqrt(Volumes.Count / sum);
-        }
-
+        public double Volumn { get; set; }
     }
 }

@@ -36,9 +36,9 @@ export class StockChatComponent implements OnInit {
             });
 
         let data: CandlestickData[] = [];
-        const res = await this.securityService.getSecurityChartData(this.secid ?? "");
+        const archiveData = await this.securityService.getArchiveData(this.secid ?? "");
         
-        res.forEach(item => {
+        archiveData.Data.forEach(item => {
             data.push(
                 {
                     open: item.Open,
