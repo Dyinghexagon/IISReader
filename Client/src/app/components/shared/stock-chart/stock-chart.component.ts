@@ -11,9 +11,7 @@ import { StockService } from "src/app/services/stock.service";
 export class StockChatComponent implements OnInit {
     @Input() secid?: string;
 
-    constructor(public securityService: StockService) {
-
-    }
+    constructor(public securityService: StockService) {}
 
     public async ngOnInit(): Promise<void> {
         const chartOptions = {

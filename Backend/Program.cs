@@ -78,6 +78,7 @@ namespace Backend
                     .WithIdentity("NotificationJob-trigger")
                     //This Cron interval can be described as "run every minute" (when second is zero)
                     .WithCronSchedule("0 * * ? * *")
+                    //.WithCronSchedule("0 0/15 * 1/1 * ? *")
                 );
 
                 q.AddTrigger(opts => opts
@@ -85,6 +86,7 @@ namespace Backend
                     .WithIdentity("ArchiveStockJob-trigger")
                     //This Cron interval can be described as "run every minute" (when second is zero)
                     .WithCronSchedule("0 * * ? * *")
+                //.WithCronSchedule("0 0 19 ? * MON-FRI *")
                 );
             });
 

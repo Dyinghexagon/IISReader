@@ -1,7 +1,10 @@
-﻿using Backend.Models.Backend.StockModel;
+﻿using Amazon.Runtime.Internal;
+using Backend.Models.Backend.StockModel;
 using Backend.Repository.StockRepository;
 using Fiss.Extensions;
 using Fiss.Request;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 
 namespace Backend.Services.ArchiveStockService
 {
@@ -28,29 +31,36 @@ namespace Backend.Services.ArchiveStockService
         {
             var secIds = await GetAllSecIdAsync();
             var archiveData = new List<ArchiveStock>();
+            var yaers = GetYears();
+            var volumnsByYaers = new List<Dictionary<string, double>>();
+
             foreach(var secId in secIds)
             {
-                var rawArchiveData = await GetRawArchiveDataAsync(secId);
-                var volumes = new Dictionary<string, double>();
-                foreach (var row in rawArchiveData["Candles"].Rows.ToList())
+                foreach (var year in yaers)
                 {
-                    var data = row.Values;
-                    var date = data["Begin"].ToString() ?? "";
-                    var volume = Convert.ToDouble(data["Volume"]);
-                    volumes.Add(date, volume);
+                    var volumnsByYaer = await GetVolumnsByYearAsync(secId, year);
+                    volumnsByYaers.Add(volumnsByYaer);
                 }
 
-                archiveData.Add(new ArchiveStock() { 
-                    Id = secId, 
-                    Volumes = new Dictionary<string, double>(volumes)
-                });
-            }
+                var stock = new ArchiveStock()
+                {
+                    Id = secId,
+                    Volumes = volumnsByYaers.SelectMany(dict => dict)
+                         .ToLookup(pair => pair.Key, pair => pair.Value)
+                         .ToDictionary(group => group.Key, group => group.First())
+                };
 
-            foreach (var item in archiveData)
-            {
-                await UpdateAsync(item.Id, item);
-            }
+                var test = await GetAsync(secId);
 
+                if (test is null)
+                {
+                    await CreateAsync(stock);
+                } else
+                {
+                    await UpdateAsync(stock.Id, stock);
+                }
+
+            }
         }
 
         private async Task<List<String>> GetAllSecIdAsync()
@@ -73,10 +83,9 @@ namespace Backend.Services.ArchiveStockService
             return secIds;
         }
 
-        public async Task<List<StockChartData>> GetSecurityChartData(String secid)
+        private List<StockChartData> GetStockChartDataByHalfYear(string secid, IDictionary<String, Fiss.Response.Table> respones)
         {
             var charData = new List<StockChartData>();
-            var respones = await GetRawArchiveDataAsync(secid);
 
             foreach (var row in respones["Candles"].Rows.ToList())
             {
@@ -97,19 +106,86 @@ namespace Backend.Services.ArchiveStockService
             return charData;
         }
 
-        private async Task<IDictionary<String, Fiss.Response.Table>> GetRawArchiveDataAsync(String secid)
+        private async Task<Dictionary<string, double>> GetVolumnsByYearAsync(string secid, string year)
         {
+            var requesFormFirstHalfYear = GetRequest(secid, $"{year}-01-01", $"{year}-06-01");
+            var requesFormSecondHalfYear = GetRequest(secid, $"{year}-06-01", $"{year}-12-31");
+                        
+            await requesFormFirstHalfYear.Fetch();
+            var responesFormFirstHalfYear = requesFormFirstHalfYear.ToResponse();
 
+            await requesFormSecondHalfYear.Fetch();
+            var responesFormSecondHalfYear = requesFormSecondHalfYear.ToResponse();
+
+            var volumesFormFirstHalfYear = new Dictionary<string, double>(GetVolumnsByHalfYear(responesFormFirstHalfYear));
+            var volumesFormSecondHalfYear = new Dictionary<string, double>(GetVolumnsByHalfYear(responesFormSecondHalfYear));
+
+            return volumesFormFirstHalfYear.Union(volumesFormSecondHalfYear)
+                    .GroupBy(g => g.Key)
+                    .ToDictionary(pair => pair.Key, pair => pair.First().Value);
+        }
+
+        private Dictionary<string, double> GetVolumnsByHalfYear(IDictionary<String, Fiss.Response.Table> respones)
+        {
+            var volumes = new Dictionary<string, double>();
+            foreach (var row in respones["Candles"].Rows.ToList())
+            {
+                var data = row.Values;
+                var date = data["Begin"].ToString() ?? "";
+                var volume = Convert.ToDouble(data["Volume"]);
+                volumes.Add(date, volume);
+            }
+            return volumes;
+        }
+
+        public async Task<List<StockChartData>> GetSecurityChartData(String secid)
+        {
+            var charData = new List<StockChartData>();
+            var years = GetYears();
+
+            foreach (var year in years)
+            {
+                var requesFormFirstHalfYear = GetRequest(secid, $"{year}-01-01", $"{year}-06-01");
+                var requesFormSecondHalfYear = GetRequest(secid, $"{year}-06-01", $"{year}-12-31");
+
+                await requesFormFirstHalfYear.Fetch();
+                var responesFormFirstHalfYear = requesFormFirstHalfYear.ToResponse();
+
+                await requesFormSecondHalfYear.Fetch();
+                var responesFormSecondHalfYear = requesFormSecondHalfYear.ToResponse();
+
+                charData.AddRange(GetStockChartDataByHalfYear(secid, responesFormFirstHalfYear));
+                charData.AddRange(GetStockChartDataByHalfYear(secid, responesFormSecondHalfYear));
+            }
+
+            return charData;
+        }
+
+        private IssRequest GetRequest(string secid, string from, string till)
+        {
             var request = new IssRequest();
-            var path = $"engines/stock/markets/shares/securities/{secid}/candles";
 
+            var path = $"engines/stock/markets/shares/securities/{secid}/candles";
             request.FullPath(path);
             request.AddQuery(new KeyValuePair<String, String>("interval", "24"));
+            request.AddQuery(new KeyValuePair<String, String>("from", from));
+            request.AddQuery(new KeyValuePair<String, String>("till", till));
 
-            await request.Fetch();
-            var respones = request.ToResponse();
-
-            return respones;
+            return request;
         }
+
+        private List<string> GetYears()
+        {
+            var years = new List<string>();
+
+            for (var year = 2010; year < DateTime.Now.Year; year++)
+            {
+                years.Add(year.ToString());
+            }
+
+            return years;
+        }
+
     }
+
 }

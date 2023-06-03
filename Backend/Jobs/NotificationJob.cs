@@ -1,5 +1,7 @@
 ﻿using Backend.Hubs.NotificationHub;
+using Backend.Models;
 using Backend.Models.Backend;
+using Backend.Models.Backend.StockModel;
 using Backend.Services.AccountService;
 using Backend.Services.ArchiveStockService;
 using Backend.Services.StockService;
@@ -33,6 +35,11 @@ namespace Backend.Jobs
 
         public async Task Execute(IJobExecutionContext context)
         {
+            if (true)
+            {
+                _logger.LogInformation($"Notification job skeep!");
+                return;
+            }
             var isNotificated = false;
 
             var accounts = await _accountService.GetAllAsync();
@@ -42,34 +49,27 @@ namespace Backend.Jobs
                 {
                     foreach (var stock in stockList.Stocks) 
                     {
-                        var actualStockData = await _actualStocksService.GetAsync(stock.Id);
-                        if (actualStockData is null)
-                        {
+                        var actualStockData = await _actualStocksService.GetAsync(stock.Id); 
+                        var archiveData = await _archiveStockService.GetAsync(stock.Id);
+
+                        if (actualStockData is null || archiveData is null) 
+                        { 
                             continue;
                         }
-                        var archiveData = await _archiveStockService.GetAsync(stock.Id);
-                        var volume = archiveData.GetVolume(stockList.CalculationType);
-                        if (actualStockData.CurrentVolume > volume) {
-                            if (account.Notifications.Count < 200)
-                            {
-                                account.Notifications.Add(new Notification()
-                                {
-                                    Id = Guid.NewGuid(),
-                                    Date = DateTime.Now,
-                                    SecId = stock.Id,
-                                    Title = "Заголовок",
-                                    Description = "Описание",
-                                    isReaded = false,
-                                    Volume = stock.CurrentVolume
-                                });
-                                isNotificated = true;
-                            }
-                            else
-                            {
-                                account.Notifications.Clear();
-                            }
-                        }
 
+                        if (isAbnormalTransactiOnoccurred(actualStockData, archiveData, stockList.CalculationType)) {
+                            account.Notifications.Add(new Notification()
+                            {
+                                Id = Guid.NewGuid(),
+                                Date = DateTime.Now,
+                                SecId = stock.Id,
+                                Title = "Заголовок",
+                                Description = "Описание",
+                                isReaded = false,
+                                Volume = stock.CurrentVolume
+                            });
+                            isNotificated = true;
+                        }
                     }
                 }
 
@@ -80,6 +80,14 @@ namespace Backend.Jobs
                     await _hub.Clients.All.SendAsync("TransferStockData");
                 }
             }
+        }
+
+        private bool isAbnormalTransactiOnoccurred(ActualStock actualStock, ArchiveStock archiveStock, CalculationType calculationType)
+        {
+            var averengeVolume = archiveStock.GetVolume(calculationType);
+            var lastVolume = Convert.ToDouble(archiveStock.Volumes.Last().Value);
+
+            return lastVolume > averengeVolume && (averengeVolume != 0.0 || lastVolume != 0.0);
         }
     }
 }

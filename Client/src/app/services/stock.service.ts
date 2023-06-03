@@ -24,4 +24,8 @@ export class StockService extends BaseService {
         return this.get(`${this.config.stocksApi}/GetStockChartData/${secid}`).then(data => data.body);
     }
 
+    public async initArchiveStocks(): Promise<void> {
+        return this.get(`${this.config.stocksApi}/InitArchiveStock`).then(data => data.body);
+    }
+
 }

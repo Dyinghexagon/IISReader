@@ -56,5 +56,11 @@ namespace Backend.Controllers
             return result;
         }
 
+        [HttpGet("InitArchiveStock")]
+        public async Task InitArchiveStock()
+        {
+            await _archiveStockService.UpdateDataAsync();
+        }
+
     }
 }
