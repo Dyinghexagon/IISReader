@@ -4,13 +4,13 @@ namespace Backend.Repository.StockRepository
 {
     public interface IArchiveStocksRepository
     {
-        public Task<IList<ArchiveData>> GetAllAsync();
+        public Task<IList<ArchiveStock>> GetAllAsync();
 
-        public Task<ArchiveData> GetAsync(String id);
+        public Task<ArchiveStock> GetAsync(String id);
 
-        public Task CreateAsync(ArchiveData item);
+        public Task CreateAsync(ArchiveStock item);
 
-        public Task UpdateAsync(String id, ArchiveData item);
+        public Task UpdateAsync(String id, ArchiveStock item);
 
         public Task DeleteAsync(String id);
     }

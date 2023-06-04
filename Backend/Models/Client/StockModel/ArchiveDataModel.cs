@@ -1,6 +1,6 @@
-﻿namespace Backend.Models.Backend.StockModel
+﻿namespace Backend.Models.Client.StockModel
 {
-    public class ArchiveStock
+    public class ArchiveDataModel
     {
         public double Open { get; set; }
 
@@ -10,6 +10,6 @@
 
         public double Low { get; set; }
 
-        public double Volumn { get; set; }
+        public double Volume { get; set; }
     }
 }

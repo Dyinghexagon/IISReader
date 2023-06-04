@@ -35,7 +35,7 @@ namespace Backend.Controllers
 
         [AllowAnonymous]
         [HttpGet("GetAccount/{login}")]
-        public async Task<AccountModel?> GetByLogin(String login)
+        public async Task<AccountModel?> GetByLoginAsync(String login)
         {
             var account = await _accountService.GetAccountByLoginAsync(login);
 
@@ -44,7 +44,7 @@ namespace Backend.Controllers
 
         [AllowAnonymous]
         [HttpGet("GetAccounts")]
-        public async Task<List<AccountModel?>> GetAccounts()
+        public async Task<List<AccountModel?>> GetAccountsAsync()
         {
             var users = await _accountService.GetAllAsync();
             var userModels = new List<AccountModel?>();
@@ -59,7 +59,7 @@ namespace Backend.Controllers
 
         [AllowAnonymous]
         [HttpPost("Update/{accountId:guid}")]
-        public async Task<IResult> UpdateAccount(Guid accountId, [FromBody]AccountModel accountModel)
+        public async Task<IResult> UpdateAccountAsync(Guid accountId, [FromBody]AccountModel accountModel)
         {
             try
             {

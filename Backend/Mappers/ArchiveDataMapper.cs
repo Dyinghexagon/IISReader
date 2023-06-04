@@ -7,18 +7,18 @@ namespace Backend.Mappers
 {
     public class ArchiveDataMapper : IModelMapper
     {
-        public ArchiveData Map(ArhiveDataModel arhiveDataModel)
+        public ArchiveStock Map(ArhiveStockModel arhiveDataModel)
         {
-            return new ArchiveData
+            return new ArchiveStock
             {
                 Id = arhiveDataModel.Id,
                 Data = MapData(arhiveDataModel.Data)
             };
         }
 
-        private Dictionary<string, ArchiveStock> MapData(Dictionary<string, ArchiveStockModel> archiveStockModels)
+        private Dictionary<string, ArchiveData> MapData(Dictionary<string, ArchiveDataModel> archiveStockModels)
         {
-            var data = new Dictionary<string, ArchiveStock>();
+            var data = new Dictionary<string, ArchiveData>();
 
             foreach(var archiveStock in archiveStockModels)
             {
@@ -28,16 +28,16 @@ namespace Backend.Mappers
                     Open = archiveStock.Value.Open,
                     Low = archiveStock.Value.Low,
                     Hight = archiveStock.Value.Hight,
-                    Volumn = archiveStock.Value.Volumn
+                    Volume = archiveStock.Value.Volume
                 });
             }
 
             return data;
         }
 
-        private Dictionary<string, ArchiveStockModel> MapData(Dictionary<string, ArchiveStock> archiveStockModels)
+        private Dictionary<string, ArchiveDataModel> MapData(Dictionary<string, ArchiveData> archiveStockModels)
         {
-            var data = new Dictionary<string, ArchiveStockModel>();
+            var data = new Dictionary<string, ArchiveDataModel>();
 
             foreach (var archiveStock in archiveStockModels)
             {
@@ -47,7 +47,7 @@ namespace Backend.Mappers
                     Open = archiveStock.Value.Open,
                     Low = archiveStock.Value.Low,
                     Hight = archiveStock.Value.Hight,
-                    Volumn = archiveStock.Value.Volumn
+                    Volume = archiveStock.Value.Volume
                 });
             }
 
@@ -55,9 +55,9 @@ namespace Backend.Mappers
             return data;
         }
 
-        public ArhiveDataModel Map(ArchiveData arhiveDataModel)
+        public ArhiveStockModel Map(ArchiveStock arhiveDataModel)
         {
-            return new ArhiveDataModel
+            return new ArhiveStockModel
             {
                 Id = arhiveDataModel.Id,
                 Data = MapData(arhiveDataModel.Data)

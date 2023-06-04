@@ -7,6 +7,7 @@ import { AccountsService } from "src/app/services/accounts.service";
 import { AlertService } from "src/app/services/alert.service";
 import { AuthService } from "src/app/services/auth.service";
 import { NotificatedService } from "src/app/services/notification.service";
+import { StockService } from "src/app/services/stock.service";
 import { AccountModel } from "../../models/account.model";
 import { ICreateStockListCOnfig } from "../../models/add-new-stock-list-state.module";
 import { AppState } from "../../models/app-state.module";
@@ -40,7 +41,8 @@ export class PersonalPageComponent implements OnInit, OnDestroy {
     private readonly alertService: AlertService,
     private readonly modalService: MdbModalService,
     private readonly accountService: AccountsService,
-    private readonly notificatedService: NotificatedService
+    private readonly notificatedService: NotificatedService,
+    private readonly stockService: StockService
   ) {}
 
   public async ngOnInit(): Promise<void> {

@@ -4,6 +4,7 @@ using Backend.Services.StockService;
 using Backend.Services.ArchiveStockService;
 using Backend.Models.Client.StockModel;
 using Backend.Models.Client;
+using Amazon.Runtime;
 
 namespace Backend.Controllers
 {
@@ -33,7 +34,7 @@ namespace Backend.Controllers
         }
 
         [HttpGet("GetStocksList")]
-        public async Task<List<ActualStockModel?>> GetSecuritysList()
+        public async Task<List<ActualStockModel?>> GetSecuritysListAsync()
         {
             var securitys = await _actualStockService.GetAllAsync();
             var result = new List<ActualStockModel?>();
@@ -47,19 +48,19 @@ namespace Backend.Controllers
         }
 
         [HttpGet("GetArchiveData/{secid}")]
-        public async Task<ArhiveDataModel> GetArchiveData(string secid)
+        public async Task<ArhiveStockModel> GetArchiveDataAsync(string secid)
         {
             var stock = await _archiveStockService.GetAsync(secid);
             return _archiveDataMapper.Map(stock);
         }
 
         [HttpGet("GetArchiveData/{secid}/{year}")]
-        public async Task<Dictionary<string, ArchiveStockModel>> GetArchiveData(string secid, int year)
+        public async Task<Dictionary<string, ArchiveDataModel>> GetArchiveDataByYearAsync(string secid, int year)
         {
             var stocks = await _archiveStockService.GetAsync(secid);
             var stocksModel = _archiveDataMapper.Map(stocks);
             
-            var result = new Dictionary<string, ArchiveStockModel>();
+            var result = new Dictionary<string, ArchiveDataModel>();
 
             foreach (var stock in stocksModel.Data)
             {

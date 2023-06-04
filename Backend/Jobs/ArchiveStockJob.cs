@@ -19,6 +19,7 @@ namespace Backend.Jobs
 
         public async Task Execute(IJobExecutionContext context)
         {
+            await _archiveStockService.PrepareForDataUpdateAsync();
             await _archiveStockService.UpdateDataAsync();
             _logger.LogInformation("ArchiveStockJob is job!");
         }

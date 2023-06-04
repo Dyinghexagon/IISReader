@@ -2,7 +2,6 @@
 {
     public class ActualStock : StockBase, IEquatable<ActualStock>
     {
-
         public string Name { get; set; } = string.Empty;
 
         public double CurrentPrice { get; set; } = double.MinValue;
@@ -10,8 +9,6 @@
         public double ChangePerDay { get; set; } = double.MinValue;
 
         public long CurrentVolume { get; set; } = long.MinValue;
-
-        public CalculationType CalculationType { get; set; } = CalculationType.Hormonic;
 
         public bool Equals(ActualStock? other)
         {

@@ -3,16 +3,22 @@ using Backend.Models.Client;
 using Backend.Helpers;
 using Backend.Repository.AccountRepository;
 using Backend.Models.Backend.StockModel;
+using Backend.Mappers;
 
 namespace Backend.Services.AccountService
 {
     public class AccountsService : IAccountsService
     {
         private readonly IAccountsRepository _accountRepository;
+        private readonly AccountMapper _accountMapper;
 
-        public AccountsService(IAccountsRepository accountRepository)
+        public AccountsService(
+            IAccountsRepository accountRepository,
+            AccountMapper accountMapper
+        )
         {
             _accountRepository = accountRepository;
+            _accountMapper = accountMapper;
         }
 
         public async Task<Account?> GetAccountByLoginAsync(string login)
@@ -65,9 +71,11 @@ namespace Backend.Services.AccountService
                }
             };
 
-            var account = new Account(accountModel.Id, accountModel.Login, accountModel.Password, stockList, new());
+            var account = _accountMapper.Map(accountModel);
 
-            await CreateAsync(account);
+            if (account is not null) {
+                await CreateAsync(account);
+            }
         }
 
         public async Task UpdateAsync(Guid id, Account account) => await _accountRepository.UpdateAsync(id, account);

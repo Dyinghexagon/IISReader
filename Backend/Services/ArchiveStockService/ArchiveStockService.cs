@@ -15,47 +15,60 @@ namespace Backend.Services.ArchiveStockService
             _archiveStocksRepository = archiveStocksRepository;
         }
 
-        public async Task CreateAsync(ArchiveData item) => await _archiveStocksRepository.CreateAsync(item);
+        public async Task CreateAsync(ArchiveStock item) => await _archiveStocksRepository.CreateAsync(item);
 
         public async Task DeleteAsync(String id) => await _archiveStocksRepository.DeleteAsync(id);
 
-        public async Task<IList<ArchiveData>> GetAllAsync() => await _archiveStocksRepository.GetAllAsync();
+        public async Task<IList<ArchiveStock>> GetAllAsync() => await _archiveStocksRepository.GetAllAsync();
 
-        public async Task<ArchiveData> GetAsync(String id) => await _archiveStocksRepository.GetAsync(id);
+        public async Task<ArchiveStock> GetAsync(String id) => await _archiveStocksRepository.GetAsync(id);
 
-        public async Task UpdateAsync(String id, ArchiveData item) => await _archiveStocksRepository.UpdateAsync(id, item);
+        public async Task UpdateAsync(String id, ArchiveStock item) => await _archiveStocksRepository.UpdateAsync(id, item);
+
+        public async Task PrepareForDataUpdateAsync()
+        {
+            var stocks = await _archiveStocksRepository.GetAllAsync();
+            foreach(var stock in stocks)
+            {
+                stock.IsUpdated = false;
+                await UpdateAsync(stock.Id, stock);
+            }
+        }
 
         public async Task UpdateDataAsync()
         {
             var secIds = await GetAllSecIdAsync();
             var yaers = GetYears();
-            var archiveDataList = new List<ArchiveData>();
+            var archiveDataList = new List<ArchiveStock>();
 
             foreach (var secId in secIds)
             {
-                var test = await GetAsync(secId);
-
-                if (test is not null)
-                {
-                    continue;
-                }
-
-                var dataByYears = new List<Dictionary<string, ArchiveStock>>();
+                var dataByYears = new List<Dictionary<string, ArchiveData>>();
                 foreach (var yaer in yaers)
                 {
                     var data = await GetArchiveDataByYearAsync(secId, yaer);
                     dataByYears.Add(data);
                 }
 
-                var archiveData = new ArchiveData()
+                var archiveStock = new ArchiveStock()
                 {
                     Id = secId,
                     Data = dataByYears.SelectMany(dict => dict)
                          .ToLookup(pair => pair.Key, pair => pair.Value)
-                         .ToDictionary(group => group.Key, group => group.First())
+                         .ToDictionary(group => group.Key, group => group.First()),
+                    IsUpdated = true
                 };
 
-                await CreateAsync(archiveData);
+                var stockCheck = await GetAsync(secId);
+
+                if (stockCheck is null)
+                {
+                    await CreateAsync(archiveStock);
+                } 
+                else if (!stockCheck.IsUpdated)
+                {
+                    await UpdateAsync(secId, archiveStock);
+                }
             }
         }
 
@@ -79,7 +92,7 @@ namespace Backend.Services.ArchiveStockService
             return secIds;
         }
 
-        private async Task<Dictionary<string, ArchiveStock>> GetArchiveDataByYearAsync(string secid, string year)
+        private async Task<Dictionary<string, ArchiveData>> GetArchiveDataByYearAsync(string secid, string year)
         {
             var requesFormFirstHalfYear = GetRequest(secid, $"{year}-01-01", $"{year}-06-01");
             var requesFormSecondHalfYear = GetRequest(secid, $"{year}-06-01", $"{year}-12-31");
@@ -98,9 +111,9 @@ namespace Backend.Services.ArchiveStockService
                     .ToDictionary(pair => pair.Key, pair => pair.First().Value);
         }
 
-        private Dictionary<string, ArchiveStock> GetArchiveStocksByHalfYear(IDictionary<String, Fiss.Response.Table> respones)
+        private Dictionary<string, ArchiveData> GetArchiveStocksByHalfYear(IDictionary<String, Fiss.Response.Table> respones)
         {
-            var archiveStock = new Dictionary<string, ArchiveStock>();
+            var archiveStock = new Dictionary<string, ArchiveData>();
             foreach (var row in respones["Candles"].Rows.ToList())
             {
                 var data = row.Values;
@@ -112,7 +125,7 @@ namespace Backend.Services.ArchiveStockService
                     Close = Convert.ToDouble(data["Close"]),
                     Hight = Convert.ToDouble(data["High"]),
                     Low = Convert.ToDouble(data["Low"]),
-                    Volumn = Convert.ToDouble(data["Volume"])
+                    Volume = Convert.ToDouble(data["Volume"])
                 });
             }
 

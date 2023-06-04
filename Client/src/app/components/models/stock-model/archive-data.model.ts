@@ -1,11 +1,13 @@
-export interface IArchiveDataModel {
-    Data: Map<string, IArchiveDataModel>;
+import { IStockBase } from "./stock-base.model";
+
+export interface IArchiveStockModel extends IStockBase {
+    Data: Map<string, IArchiveStockModel>;
 }
 
-export interface IArchiveStockModel {
+export interface IArchiveDataModel {
     Open: number;
     Close: number;
     Hight: number;
     Low: number;
-    Volumn: number;
+    Volume: number;
 }

@@ -7,7 +7,7 @@ namespace Backend.Repository.StockRepository
 {
     public class AchiveStocksRepository : IArchiveStocksRepository
     {
-        private readonly IMongoCollection<ArchiveData> _archiveStocksCollection;
+        private readonly IMongoCollection<ArchiveStock> _archiveStocksCollection;
 
         public AchiveStocksRepository(IOptions<DatabaseOptions> IISReaderDatabaseSettings)
         {
@@ -15,18 +15,18 @@ namespace Backend.Repository.StockRepository
 
             var database = mongoClient.GetDatabase(IISReaderDatabaseSettings.Value.DatabaseName);
 
-            _archiveStocksCollection = database.GetCollection<ArchiveData>(IISReaderDatabaseSettings.Value.ArchiveStocksCollectionName);
+            _archiveStocksCollection = database.GetCollection<ArchiveStock>(IISReaderDatabaseSettings.Value.ArchiveStocksCollectionName);
         }
 
-        public async Task CreateAsync(ArchiveData item) => await _archiveStocksCollection.InsertOneAsync(item);
+        public async Task CreateAsync(ArchiveStock item) => await _archiveStocksCollection.InsertOneAsync(item);
 
         public async Task DeleteAsync(String id) => await _archiveStocksCollection.DeleteOneAsync(x => x.Id == id);
 
-        public async Task<IList<ArchiveData>> GetAllAsync() => await _archiveStocksCollection.Find(_ => true).ToListAsync();
+        public async Task<IList<ArchiveStock>> GetAllAsync() => await _archiveStocksCollection.Find(_ => true).ToListAsync();
 
-        public async Task<ArchiveData> GetAsync(String id) => await _archiveStocksCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
+        public async Task<ArchiveStock> GetAsync(String id) => await _archiveStocksCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
 
-        public async Task UpdateAsync(String id, ArchiveData item) => await _archiveStocksCollection.ReplaceOneAsync(x => x.Id == id, item);
+        public async Task UpdateAsync(String id, ArchiveStock item) => await _archiveStocksCollection.ReplaceOneAsync(x => x.Id == id, item);
 
     }
 }

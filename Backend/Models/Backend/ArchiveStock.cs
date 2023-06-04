@@ -2,9 +2,11 @@
 
 namespace Backend.Models.Backend
 {
-    public class ArchiveData : StockBase
+    public class ArchiveStock : StockBase
     {
-        public Dictionary<string, ArchiveStock> Data { get; set; } = new Dictionary<string, ArchiveStock>();
+        public Dictionary<string, ArchiveData> Data { get; set; } = new Dictionary<string, ArchiveData>();
+
+        public bool IsUpdated { get; set; } = false;
 
         public double GetVolume(CalculationType calculationType)
         {
@@ -34,7 +36,7 @@ namespace Backend.Models.Backend
 
             foreach (var volum in Data)
             {
-                sum += 1 / volum.Value.Volumn;
+                sum += 1 / volum.Value.Volume;
             }
 
             return Data.Count / sum;
@@ -46,7 +48,7 @@ namespace Backend.Models.Backend
 
             foreach (var volum in Data)
             {
-                sum += volum.Value.Volumn;
+                sum += volum.Value.Volume;
             }
 
             return Data.Count / sum;
@@ -58,7 +60,7 @@ namespace Backend.Models.Backend
 
             foreach (var volum in Data)
             {
-                sum += volum.Value.Volumn * volum.Value.Volumn;
+                sum += volum.Value.Volume * volum.Value.Volume;
             }
 
             return Math.Sqrt(Data.Count / sum);

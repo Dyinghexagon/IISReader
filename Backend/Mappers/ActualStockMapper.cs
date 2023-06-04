@@ -13,8 +13,7 @@ namespace Backend.Mappers
                 Name = actualStock.Name,
                 ChangePerDay = actualStock.ChangePerDay,
                 CurrentPrice = actualStock.CurrentPrice,
-                CurrentVolume = actualStock.CurrentVolume,
-                CalculationType = actualStock.CalculationType
+                CurrentVolume = actualStock.CurrentVolume
             };
         }
 
@@ -26,8 +25,7 @@ namespace Backend.Mappers
                 Name = actualStockModel.Name,
                 CurrentPrice = actualStockModel.CurrentPrice,
                 ChangePerDay = actualStockModel.ChangePerDay,
-                CurrentVolume = actualStockModel.CurrentVolume,
-                CalculationType = actualStockModel.CalculationType
+                CurrentVolume = actualStockModel.CurrentVolume
             };
         }
 
