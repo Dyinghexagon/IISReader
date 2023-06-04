@@ -2,10 +2,7 @@
 
 namespace Backend.Services.StockService
 {
-    public interface IActualStocksService
+    public interface IActualStocksService : IStockService<ActualStock>
     {
-        public Task<IList<ActualStock>> GetAllAsync();
-
-        public Task<ActualStock?> GetAsync(string id);
     }
 }

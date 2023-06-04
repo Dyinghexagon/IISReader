@@ -1,0 +1,325 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Backend.Controllers.AccountsController">
+    <Position X="16.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAgAAAAAAAEAAAAICAQAARIAAAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\AccountsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Backend.Controllers.AuthController">
+    <Position X="18.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAIAABAAAAAAAQAAAAAAI=</HashCode>
+      <FileName>Controllers\AuthController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Backend.Controllers.StocksController">
+    <Position X="16.75" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAACAAAACAAAAAIQAAAAAAAEAAAAAAAQA=</HashCode>
+      <FileName>Controllers\StocksController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Backend.Helpers.CryptoUtils">
+    <Position X="20.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>Utils\CryptoUtils.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Backend.Hubs.NotificationHub.NotificationHub">
+    <Position X="16.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Hubs\NotificationHub\NotificationHub.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Backend.Jobs.ArchiveStockJob" BaseTypeListCollapsed="true">
+    <Position X="22" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAQAAAAAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Jobs\ArchiveStockJob.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Backend.Jobs.NotificationJob" BaseTypeListCollapsed="true">
+    <Position X="18.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAIAAAIAAAQAAAAAAAAQIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Jobs\NotificationJob.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Backend.Mappers.AccountMapper" BaseTypeListCollapsed="true">
+    <Position X="15" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAEAAAAAAAAAAAAAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Mappers\AccountMapper.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Backend.Mappers.ActualStockMapper" BaseTypeListCollapsed="true">
+    <Position X="15" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Mappers\ActualStockMapper.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Backend.Mappers.ArchiveDataMapper" BaseTypeListCollapsed="true">
+    <Position X="18.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>Mappers\ArchiveDataMapper.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Backend.Mappers.NotificationMapper" BaseTypeListCollapsed="true">
+    <Position X="20.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Mappers\NotificationMapper.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Backend.Mappers.StockListMapper" BaseTypeListCollapsed="true">
+    <Position X="15" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAABAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Mappers\StockListMapper.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Backend.Models.Entity" Collapsed="true">
+    <Position X="6.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Entity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Backend.Models.IISReaderDatabaseOptions">
+    <Position X="15" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAACAAAAABABA=</HashCode>
+      <FileName>Models\IISReaderDatabaseOptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Backend.Models.StockBase">
+    <Position X="5.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\StockBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Backend.Models.Backend.StockModel.ActualStock">
+    <Position X="5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAIAAgAAAAAQAAAIAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Backend\StockModel\ActualStock.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Backend.Models.Backend.StockModel.ArchiveStock">
+    <Position X="20.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAAAAAAAAAAAgAAAAAAAIAAACAACA=</HashCode>
+      <FileName>Models\Backend\StockModel\ArchiveStock.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Backend.Models.Backend.Account">
+    <Position X="3.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EACAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAIQAAAAAAA=</HashCode>
+      <FileName>Models\Backend\Account.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Backend.Models.Backend.ArchiveData">
+    <Position X="0.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAACAAAAAAAAACBAAAAAEAAIAAAA=</HashCode>
+      <FileName>Models\Backend\ArchiveData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Backend.Models.Backend.Notification">
+    <Position X="8" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAgIEAAAAAAAAAAAAAAAAABAAIAAAAAAAA=</HashCode>
+      <FileName>Models\Backend\Notification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Backend.Models.Backend.StockList">
+    <Position X="10.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAEAAAAAAAAAAgAAAACAAAAAAACAAAAA=</HashCode>
+      <FileName>Models\Backend\StockList.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Backend.Models.Client.StockModel.ActualStockModel">
+    <Position X="3" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAIAAAAAAAAQAAAIAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Client\StockModel\ActualStockModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Backend.Models.Client.StockModel.ArchiveStockModel">
+    <Position X="15" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAAAAAAAAAAAgAAAAAAAIAAACAACA=</HashCode>
+      <FileName>Models\Client\StockModel\ArchiveStockModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Backend.Models.Client.AccountModel">
+    <Position X="12.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAAAAACAAIQAAAAAAA=</HashCode>
+      <FileName>Models\Client\AccountModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Backend.Models.Client.ArhiveDataModel">
+    <Position X="7.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Client\ArhiveDataModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Backend.Models.Client.NotificationModel">
+    <Position X="1.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAgIEAAAAAAAAAAAAAAAAABAAIAAAAAAAA=</HashCode>
+      <FileName>Models\Client\NotificationModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Backend.Models.Client.StockListModel">
+    <Position X="5.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAEAAAAAAAAAAgAAAACAAAAAAACAAAAA=</HashCode>
+      <FileName>Models\Client\StockListModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Backend.Models.Options.DatabaseOptions">
+    <Position X="22" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAACAAAAABABA=</HashCode>
+      <FileName>Models\Options\DatabaseOptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Backend.Models.Options.RegistrationOptions">
+    <Position X="22" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAEAAAAAAAAAAAAACAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>Models\Options\RegistrationOptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Backend.Repository.AccountRepository.AccountsRepository" BaseTypeListCollapsed="true">
+    <Position X="18.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAIIAAAoA=</HashCode>
+      <FileName>Repository\AccountsRepository\AccountsRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Backend.Repository.StockRepository.AchiveStocksRepository" BaseTypeListCollapsed="true">
+    <Position X="22" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAQAAAAAAAAAAAAAAgAAAAAIIAAAIA=</HashCode>
+      <FileName>Repository\ArchiveStocksRepository\AchiveStocksRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Backend.Services.AccountService.AccountsService" BaseTypeListCollapsed="true">
+    <Position X="20.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAgAAAAAQAAAAAAAAAAgAAAAgAAAAQIIAAAIA=</HashCode>
+      <FileName>Services\AccountService\AccountsService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Backend.Services.StockService.ActualStocksService" BaseTypeListCollapsed="true">
+    <Position X="16.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>Services\ActualStockService\ActualStocksService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Backend.Services.ArchiveStockService.ArchiveStockService" BaseTypeListCollapsed="true">
+    <Position X="16.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAQAAEAIAAAAAAAAACAAAACQAgAAAAAIIAAgIA=</HashCode>
+      <FileName>Services\ArchiveStockService\ArchiveStockService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Interface Name="Backend.Mappers.IModelMapper">
+    <Position X="20.25" Y="16.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Mappers\IModelMapper.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Backend.Repository.IRepository&lt;T&gt;">
+    <Position X="8" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAIIAAAIA=</HashCode>
+      <FileName>Repository\IRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Backend.Repository.AccountRepository.IAccountsRepository">
+    <Position X="8" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Repository\AccountsRepository\IAccountsRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Backend.Repository.StockRepository.IArchiveStocksRepository">
+    <Position X="18.5" Y="16.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAIIAAAIA=</HashCode>
+      <FileName>Repository\ArchiveStocksRepository\IArchiveStocksRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Backend.Services.IService&lt;T&gt;">
+    <Position X="0.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAIIAAAIA=</HashCode>
+      <FileName>Services\IService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Backend.Services.AccountService.IAccountsService">
+    <Position X="0.75" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAAAAAAAAAAAAAAAgAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Services\AccountService\IAccountsService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Backend.Services.StockService.IActualStocksService">
+    <Position X="3.5" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\ActualStockService\IActualStocksService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Backend.Services.ArchiveStockService.IArchiveStockService">
+    <Position X="5.75" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEAAAAAAAAAAAAAAAAAAAgAAAAAAIAAAIA=</HashCode>
+      <FileName>Services\ArchiveStockService\IArchiveStockService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Backend.Services.IStockService&lt;T&gt;">
+    <Position X="5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>Services\IStockService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="Backend.Models.CalculationType">
+    <Position X="10.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAAAAAAAAAIAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Models\StockBase.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

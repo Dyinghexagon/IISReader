@@ -10,8 +10,6 @@ using Backend.Services.StockService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Quartz;
 using System.Text.Json.Serialization;
-using System.Text.Json;
-using Backend.Services;
 
 namespace Backend
 {

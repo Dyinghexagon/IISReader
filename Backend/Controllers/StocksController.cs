@@ -4,7 +4,6 @@ using Backend.Services.StockService;
 using Backend.Services.ArchiveStockService;
 using Backend.Models.Client.StockModel;
 using Backend.Models.Client;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Backend.Controllers
 {

@@ -1,5 +1,4 @@
 ﻿using Backend.Models.Backend;
-using Backend.Models.Backend.StockModel;
 
 namespace Backend.Repository.StockRepository
 {
