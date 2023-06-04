@@ -1,6 +1,8 @@
-﻿namespace Backend.Models.Backend
+﻿using Backend.Models.Backend.StockModel;
+
+namespace Backend.Models.Backend
 {
-    public class Notification : Entity
+    public class Notification : Entity, IEquatable<Notification>
     {
         public String Title { get; set; } = String.Empty;
 
@@ -13,5 +15,10 @@
         public DateTime Date { get; set; } = DateTime.Now;
 
         public Boolean isReaded { get; set; } = false;
+
+        public bool Equals(Notification? other)
+        {
+            return other is null ? true : other.Id.Equals(Id) || !other.Date.Equals(Date);
+        }
     }
 }

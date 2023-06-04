@@ -54,7 +54,7 @@ namespace Backend.Jobs
                         var averengVolumne = archiveData.GetVolume(stockList.CalculationType);
                         var currentVolumne = actualStockData.CurrentVolume * stockList.Ratio;
                         if (currentVolumne > averengVolumne) {
-                            account.Notifications.Add(new Notification()
+                            var notification = new Notification()
                             {
                                 Id = Guid.NewGuid(),
                                 Date = DateTime.Now,
@@ -63,8 +63,17 @@ namespace Backend.Jobs
                                 Description = "Описание",
                                 isReaded = false,
                                 Volume = stock.CurrentVolume
-                            });
-                            isNotificated = true;
+                            };
+
+                            if (!account.Notifications.Any(x => x.Date.Year == notification.Date.Year 
+                                && x.Date.Month == notification.Date.Month
+                                && x.Date.Day == notification.Date.Day
+                                && x.Volume == notification.Volume
+                                && x.SecId == notification.SecId))
+                            {
+                                account.Notifications.Add(notification);
+                                isNotificated = true;
+                            }
                         }
                     }
                 }
