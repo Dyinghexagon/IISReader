@@ -26,4 +26,7 @@ export class StockService extends BaseService {
     public async getArchiveDataByYear(secid: string, year: number): Promise<Map<string, IArchiveStockModel>> {
         return this.get(`${this.config.stocksApi}/GetArchiveData/${secid}/${year}`).then(data => data.body)
     }
+    public async initArchiveStocks(): Promise<void> {
+      return this.get(`${this.config.stocksApi}/InitArchiveStock`).then(data => data.body);
+  }
 }

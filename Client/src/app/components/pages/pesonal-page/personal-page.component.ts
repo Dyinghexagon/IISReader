@@ -123,4 +123,9 @@ export class PersonalPageComponent implements OnInit, OnDestroy {
   public async notifyChanged(): Promise<void> {
     await this.accountService.updateAccount(this.account?.Id ?? "", this.account);
   }
+
+  public async initArchive(): Promise<void> {
+    const q = await this.stockService.initArchiveStocks();
+    console.warn(q);
+  }
 }

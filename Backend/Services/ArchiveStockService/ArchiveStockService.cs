@@ -9,10 +9,15 @@ namespace Backend.Services.ArchiveStockService
     public class ArchiveStockService : IArchiveStockService
     {
         private readonly IArchiveStocksRepository _archiveStocksRepository;
+        private readonly ILogger<ArchiveStockService> _logger;
 
-        public ArchiveStockService(IArchiveStocksRepository archiveStocksRepository)
+        public ArchiveStockService(
+            IArchiveStocksRepository archiveStocksRepository,
+            ILogger<ArchiveStockService> logger
+        )
         {
             _archiveStocksRepository = archiveStocksRepository;
+            _logger = logger;
         }
 
         public async Task CreateAsync(ArchiveStock item) => await _archiveStocksRepository.CreateAsync(item);
@@ -59,15 +64,23 @@ namespace Backend.Services.ArchiveStockService
                     IsUpdated = true
                 };
 
-                var stockCheck = await GetAsync(secId);
+                try
+                {
+                    var stockCheck = await GetAsync(secId);
 
-                if (stockCheck is null)
+                    if (stockCheck is null)
+                    {
+                        await CreateAsync(archiveStock);
+                        _logger.LogInformation($"Stock - {archiveStock.Id} is create and add to database!");
+                    }
+                    else if (!stockCheck.IsUpdated)
+                    {
+                        await UpdateAsync(secId, archiveStock);
+                        _logger.LogInformation($"Stock - {archiveStock.Id} is updated!");
+                    }
+                } catch(Exception ex)
                 {
-                    await CreateAsync(archiveStock);
-                } 
-                else if (!stockCheck.IsUpdated)
-                {
-                    await UpdateAsync(secId, archiveStock);
+                    _logger.LogError($"Update stock - {archiveStock.Id} is fail!\n{ex.StackTrace}");
                 }
             }
         }
@@ -94,21 +107,29 @@ namespace Backend.Services.ArchiveStockService
 
         private async Task<Dictionary<string, ArchiveData>> GetArchiveDataByYearAsync(string secid, string year)
         {
-            var requesFormFirstHalfYear = GetRequest(secid, $"{year}-01-01", $"{year}-06-01");
-            var requesFormSecondHalfYear = GetRequest(secid, $"{year}-06-01", $"{year}-12-31");
-                        
-            await requesFormFirstHalfYear.Fetch();
-            var responesFormFirstHalfYear = requesFormFirstHalfYear.ToResponse();
+            try
+            {
+                var requesFormFirstHalfYear = GetRequest(secid, $"{year}-01-01", $"{year}-06-01");
+                var requesFormSecondHalfYear = GetRequest(secid, $"{year}-06-01", $"{year}-12-31");
 
-            await requesFormSecondHalfYear.Fetch();
-            var responesFormSecondHalfYear = requesFormSecondHalfYear.ToResponse();
+                await requesFormFirstHalfYear.Fetch();
+                var responesFormFirstHalfYear = requesFormFirstHalfYear.ToResponse();
 
-            var dataFormFormFirstHalfYear = GetArchiveStocksByHalfYear(responesFormFirstHalfYear);
-            var dataFormSecondHalfYear = GetArchiveStocksByHalfYear(responesFormSecondHalfYear);
+                await requesFormSecondHalfYear.Fetch();
+                var responesFormSecondHalfYear = requesFormSecondHalfYear.ToResponse();
 
-            return dataFormFormFirstHalfYear.Union(dataFormSecondHalfYear)
-                    .GroupBy(g => g.Key)
-                    .ToDictionary(pair => pair.Key, pair => pair.First().Value);
+                var dataFormFormFirstHalfYear = GetArchiveStocksByHalfYear(responesFormFirstHalfYear);
+                var dataFormSecondHalfYear = GetArchiveStocksByHalfYear(responesFormSecondHalfYear);
+
+                return dataFormFormFirstHalfYear.Union(dataFormSecondHalfYear)
+                        .GroupBy(g => g.Key)
+                        .ToDictionary(pair => pair.Key, pair => pair.First().Value);
+            } catch(Exception ex)
+            {
+                _logger.LogError($"Fail request data!\n{ex.StackTrace}");
+                return new Dictionary<string, ArchiveData>();
+            }
+
         }
 
         private Dictionary<string, ArchiveData> GetArchiveStocksByHalfYear(IDictionary<String, Fiss.Response.Table> respones)
