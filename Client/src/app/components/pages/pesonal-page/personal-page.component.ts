@@ -67,8 +67,7 @@ export class PersonalPageComponent implements OnInit, OnDestroy {
         const stockList = config.stockList;
         await this.accountService.setNewStockList(this.account?.Id ?? "", stockList, config.isAddAllStocks);
         this.alertService.createAllert(200, "Уведомление о создании списка!", "Список успешно создан", "");
-        this.account?.StockList.push(stockList);
-        await this.notifyChanged();
+        this.account = await this.appState.getAccount();
       });
     this.modalState.stockListState.editedStockList$
       .pipe(takeUntil(this.unsubscribe$))
@@ -83,7 +82,7 @@ export class PersonalPageComponent implements OnInit, OnDestroy {
             stockList.Title = editList.Title;
           }
         })
-        await this.notifyChanged();
+        this.account = await this.appState.getAccount();
       });
 
     this.dtTrigger.next(this.account?.StockList);
