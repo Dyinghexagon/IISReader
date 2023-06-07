@@ -1,52 +1,55 @@
-<ul class="nav nav-tabs">
-  <li class="nav-item">
-    <a class="nav-link" aria-current="page" (click)="tab = 'notification'" [ngClass]="{'active' : tab === 'notification'}">Уведомления</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" (click)="tab = 'planning'" [ngClass]="{'active' : tab === 'planning'}">Планирование</a>
-  </li>
-</ul>
-<div *ngIf="tab === 'planning'">
-  <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-striped" id="stock-list">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Наименование списка</th>
-            <th scope="col">Статус</th>
-            <th scope="col">Удалить</th>
-            <th scope="col">Редактировать</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let stockList of account?.StockList; let index = index">
-            <td>{{ index + 1 }}</td>
-            <td>{{ stockList.Title }}</td>
-            <td>
-              <input type="checkbox" class="form-check-input" [(ngModel)]="stockList.IsNotificated" (ngModelChange)="notifyChanged()">
-            </td>
-            <td>
-              <button class="btn btn-danger" (click)="removeStockList(index)">Удалить список</button>
-            </td>
-            <td>
-              <button class="btn btn-primary" (click)="openEditStockListModal(index)">Редактировать список</button>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-  <button class="btn btn-primary" (click)="openAddNewStockListModal()">Создать список бумаг</button>
-</div>
-<div *ngIf="tab === 'notification'">
-  <h4>Cписок уведомлений</h4>
-  <notification-list
-    [account]="account"
-    (accountChange)="notifyChanged()"
-  ></notification-list>
-</div>
-
-<div class="d-grid gap-2 d-md-block">
-  <button class="btn btn-danger" (click)="logout()">Выйти из аккаунта</button>
-</div>
-
-<div class="d-grid gap-2 d-md-block">
-  <button class="btn btn-primary" (click)="initArchive()">Инциализировать</button>
+<div class="wrapper">
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link" aria-current="page" (click)="tab = 'notification'" [ngClass]="{'active' : tab === 'notification'}">Уведомления</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" (click)="tab = 'planning'" [ngClass]="{'active' : tab === 'planning'}">Планирование</a>
+    </li>
+  </ul>
+  <div *ngIf="tab === 'planning'" class="planning-tab">
+    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-striped" id="stock-list">
+      <thead>
+          <tr>
+              <th scope="col">#</th>
+              <th scope="col">Наименование списка</th>
+              <th scope="col">Статус</th>
+              <th scope="col">Удалить</th>
+              <th scope="col">Редактировать</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let stockList of account?.StockList; let index = index">
+              <td>{{ index + 1 }}</td>
+              <td>{{ stockList.Title }}</td>
+              <td>
+                <input type="checkbox" class="form-check-input" [(ngModel)]="stockList.IsNotificated" (ngModelChange)="notifyChanged()">
+              </td>
+              <td>
+                <button class="btn btn-danger" (click)="removeStockList(index)">Удалить список</button>
+              </td>
+              <td>
+                <button class="btn btn-primary" (click)="openEditStockListModal(index)">Редактировать список</button>
+              </td>
+          </tr>
+      </tbody>
+    </table>
+    <button class="btn btn-primary" (click)="openAddNewStockListModal()">Создать список бумаг</button>
+  </div>
+  <div *ngIf="tab === 'notification'" class="notification-tab">
+    <h4>Cписок уведомлений</h4>
+    <notification-list
+      [account]="account"
+      (accountChange)="notifyChanged()"
+    ></notification-list>
+  </div>
+  <div class="btn-grounp">
+    <div class="d-grid gap-2 d-md-block">
+      <button class="btn btn-danger" (click)="logout()">Выйти из аккаунта</button>
+    </div>
+    
+    <div class="d-grid gap-2 d-md-block">
+      <button class="btn btn-primary" (click)="initArchive()">Инциализировать</button>
+    </div>
+  </div>  
 </div>
