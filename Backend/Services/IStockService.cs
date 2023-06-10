@@ -6,6 +6,6 @@ namespace Backend.Services
     {
         public Task<IList<T>> GetAllAsync();
 
-        public Task<T> GetAsync(String id);
+        public Task<T?> GetAsync(String id);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Backend.Models.Backend
 {
-    public class Notification : Entity, IEquatable<Notification>
+    public class Notification : Entity
     {
         public String Title { get; set; } = String.Empty;
 
@@ -15,10 +15,5 @@ namespace Backend.Models.Backend
         public DateTime Date { get; set; } = DateTime.Now;
 
         public Boolean isReaded { get; set; } = false;
-
-        public bool Equals(Notification? other)
-        {
-            return other is null ? true : other.Id.Equals(Id) || !other.Date.Equals(Date);
-        }
     }
 }

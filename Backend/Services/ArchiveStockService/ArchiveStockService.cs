@@ -26,7 +26,7 @@ namespace Backend.Services.ArchiveStockService
 
         public async Task<IList<ArchiveStock>> GetAllAsync() => await _archiveStocksRepository.GetAllAsync();
 
-        public async Task<ArchiveStock> GetAsync(String id) => await _archiveStocksRepository.GetAsync(id);
+        public async Task<ArchiveStock?> GetAsync(String id) => await _archiveStocksRepository.GetAsync(id);
 
         public async Task UpdateAsync(String id, ArchiveStock item) => await _archiveStocksRepository.UpdateAsync(id, item);
 

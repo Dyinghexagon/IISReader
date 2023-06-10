@@ -18,7 +18,7 @@ namespace Backend
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            // Add services to the container.
+
             builder.Services.Configure<DatabaseOptions>(
                 builder.Configuration.GetSection("DatabaseOptions"));
 
@@ -49,7 +49,6 @@ namespace Backend
             builder.Services.AddSingleton<ActualStockMapper>();
             builder.Services.AddSingleton<ArchiveDataMapper>();
 
-
             builder.Services.AddControllers()
                             .AddJsonOptions(options =>
                             {
@@ -57,14 +56,12 @@ namespace Backend
                                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                             });
 
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddCors();
             builder.Services.AddQuartz(q =>
             {
                 q.UseMicrosoftDependencyInjectionJobFactory();
-                // Just use the name of your job that you created in the Jobs folder.
                 var notificationJobKey = new JobKey("NotificationJob");
                 var acrchiveStockJob = new JobKey("ArchiveStockJob");
 
@@ -74,23 +71,18 @@ namespace Backend
                 q.AddTrigger(opts => opts
                     .ForJob(notificationJobKey)
                     .WithIdentity("NotificationJob-trigger")
-                    //This Cron interval can be described as "run every minute" (when second is zero)
-                    .WithCronSchedule("0 * * ? * *")
-                    //.WithCronSchedule("0 0/15 * 1/1 * ? *")
+                    .WithCronSchedule("0 0/15 * 1/1 * ? *")
                 );
 
                 q.AddTrigger(opts => opts
                     .ForJob(acrchiveStockJob)
                     .WithIdentity("ArchiveStockJob-trigger")
-                    //This Cron interval can be described as "run every minute" (when second is zero)
                     .WithCronSchedule("0 0 19 ? * MON-FRI *")
                 );
             });
 
-            // ASP.NET Core hosting
             builder.Services.AddQuartzServer(options =>
             {
-                // when shutting down we want jobs to complete gracefully
                 options.WaitForJobsToComplete = true;
             });
 
@@ -98,7 +90,6 @@ namespace Backend
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();

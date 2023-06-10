@@ -24,16 +24,16 @@ export class AccountsService extends BaseService {
         return this.get(`${this.config.accountsApi}/GetAccounts`);
     }
 
-    public setNewStockList(accountId: string, stockList: IStockListModel, isAddAllStocks: boolean): Promise<void> {
-        return this.post(`${this.config.accountsApi}/SetNewStockList/${accountId}/${isAddAllStocks}`, stockList);
+    public setNewStockList(accountId: string, stockList: IStockListModel, isAddAllStocks: boolean): Promise<AccountModel> {
+        return this.post(`${this.config.accountsApi}/SetNewStockList/${accountId}/${isAddAllStocks}`, stockList).then(data => data.body);
     }
 
-    public updateStockList(accountId: string, stockList: IStockListModel): Promise<void> {
-        return this.post(`${this.config.accountsApi}/UpdateStockList/${accountId}`, stockList);
+    public updateStockList(accountId: string, stockList: IStockListModel): Promise<AccountModel> {
+        return this.post(`${this.config.accountsApi}/UpdateStockList/${accountId}`, stockList).then(data => data.body);
     }
 
-    public updateAccount(accountId: string, account: AccountModel | null): Promise<void> {
-        return this.post(`${this.config.accountsApi}/Update/${accountId}`, account);
+    public updateAccount(accountId: string, account: AccountModel | null): Promise<AccountModel> {
+        return this.post(`${this.config.accountsApi}/Update/${accountId}`, account).then(data => data.body);
     }
 
 }

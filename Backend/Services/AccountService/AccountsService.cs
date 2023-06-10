@@ -42,7 +42,7 @@ namespace Backend.Services.AccountService
                 return null;
             }
 
-            if (!CryptoUtils.VerifyPasswordHash(password, Convert.FromBase64String(account.PasswordHash),
+            if (CryptoUtils.VerifyPasswordHash(password, Convert.FromBase64String(account.PasswordHash),
                 Convert.FromBase64String(account.PasswordSalt)))
             {
                 return null;

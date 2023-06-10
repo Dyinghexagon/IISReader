@@ -74,14 +74,6 @@ export class PersonalPageComponent implements OnInit, OnDestroy {
       .subscribe(async (editList: IStockListModel) => {
         await this.accountService.updateStockList(this.account?.Id ?? "", editList);
         this.alertService.createAllert(200, "Уведомление об обновлении списка!", "Список успешно обновлен", "");
-        this.account?.StockList.forEach(stockList => {
-          if (stockList.Id === editList.Id) {
-            stockList.CalculationType = editList.CalculationType;
-            stockList.IsNotificated = editList.IsNotificated;
-            stockList.Stocks = editList.Stocks;
-            stockList.Title = editList.Title;
-          }
-        })
         this.account = await this.appState.getAccount();
       });
 

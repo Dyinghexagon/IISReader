@@ -4,6 +4,7 @@ using Backend.Models.Client;
 using Backend.Mappers;
 using Backend.Services.AccountService;
 using Backend.Services.StockService;
+using Backend.Models.Backend;
 
 namespace Backend.Controllers
 {
@@ -72,7 +73,7 @@ namespace Backend.Controllers
                 
                 await _accountService.UpdateAsync(accountId, account);
 
-                return Results.Ok();
+                return Results.Ok(account);
             } catch (Exception ex)
             {
                 _logger.LogError("Error from update account model", ex.StackTrace);
@@ -127,17 +128,19 @@ namespace Backend.Controllers
             try
             {
                 var account = await _accountService.GetAsync(accountId);
-                var updatedStockList = account.StockList.Find(stockList =>  stockList.Id == stockList.Id);
-                if (updatedStockList is null) {
+                var stockListIndex = account.StockList.FindIndex(stockList => stockList.Id == stockListModel.Id);
+                if (stockListIndex == -1)
+                {
                     return Results.BadRequest();
                 }
 
-                updatedStockList.Title = stockList.Title;
-                updatedStockList.CalculationType = stockList.CalculationType;
-                updatedStockList.Stocks.Clear();
-                updatedStockList.IsNotificated = stockList.IsNotificated;
-                updatedStockList.Stocks.AddRange(stockList.Stocks);
-
+                account.StockList[stockListIndex].Stocks.Clear();
+                account.StockList[stockListIndex].Stocks.AddRange(stockList.Stocks);
+                account.StockList[stockListIndex].Title = stockListModel.Title;
+                account.StockList[stockListIndex].CalculationType = stockListModel.CalculationType;
+                account.StockList[stockListIndex].Ratio = stockListModel.Ratio;
+                account.StockList[stockListIndex].IsNotificated = stockListModel.IsNotificated;
+                
                 await _accountService.UpdateAsync(accountId, account);
 
                 return Results.Ok(account);
@@ -148,6 +151,5 @@ namespace Backend.Controllers
                 return Results.BadRequest(ex.Message);
             }
         }
-
     }
 }

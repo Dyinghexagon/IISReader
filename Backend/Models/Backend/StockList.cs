@@ -2,7 +2,7 @@
 
 namespace Backend.Models.Backend
 {
-    public class StockList : Entity
+    public class StockList : Entity, IEquatable<StockList>
     {
         public string Title { get; set; } = string.Empty;
 
@@ -13,5 +13,10 @@ namespace Backend.Models.Backend
         public CalculationType CalculationType { get; set; } = CalculationType.Hormonic;
 
         public int Ratio { get; set; } = 2;
+
+        public bool Equals(StockList? other)
+        {
+            return other?.Id.Equals(Id) ?? false;
+        }
     }
 }

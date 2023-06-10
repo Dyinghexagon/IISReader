@@ -25,6 +25,7 @@ export class AuthService extends BaseService {
 
     public login(account: AccountModel): Promise<number> {
         return this.post(`${this.config.authApi}/authenticate`, account).then(response => {
+            console.warn(response);
             if (response.status === 200) {
                 const data = response.body.Value;
                 localStorage.setItem(this.tokenKey, data.acces_token);
