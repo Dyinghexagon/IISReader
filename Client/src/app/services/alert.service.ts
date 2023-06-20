@@ -21,7 +21,7 @@ export class AlertService {
                 }
             }
         });
-
+        setTimeout(() => this.alertRef?.close(), 5 * 1000);
     }
 
 }
